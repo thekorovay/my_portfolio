@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">My Portfolio</string>
+
+    <string name="welcome">Welcome!</string>
+    <string name="explore_features">Explore what features are available for you!</string>
+
+    <string name="card_play_game">Play Game</string>
+    <string name="card_login">Login or Register</string>
+    <string name="card_news">Read News</string>
+    <string name="card_know_future">Know the Future</string>
+    <string name="card_src_code">Check Source Code</string>
 </resources>
