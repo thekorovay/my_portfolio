@@ -1,24 +1,48 @@
-package com.thekorovay.myportfolio
+package com.thekorovay.myportfolio.main
 
 import android.content.Intent
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.*
 import android.widget.Toast
-import androidx.core.app.ShareCompat
-import androidx.core.content.IntentCompat
 import androidx.databinding.DataBindingUtil
-import com.thekorovay.myportfolio.databinding.ActivityMainBinding
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
+import com.thekorovay.myportfolio.R
+import com.thekorovay.myportfolio.databinding.FragmentMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainFragment: Fragment() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: FragmentMainBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.fragment_main,
+            container,
+            false
+        )
+
+        setHasOptionsMenu(true)
 
         setCards()
+
+        return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.about_app_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item, findNavController())
+                || super.onOptionsItemSelected(item)
     }
 
     private fun setCards() {
@@ -66,10 +90,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkSourceCode() {
+        // todo move link to the firebase later
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/thekorovay/my_portfolio")))
     }
 
     private fun cry(text: String) {
-        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
     }
 }
