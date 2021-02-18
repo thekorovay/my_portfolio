@@ -90,7 +90,7 @@ class MainFragment: Fragment() {
     }
 
     private fun checkSourceCode() {
-        // todo move link to the firebase later
+        // todo move link to the firebase or to the string resources later
         startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/thekorovay/my_portfolio")))
     }
 

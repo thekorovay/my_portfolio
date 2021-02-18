@@ -1,9 +1,6 @@
 package com.thekorovay.myportfolio.main
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import android.content.Intent
+import android.content.*
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -50,23 +47,17 @@ class AboutFragment: Fragment() {
         binding.contactTelegram.apply {
             tvContact.text = getString(R.string.contact_telegram)
             ivIcon.setImageResource(R.drawable.ic_telegram_black)
-            root.setOnClickListener {
-                copyToClipboard("Telegram id", getString(R.string.contact_telegram))
-            }
+            root.setOnClickListener { openTelegram() }
         }
         binding.contactWhatsapp.apply {
             tvContact.text = getString(R.string.contact_whatsapp)
             ivIcon.setImageResource(R.drawable.ic_whatsapp_black)
-            root.setOnClickListener {
-                copyToClipboard("Phone number", getTelephoneNumber())
-            }
+            root.setOnClickListener { openWhatsapp() }
         }
         binding.contactGithub.apply {
             tvContact.text = getString(R.string.contact_github)
             ivIcon.setImageResource(R.drawable.ic_guthub)
-            root.setOnClickListener {
-                copyToClipboard("Guthub id", getString(R.string.contact_github))
-            }
+            root.setOnClickListener { viewGithub() }
         }
     }
 
@@ -89,12 +80,45 @@ class AboutFragment: Fragment() {
             putExtra(Intent.EXTRA_SUBJECT, getString(R.string.email_subject))
         }
 
-        activity?.run {
-            if (emailIntent.resolveActivity(packageManager) != null) {
-                startActivity(intent)
-            } else {
-                copyToClipboard("Email address", email)
-            }
+        startActivityOrCopyToClipboard(emailIntent, "Email address", email)
+    }
+
+    private fun openTelegram() {
+        val telegramId = getString(R.string.contact_telegram)
+        val telegramUri = getString(R.string.contact_telegram_link, telegramId)
+
+        val telegramIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("$telegramUri")
+        )
+
+        startActivityOrCopyToClipboard(telegramIntent, "Telegram ID", telegramId)
+    }
+
+    private fun openWhatsapp() {
+        val whatsappId = getString(R.string.contact_whatsapp)
+        val whatsappUri = getString(R.string.contact_whatsapp_link, whatsappId)
+
+        val whatsappIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("$whatsappUri")
+        )
+
+        startActivityOrCopyToClipboard(whatsappIntent, "Whatsapp ID", whatsappId)
+    }
+
+    private fun viewGithub() {
+        val gitId = getString(R.string.contact_github)
+        val gitUri = getString(R.string.contact_github_link, gitId)
+
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(gitUri)))
+    }
+
+    private fun startActivityOrCopyToClipboard(someIntent: Intent, label: String, text: String) {
+        try {
+            startActivity(someIntent)
+        } catch (exc: ActivityNotFoundException) {
+            copyToClipboard(label, text)
         }
     }
 
