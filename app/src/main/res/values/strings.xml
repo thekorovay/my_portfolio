@@ -9,4 +9,21 @@
     <string name="card_news">Read News</string>
     <string name="card_know_future">Know the Future</string>
     <string name="card_src_code">Check Source Code</string>
+
+    <string name="menu_about">About</string>
+
+    <string name="bio_title">Evgeniy Bezkorovayniy\n24 y.o., Tula, Russia</string>
+    <string name="bio_description">Hi, i\'m Junior Android Developer, i\'m looking for a remote job, but i\'m also ready to move.
+        \nThis is application for my porfolio.
+        \nIf you are interested in me, you can contact me in the following ways:</string>
+
+    <string name="contact_phone" translatable="false">+7 963 227 9776</string>
+    <string name="contact_email" translatable="false">thirteenisluckynumber@gmail.com</string>
+    <string name="contact_telegram" translatable="false">the_korovay</string>
+    <string name="contact_whatsapp" translatable="false">@string/contact_phone</string>
+    <string name="contact_github" translatable="false">thekorovay</string>
+
+    <string name="email_subject">Android Developer Vacancy</string>
+
+    <string name="toast_copied_to_clipboard">Copied to clipboard</string>
 </resources>
