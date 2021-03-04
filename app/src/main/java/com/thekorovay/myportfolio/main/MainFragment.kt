@@ -51,21 +51,13 @@ class MainFragment: Fragment() {
             ivIcon.setImageResource(R.drawable.ic_play)
             root.setOnClickListener { playGame() }
         }
-        binding.cardLogin.apply {
-            tvTitle.text = getString(R.string.card_login)
-            ivIcon.setImageResource(R.drawable.ic_login)
-            root.setOnClickListener { login() }
-        }
+
         binding.cardNews.apply {
             tvTitle.text = getString(R.string.card_news)
             ivIcon.setImageResource(R.drawable.ic_news)
             root.setOnClickListener { readNews() }
         }
-        binding.cardMagic8Ball.apply {
-            tvTitle.text = getString(R.string.card_know_future)
-            ivIcon.setImageResource(R.drawable.ic_magic_8_ball)
-            root.setOnClickListener { knowFuture() }
-        }
+
         binding.cardSourceCode.apply {
             tvTitle.text = getString(R.string.card_src_code)
             ivIcon.setImageResource(R.drawable.ic_source_code)
@@ -77,21 +69,13 @@ class MainFragment: Fragment() {
         cry("PLAY")
     }
 
-    private fun login() {
-        cry("LOGIN")
-    }
-
     private fun readNews() {
         cry("NEWS")
     }
 
-    private fun knowFuture() {
-        cry("FUTURE")
-    }
-
     private fun checkSourceCode() {
         // todo move link to the firebase or to the string resources later
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/thekorovay/my_portfolio")))
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_project_link))))
     }
 
     private fun cry(text: String) {

@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentAboutBinding
 
-class AboutFragment: Fragment() {
+class AboutFragment : Fragment() {
 
     private lateinit var binding: FragmentAboutBinding
 
@@ -54,11 +54,6 @@ class AboutFragment: Fragment() {
             ivIcon.setImageResource(R.drawable.ic_whatsapp_black)
             root.setOnClickListener { openWhatsapp() }
         }
-        binding.contactGithub.apply {
-            tvContact.text = getString(R.string.contact_github)
-            ivIcon.setImageResource(R.drawable.ic_guthub)
-            root.setOnClickListener { viewGithub() }
-        }
     }
 
     private fun makeTelephoneCall() {
@@ -89,7 +84,7 @@ class AboutFragment: Fragment() {
 
         val telegramIntent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("$telegramUri")
+            Uri.parse(telegramUri)
         )
 
         startActivityOrCopyToClipboard(telegramIntent, "Telegram ID", telegramId)
@@ -101,17 +96,10 @@ class AboutFragment: Fragment() {
 
         val whatsappIntent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse("$whatsappUri")
+            Uri.parse(whatsappUri)
         )
 
         startActivityOrCopyToClipboard(whatsappIntent, "Whatsapp ID", whatsappId)
-    }
-
-    private fun viewGithub() {
-        val gitId = getString(R.string.contact_github)
-        val gitUri = getString(R.string.contact_github_link, gitId)
-
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(gitUri)))
     }
 
     private fun startActivityOrCopyToClipboard(someIntent: Intent, label: String, text: String) {
