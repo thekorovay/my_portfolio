@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <EditText
+            android:id="@+id/et_query"
+            style="@style/ContentTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/search_query"
+            android:inputType="text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.05"
+            app:layout_constraintWidth_percent="0.8" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_safe_search"
+            style="@style/ContentTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checked="true"
+            android:text="@string/safe_search"
+            app:layout_constraintEnd_toEndOf="@+id/et_query"
+            app:layout_constraintStart_toStartOf="@+id/et_query"
+            app:layout_constraintTop_toBottomOf="@+id/et_query" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_thumbnails"
+            style="@style/ContentTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:checked="true"
+            android:text="@string/thumbnails"
+            app:layout_constraintEnd_toEndOf="@+id/et_query"
+            app:layout_constraintStart_toStartOf="@+id/et_query"
+            app:layout_constraintTop_toBottomOf="@+id/switch_safe_search" />
+
+        <TextView
+            android:id="@+id/tv_res_per_page"
+            style="@style/ContentTextStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/results_per_page"
+            app:layout_constraintEnd_toStartOf="@id/spinner_results_per_page"
+            app:layout_constraintStart_toStartOf="@+id/et_query"
+            app:layout_constraintTop_toBottomOf="@+id/switch_thumbnails" />
+
+        <Spinner
+            android:id="@+id/spinner_results_per_page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            app:layout_constraintBottom_toBottomOf="@id/tv_res_per_page"
+            app:layout_constraintEnd_toEndOf="@+id/et_query"
+            app:layout_constraintStart_toEndOf="@id/tv_res_per_page"
+            app:layout_constraintTop_toTopOf="@id/tv_res_per_page" />
+
+        <Button
+            android:id="@+id/btn_search"
+            style="@style/ButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:text="@string/search"
+            app:layout_constraintBottom_toTopOf="@id/btn_show_last_search"
+            app:layout_constraintDimensionRatio="10:3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.6" />
+
+        <Button
+            android:id="@+id/btn_show_last_search"
+            style="@style/ActionButtonStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/last_search_results"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.95"
+            app:layout_constraintWidth_percent="0.8" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

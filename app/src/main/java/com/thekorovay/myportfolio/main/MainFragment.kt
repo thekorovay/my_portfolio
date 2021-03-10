@@ -1,10 +1,10 @@
 package com.thekorovay.myportfolio.main
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -12,7 +12,7 @@ import androidx.navigation.ui.NavigationUI
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentMainBinding
 
-class MainFragment: Fragment() {
+class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
 
@@ -66,19 +66,16 @@ class MainFragment: Fragment() {
     }
 
     private fun playGame() {
-        cry("PLAY")
+        Toast.makeText(requireContext(), "PLAY", Toast.LENGTH_SHORT).show()
     }
 
     private fun readNews() {
-        cry("NEWS")
+        findNavController().navigate(
+            MainFragmentDirections.actionMainFragmentToSearchParamsFragment()
+        )
     }
 
     private fun checkSourceCode() {
-        // todo move link to the firebase or to the string resources later
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_project_link))))
-    }
-
-    private fun cry(text: String) {
-        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+        startActivity(Intent(Intent.ACTION_VIEW, getString(R.string.github_project_link).toUri()))
     }
 }

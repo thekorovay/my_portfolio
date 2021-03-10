@@ -15,7 +15,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                style="@style/TitleTextStyle"
+                style="@style/MainTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/tv_subtitle"
-                style="@style/SubtitleTextStyle"
+                style="@style/MainSubtitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -39,7 +39,7 @@
 
             <include
                 android:id="@+id/card_play"
-                layout="@layout/main_activity_card"
+                layout="@layout/card_main_activity"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
@@ -50,7 +50,7 @@
 
             <include
                 android:id="@+id/card_news"
-                layout="@layout/main_activity_card"
+                layout="@layout/card_main_activity"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
@@ -61,7 +61,7 @@
 
             <include
                 android:id="@+id/card_source_code"
-                layout="@layout/main_activity_card"
+                layout="@layout/card_main_activity"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginTop="16dp"
