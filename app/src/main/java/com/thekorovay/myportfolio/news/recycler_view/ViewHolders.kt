@@ -1,0 +1,72 @@
+package com.thekorovay.myportfolio.news.recycler_view
+
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.thekorovay.myportfolio.R
+import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterBinding
+import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterNoThumbnailBinding
+import com.thekorovay.myportfolio.news.model.Article
+
+class ArticleViewHolder private constructor(
+    private val binding: CardNewsArticleAdapterBinding
+) : RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        fun from(parent: ViewGroup): ArticleViewHolder {
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = CardNewsArticleAdapterBinding.inflate(inflater, parent, false)
+            return ArticleViewHolder(binding)
+        }
+    }
+
+    fun bind(
+        newsArticle: Article,
+        newsItemClickListener: NewsItemClickListener
+    ) {
+        binding.article = newsArticle
+        binding.clickListener = newsItemClickListener
+    }
+}
+
+class ArticleViewHolderNoThumbnail private constructor(
+    private val binding: CardNewsArticleAdapterNoThumbnailBinding
+) : RecyclerView.ViewHolder(binding.root) {
+
+    companion object {
+        fun from(parent: ViewGroup): ArticleViewHolderNoThumbnail {
+            val inflater = LayoutInflater.from(parent.context)
+            val binding = CardNewsArticleAdapterNoThumbnailBinding
+                .inflate(inflater, parent, false)
+            return ArticleViewHolderNoThumbnail(binding)
+        }
+    }
+
+    fun bind(
+        newsArticle: Article,
+        newsItemClickListener: NewsItemClickListener
+    ) {
+        binding.article = newsArticle
+        binding.clickListener = newsItemClickListener
+    }
+}
+
+class ShowMoreViewHolder private constructor(
+    private val textView: TextView
+) : RecyclerView.ViewHolder(textView) {
+
+    companion object {
+        fun from(parent: ViewGroup): ShowMoreViewHolder {
+            val view = TextView(parent.context)
+            return ShowMoreViewHolder(view)
+        }
+    }
+
+    fun bind(clickListener: ShowMoreClickListener) {
+        textView.apply {
+            text = context.getString(R.string.show_more)
+            setOnClickListener { clickListener.listener() }
+        }
+    }
+}

@@ -20,7 +20,7 @@ class SearchViewModel: ViewModel() {
 
 
 
-    private var nextPageNumber = 0
+    private var nextPageNumber = 1
     private var job = Job()
 
 
