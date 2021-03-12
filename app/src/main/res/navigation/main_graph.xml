@@ -29,11 +29,11 @@
         android:label="@string/menu_about" />
     <fragment
         android:id="@+id/searchParamsFragment"
-        android:name="com.thekorovay.myportfolio.news.SearchParamsFragment"
+        android:name="com.thekorovay.myportfolio.news.fragments.SearchParamsFragment"
         android:label="@string/search_news">
         <action
-            android:id="@+id/action_searchParamsFragment_to_readArticleFragment"
-            app:destination="@id/readArticleFragment"
+            android:id="@+id/action_searchParamsFragment_to_searchResultsFragment"
+            app:destination="@id/searchResultsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
@@ -41,6 +41,30 @@
     </fragment>
     <fragment
         android:id="@+id/readArticleFragment"
-        android:name="com.thekorovay.myportfolio.news.ReadArticleFragment"
+        android:name="com.thekorovay.myportfolio.news.fragments.ReadArticleFragment"
         android:label="@string/article" />
+    <fragment
+        android:id="@+id/searchResultsFragment"
+        android:name="com.thekorovay.myportfolio.news.fragments.SearchResultsFragment"
+        android:label="@string/search_results">
+        <action
+            android:id="@+id/action_searchResultsFragment_to_readArticleFragment"
+            app:destination="@id/readArticleFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <argument
+            android:name="query"
+            app:argType="string" />
+        <argument
+            android:name="safeSearchEnabled"
+            app:argType="boolean" />
+        <argument
+            android:name="thumbnailsEnabled"
+            app:argType="boolean" />
+        <argument
+            android:name="pageSize"
+            app:argType="integer" />
+    </fragment>
 </navigation>

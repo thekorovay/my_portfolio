@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.news
+package com.thekorovay.myportfolio.news.fragments
 
 import android.content.Intent
 import android.os.Bundle

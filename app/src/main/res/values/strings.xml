@@ -43,4 +43,7 @@
     <string name="content_desc_no_internet">No internet picture</string>
     <string name="source_template">Source: $s</string>
     <string name="article">Article</string>
+    <string name="snack_enter_query">Please enter the search query</string>
+    <string name="search_results">Search results</string>
+    <string name="article_thumbnail">Article thumbnail</string>
 </resources>
