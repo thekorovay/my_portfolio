@@ -1,9 +1,11 @@
 package com.thekorovay.myportfolio.news.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -52,6 +54,8 @@ class SearchParamsFragment: Fragment() {
     }
 
     private fun search() {
+        hideKeyboardIfShown()
+
         val query = binding.etQuery.text.toString().trim()
         if (query.isEmpty()) {
             showEmptyQueryWarning()
@@ -70,6 +74,15 @@ class SearchParamsFragment: Fragment() {
                 pageSize = pageSize
             )
         )
+    }
+
+    private fun hideKeyboardIfShown() {
+        activity?.run {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            currentFocus?.let { focusedView ->
+                imm.hideSoftInputFromWindow(focusedView.windowToken, 0)
+            }
+        }
     }
 
     private fun showLastResults() {
