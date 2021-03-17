@@ -1,6 +1,7 @@
 package com.thekorovay.myportfolio.news.recycler_view
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -53,20 +54,18 @@ class ArticleViewHolderNoThumbnail private constructor(
 }
 
 class ShowMoreViewHolder private constructor(
-    private val textView: TextView
-) : RecyclerView.ViewHolder(textView) {
+    private val itemView: View
+) : RecyclerView.ViewHolder(itemView) {
 
     companion object {
         fun from(parent: ViewGroup): ShowMoreViewHolder {
-            val view = TextView(parent.context)
+            val inflater = LayoutInflater.from(parent.context)
+            val view = inflater.inflate(R.layout.show_more_news_adapter, parent, false)
             return ShowMoreViewHolder(view)
         }
     }
 
     fun bind(clickListener: ShowMoreClickListener) {
-        textView.apply {
-            text = context.getString(R.string.show_more)
-            setOnClickListener { clickListener.listener() }
-        }
+        itemView.setOnClickListener { clickListener.listener() }
     }
 }
