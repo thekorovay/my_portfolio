@@ -42,7 +42,11 @@
     <fragment
         android:id="@+id/readArticleFragment"
         android:name="com.thekorovay.myportfolio.news.fragments.ReadArticleFragment"
-        android:label="@string/article" />
+        android:label="@string/article" >
+        <argument
+            android:name="article"
+            app:argType="com.thekorovay.myportfolio.news.model.Article" />
+    </fragment>
     <fragment
         android:id="@+id/searchResultsFragment"
         android:name="com.thekorovay.myportfolio.news.fragments.SearchResultsFragment"

@@ -8,11 +8,13 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchReadArticleBinding
 
 class ReadArticleFragment: Fragment() {
     private lateinit var binding: FragmentSearchReadArticleBinding
+    private val args: ReadArticleFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,18 +28,15 @@ class ReadArticleFragment: Fragment() {
             false
         )
 
-        viewArticleData()
+        binding.article = args.article
 
         binding.tvSource.setOnClickListener { viewSource() }
 
         return binding.root
     }
 
-    private fun viewArticleData() {
-        //todo
-    }
-
     private fun viewSource() {
-        //todo startActivity(Intent(Intent.ACTION_VIEW, stringUri.toUri()))
+        val url = args.article.url.toUri()
+        startActivity(Intent(Intent.ACTION_VIEW, url))
     }
 }

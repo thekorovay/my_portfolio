@@ -7,12 +7,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchArticlesListBinding
 import com.thekorovay.myportfolio.news.recycler_view.RecyclerViewAdapter
 import com.thekorovay.myportfolio.news.SearchViewModel
+import com.thekorovay.myportfolio.news.model.Article
 import com.thekorovay.myportfolio.news.network.LoadingState
 import com.thekorovay.myportfolio.news.recycler_view.NewsItemClickListener
 import com.thekorovay.myportfolio.news.recycler_view.NewsListItem
@@ -26,9 +28,7 @@ class SearchResultsFragment: Fragment() {
     private val viewModel: SearchViewModel by viewModels()
 
     private var isMoreResultsAvailable = true
-    private var isError = false
-    private val shouldShowMoreButton
-        get() = isMoreResultsAvailable && !isError
+    private var isListEmpty = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,11 +42,13 @@ class SearchResultsFragment: Fragment() {
             false
         )
 
+
         val newsAdapter = RecyclerViewAdapter(
-            NewsItemClickListener { id -> readArticle(id) },
+            NewsItemClickListener { article -> readArticle(article) },
             ShowMoreClickListener { showMoreNews() }
         )
         binding.rvSearchResults.adapter = newsAdapter
+
 
         viewModel.articles.observe(viewLifecycleOwner) { articles ->
             // Map Articles to ListItems with or without thumbs
@@ -59,36 +61,41 @@ class SearchResultsFragment: Fragment() {
             }.toMutableList()
 
             // Show or hide the Show More button
-            if (shouldShowMoreButton && listItems.isNotEmpty()) {
+            isListEmpty = listItems.isEmpty()
+            if (isMoreResultsAvailable && !isListEmpty) {
                 listItems.add(NewsListItem.ShowMoreNewsItem)
             }
 
             newsAdapter.submitList(listItems)
         }
 
-        viewModel.loadingState.observe(viewLifecycleOwner) {
-            when(it) {
-                LoadingState.LOADING -> {
-                    showSnack("LOADING")
-                    isError = false
-                }
-                LoadingState.ERROR -> {
-                    showSnack("ERROR")
-                    isError = true
-                }
-                LoadingState.EMPTY_PAGE -> {
-                    showSnack("EMPTY_PAGE")
-                    isMoreResultsAvailable = false
-                }
-                LoadingState.SUCCESS -> showSnack("SUCCESS")
-                else -> throw Exception("Unknown loading state ${it.name}")
+
+        viewModel.loadingState.observe(viewLifecycleOwner) { state ->
+            isMoreResultsAvailable = state != LoadingState.EMPTY_PAGE
+
+            binding.isProgressBarVisible = state == LoadingState.LOADING
+            binding.isErrorScreenVisible = isListEmpty && state == LoadingState.ERROR
+            binding.isNoResultsMessageVisible = isListEmpty && !isMoreResultsAvailable
+
+            if (state == LoadingState.ERROR && !isListEmpty) {
+                showLoadingErrorSnack()
             }
         }
 
-        // Initiate loading news for the first page of search
-        showMoreNews()
+        binding.btnReload.setOnClickListener { showMoreNews() }
+
 
         return binding.root
+    }
+
+    /*
+    * This callback is required to make first loading of news since onCreateView() will be called
+    * every time user will return back from the ReadArticle fragment */
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Initiate loading news for the first page
+        showMoreNews()
     }
 
     private fun showMoreNews() {
@@ -102,12 +109,17 @@ class SearchResultsFragment: Fragment() {
         }
     }
 
-    private fun readArticle(id: String) {
-        //todo
-        showSnack(id)
+    private fun showLoadingErrorSnack() {
+        Snackbar.make(binding.root, R.string.couldnt_load_news, Snackbar.LENGTH_SHORT)
+            .setAction(R.string.try_again) { showMoreNews() }
+            .show()
     }
 
-    private fun showSnack(text: String) {
-        Snackbar.make(binding.root, text, Snackbar.LENGTH_SHORT).show()
+    private fun readArticle(article: Article) {
+        findNavController().navigate(
+            SearchResultsFragmentDirections.actionSearchResultsFragmentToReadArticleFragment(
+                article
+            )
+        )
     }
 }

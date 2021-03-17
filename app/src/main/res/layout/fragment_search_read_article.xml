@@ -5,61 +5,88 @@
 
     <data>
 
+        <variable
+            name="article"
+            type="com.thekorovay.myportfolio.news.model.Article" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <ImageView
-            android:id="@+id/iv_picture"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:contentDescription="@string/content_desc_picture_for_article"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/bio_photo" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/tv_title"
-            style="@style/NewsTitleTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/iv_picture"
-            app:layout_constraintWidth_percent="0.9"
-            tools:text="Some title for Article" />
+            <ImageView
+                android:id="@+id/iv_picture"
+                imageUrl="@{article.image.url}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/content_desc_picture_for_article"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/bio_photo" />
 
-        <TextView
-            android:id="@+id/tv_source"
-            style="@style/ContentTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="?android:attr/selectableItemBackground"
-            android:paddingTop="12dp"
-            android:paddingBottom="12dp"
-            android:textColor="@color/blue_700"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_title"
-            app:layout_constraintWidth_percent="0.9"
-            tools:text="Source: Bloomberg article of course" />
+            <TextView
+                android:id="@+id/tv_title"
+                style="@style/NewsTitleTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@{article.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_picture"
+                app:layout_constraintWidth_percent="0.9"
+                tools:text="Some title for Article" />
 
-        <TextView
-            android:id="@+id/tv_text"
-            style="@style/ContentTextStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_source"
-            app:layout_constraintWidth_percent="0.9"
-            tools:text="Sample text" />
+            <TextView
+                android:id="@+id/tv_source"
+                style="@style/ContentTextStyle"
+                articleSource="@{article.provider.name}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                android:textColor="@color/blue_700"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_title"
+                app:layout_constraintWidth_percent="0.9"
+                tools:text="Source: Bloomberg article of course" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/tv_date"
+                style="@style/ContentTextStyle"
+                articleDate="@{article.datePublished}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_source"
+                app:layout_constraintWidth_percent="0.9"
+                tools:text="From 03.17.2021 16:20" />
+
+            <TextView
+                android:id="@+id/tv_body"
+                style="@style/ContentTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:paddingBottom="12dp"
+                android:text="@{article.body}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_date"
+                app:layout_constraintWidth_percent="0.9"
+                tools:text="Sample text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 </layout>

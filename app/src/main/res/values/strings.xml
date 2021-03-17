@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Portfolio</string>
+    <string name="app_name" translatable="false">My Portfolio</string>
 
 <!--    Main fragment-->
     <string name="welcome">Welcome!</string>
@@ -9,7 +9,7 @@
     <string name="card_news">Read News</string>
     <string name="card_src_code">Check Source Code</string>
 
-    <string name="github_project_link">https://github.com/thekorovay/my_portfolio</string>
+    <string name="github_project_link" translatable="false">https://github.com/thekorovay/my_portfolio</string>
 
 <!--    About fragment-->
     <string name="menu_about">About</string>
@@ -41,10 +41,20 @@
     <string name="last_search_results">Show last search results</string>
     <string name="content_desc_picture_for_article">Picture for article</string>
     <string name="content_desc_no_internet">No internet picture</string>
-    <string name="source_template">Source: $s</string>
+    <string name="content_desc_no_internet_icon">No internet icon</string>
+    <string name="source_template">Source: %s</string>
     <string name="article">Article</string>
     <string name="snack_enter_query">Please enter the search query</string>
     <string name="search_results">Search results</string>
     <string name="article_thumbnail">Article thumbnail</string>
     <string name="show_more">Show more</string>
+    <string name="oops">Oops!</string>
+    <string name="no_internet_description">Something went wrong while downloading your news
+        \nPlease check your internet connection or try again later</string>
+    <string name="couldnt_load_news">Couldn\'t load news</string>
+    <string name="try_again">Try again</string>
+    <string name="no_news_for_request">No news found for your request</string>
+
+    <string name="datetime_format">MM.dd.yyyy HH:mm</string>
+    <string name="from_date">From %s</string>
 </resources>
