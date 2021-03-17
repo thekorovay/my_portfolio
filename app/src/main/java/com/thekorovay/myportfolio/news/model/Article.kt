@@ -1,8 +1,10 @@
 package com.thekorovay.myportfolio.news.model
 
+import android.os.Parcelable
 import androidx.annotation.Keep
+import kotlinx.android.parcel.Parcelize
 
-@Keep
+@Keep @Parcelize
 data class Article(
     val id: String,
 
@@ -16,4 +18,4 @@ data class Article(
     val provider: Provider,
 
     val image: Image
-)
+) : Parcelable
