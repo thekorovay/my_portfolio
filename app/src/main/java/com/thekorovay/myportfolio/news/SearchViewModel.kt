@@ -14,7 +14,7 @@ class SearchViewModel: ViewModel() {
     val articles: LiveData<List<Article>>
         get() = _articles
 
-    private val _loadingState = MutableLiveData(LoadingState.LOADING)
+    private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState>
         get() = _loadingState
 
@@ -30,12 +30,16 @@ class SearchViewModel: ViewModel() {
         thumbnailsEnabled: Boolean,
         pageSize: Int
     ) {
+        // Prevent repeating clicks on Show More button
+        if (loadingState.value == LoadingState.LOADING) {
+            return
+        }
         _loadingState.value = LoadingState.LOADING
 
         job.cancel()
         job = Job()
 
-        val scope = CoroutineScope(job + Dispatchers.Main)
+        val scope = CoroutineScope(job + Dispatchers.IO)
 
         scope.launch {
             try {
