@@ -46,7 +46,6 @@ class SearchViewModel: ViewModel() {
                 val response = newsApi.getNewsArticlesAsync(
                     query,
                     safeSearchEnabled,
-                    thumbnailsEnabled,
                     pageSize,
                     nextPageNumber
                 )

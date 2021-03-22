@@ -12,7 +12,7 @@ import retrofit2.http.Query
 
 const val HEADER_KEY = "x-rapidapi-key: 751179a5c0msh4eb80c4abc5b438p10850cjsn0148d7a42070"
 const val HEADER_HOST = "x-rapidapi-host: contextualwebsearch-websearch-v1.p.rapidapi.com"
-const val STATIC_QUERY_PART = "fromPublishedDate=null&toPublishedDate=null&autoCorrect=false"
+const val STATIC_QUERY_PART = "fromPublishedDate=null&toPublishedDate=null&autoCorrect=false&withThumbnails=true"
 const val PATH = "api/search/NewsSearchAPI"
 
 interface INewsService {
@@ -21,7 +21,6 @@ interface INewsService {
     suspend fun getNewsArticlesAsync(
         @Query("q") query: String,
         @Query("safeSearch") safeSearchEnabled: Boolean,
-        @Query("withThumbnails") thumbnailsEnabled: Boolean,
         @Query("pageSize") pageSize: Int,
         @Query("pageNumber") pageNumber: Int
     ): NewsServerResponse
