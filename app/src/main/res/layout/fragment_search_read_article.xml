@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.thekorovay.myportfolio.news.model.Article" />
+            type="com.thekorovay.myportfolio.news.Article" />
     </data>
 
     <ScrollView
@@ -21,7 +21,7 @@
 
             <ImageView
                 android:id="@+id/iv_picture"
-                imageUrl="@{article.image.url}"
+                imageUrl="@{article.imageUrl}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
@@ -47,7 +47,7 @@
             <TextView
                 android:id="@+id/tv_source"
                 style="@style/ContentTextStyle"
-                articleSource="@{article.provider.name}"
+                articleSource="@{article.sourceName}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="?android:attr/selectableItemBackground"

@@ -12,14 +12,13 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchArticlesListBinding
+import com.thekorovay.myportfolio.news.Article
 import com.thekorovay.myportfolio.news.recycler_view.RecyclerViewAdapter
 import com.thekorovay.myportfolio.news.SearchViewModel
-import com.thekorovay.myportfolio.news.model.Article
 import com.thekorovay.myportfolio.news.network.LoadingState
 import com.thekorovay.myportfolio.news.recycler_view.NewsItemClickListener
 import com.thekorovay.myportfolio.news.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.news.recycler_view.ShowMoreClickListener
-import java.lang.Exception
 
 class SearchResultsFragment: Fragment() {
 

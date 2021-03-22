@@ -1,10 +1,9 @@
-package com.thekorovay.myportfolio.news.model
+package com.thekorovay.myportfolio.news
 
 import android.os.Parcelable
-import androidx.annotation.Keep
 import kotlinx.android.parcel.Parcelize
 
-@Keep @Parcelize
+@Parcelize
 data class Article(
     val id: String,
 
@@ -14,8 +13,9 @@ data class Article(
 
     val datePublished: String,
 
-    val url: String,
-    val provider: Provider,
+    val sourceUrl: String,
+    val sourceName: String,
 
-    val image: Image
-) : Parcelable
+    val thumbUrl: String,
+    val imageUrl: String
+): Parcelable

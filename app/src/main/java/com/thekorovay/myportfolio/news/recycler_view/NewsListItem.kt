@@ -1,6 +1,7 @@
 package com.thekorovay.myportfolio.news.recycler_view
 
-import com.thekorovay.myportfolio.news.model.Article
+import com.thekorovay.myportfolio.news.Article
+
 
 sealed class NewsListItem {
     data class ArticleItem(val article: Article) : NewsListItem() {

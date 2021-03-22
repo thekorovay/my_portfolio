@@ -3,12 +3,11 @@ package com.thekorovay.myportfolio.news.recycler_view
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterBinding
 import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterNoThumbnailBinding
-import com.thekorovay.myportfolio.news.model.Article
+import com.thekorovay.myportfolio.news.Article
 
 class ArticleViewHolder private constructor(
     private val binding: CardNewsArticleAdapterBinding

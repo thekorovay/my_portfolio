@@ -3,7 +3,6 @@ package com.thekorovay.myportfolio.news
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.thekorovay.myportfolio.news.model.Article
 import com.thekorovay.myportfolio.news.network.LoadingState
 import com.thekorovay.myportfolio.news.network.newsApi
 import kotlinx.coroutines.*
@@ -43,7 +42,7 @@ class SearchViewModel: ViewModel() {
 
         scope.launch {
             try {
-                val response = newsApi.getNewsArticlesAsync(
+                val response = newsApi.requestNewsArticlesAsync(
                     query,
                     safeSearchEnabled,
                     pageSize,
@@ -57,7 +56,7 @@ class SearchViewModel: ViewModel() {
                         // Successfully received new articles
                         _loadingState.postValue(LoadingState.SUCCESS)
                         nextPageNumber++
-                        _articles.postValue(_articles.value!!.plus(response.articles))
+                        _articles.postValue(_articles.value!!.plus(response.toArticlesList()))
                     }
                 }
             } catch (e: Exception) {

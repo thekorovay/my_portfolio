@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.thekorovay.myportfolio.news.model.Article" />
+            type="com.thekorovay.myportfolio.news.Article" />
 
         <variable
             name="clickListener"
@@ -30,7 +30,7 @@
 
             <ImageView
                 android:id="@+id/iv_thumbnail"
-                imageUrlRound="@{article.image.thumbnail}"
+                imageUrlRound="@{article.thumbUrl}"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:contentDescription="@string/article_thumbnail"

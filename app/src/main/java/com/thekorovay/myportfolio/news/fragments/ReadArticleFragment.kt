@@ -36,7 +36,7 @@ class ReadArticleFragment: Fragment() {
     }
 
     private fun viewSource() {
-        val url = args.article.url.toUri()
+        val url = args.article.sourceUrl.toUri()
         startActivity(Intent(Intent.ACTION_VIEW, url))
     }
 }

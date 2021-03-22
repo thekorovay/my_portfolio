@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.thekorovay.myportfolio.news.model.Article" />
+            type="com.thekorovay.myportfolio.news.Article" />
 
         <variable
             name="clickListener"

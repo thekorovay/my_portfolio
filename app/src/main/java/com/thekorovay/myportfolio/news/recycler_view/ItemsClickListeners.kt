@@ -1,6 +1,6 @@
 package com.thekorovay.myportfolio.news.recycler_view
 
-import com.thekorovay.myportfolio.news.model.Article
+import com.thekorovay.myportfolio.news.Article
 
 class NewsItemClickListener(val listener: (article: Article) -> Unit) {
     fun onClick(article: Article) = listener(article)
