@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterBinding
 import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterNoThumbnailBinding
-import com.thekorovay.myportfolio.news.Article
+import com.thekorovay.myportfolio.news.domain_model.Article
 
 class ArticleViewHolder private constructor(
     private val binding: CardNewsArticleAdapterBinding

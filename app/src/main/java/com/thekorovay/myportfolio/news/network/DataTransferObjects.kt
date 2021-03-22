@@ -2,7 +2,7 @@ package com.thekorovay.myportfolio.news.network
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
-import com.thekorovay.myportfolio.news.Article
+import com.thekorovay.myportfolio.news.database.DatabaseArticle
 
 const val RESPONSE_TYPE_NEWS = "news"
 
@@ -14,9 +14,9 @@ data class NewsServerResponse(
     val isError get() = type != RESPONSE_TYPE_NEWS
     val isEmpty get() = networkArticles.isEmpty()
 
-    fun toArticlesList(): List<Article> {
-        return networkArticles.map { networkArticle ->
-            Article(
+    val databaseArticles
+        get() = networkArticles.map { networkArticle ->
+            DatabaseArticle(
                 id = networkArticle.id,
                 title = networkArticle.title,
                 description = networkArticle.description,
@@ -24,11 +24,10 @@ data class NewsServerResponse(
                 datePublished = networkArticle.datePublished,
                 sourceUrl = networkArticle.url,
                 sourceName = networkArticle.provider.name,
-                thumbUrl = networkArticle.image.thumbnail,
-                imageUrl = networkArticle.image.url
+                thumbUrl = networkArticle.image.thumbnail.takeIf { it.isNotEmpty() },
+                imageUrl = networkArticle.image.url.takeIf { it.isNotEmpty() }
             )
-        }
-    }
+        }.toTypedArray()
 }
 
 @Keep

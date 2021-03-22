@@ -8,6 +8,8 @@ import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Query
 
+const val FIRST_PAGE_NUMBER = 1
+
 const val BASE_URL = "https://contextualwebsearch-websearch-v1.p.rapidapi.com/"
 const val HEADER_KEY = "x-rapidapi-key: 751179a5c0msh4eb80c4abc5b438p10850cjsn0148d7a42070"
 const val HEADER_HOST = "x-rapidapi-host: contextualwebsearch-websearch-v1.p.rapidapi.com"

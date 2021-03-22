@@ -1,7 +1,9 @@
 package com.thekorovay.myportfolio.tools
 
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.thekorovay.myportfolio.R
@@ -38,4 +40,13 @@ fun TextView.setArticleDate(raw: String) {
 @BindingAdapter("articleSource")
 fun TextView.setArticleSource(source: String) {
     text = context.getString(R.string.source_template, source)
+}
+
+@BindingAdapter("isActive")
+fun Button.setActive(isActive: Boolean) {
+    isEnabled = isActive
+    setTextColor(ContextCompat.getColor(
+        context,
+        if (isActive) R.color.blue_700 else R.color.grey_500
+    ))
 }

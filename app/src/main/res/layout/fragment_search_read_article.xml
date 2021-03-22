@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.thekorovay.myportfolio.news.Article" />
+            type="com.thekorovay.myportfolio.news.domain_model.Article" />
     </data>
 
     <ScrollView

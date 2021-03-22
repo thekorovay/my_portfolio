@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="isLastSearchButtonActive"
+            type="Boolean" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,14 +21,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/search_query"
+            android:imeOptions="actionDone"
             android:inputType="text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.05"
-            app:layout_constraintWidth_percent="0.8"
-            android:imeOptions="actionDone"/>
+            app:layout_constraintWidth_percent="0.8" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switch_safe_search"
@@ -87,6 +90,7 @@
         <Button
             android:id="@+id/btn_show_last_search"
             style="@style/ActionButtonStyle"
+            isActive="@{isLastSearchButtonActive}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/last_search_results"

@@ -57,4 +57,5 @@
 
     <string name="datetime_format">MM.dd.yyyy HH:mm</string>
     <string name="from_date">From %s</string>
+    <string name="showing_results_for_query">Showing results for query \"%s\"</string>
 </resources>

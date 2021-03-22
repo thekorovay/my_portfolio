@@ -13,10 +13,13 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
+import com.thekorovay.myportfolio.news.repository.NewsSharedPreferences
+
 //import com.thekorovay.myportfolio.news.SearchParamsFragmentDirections
 
 class SearchParamsFragment: Fragment() {
     private lateinit var binding: FragmentSearchParamsBinding
+    private lateinit var prefs: NewsSharedPreferences
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,11 +36,17 @@ class SearchParamsFragment: Fragment() {
         setupSpinner()
 
         binding.btnSearch.setOnClickListener { search() }
-        binding.btnShowLastSearch.setOnClickListener { showLastResults() }
+        binding.btnShowLastSearch.setOnClickListener { showLastSearchResults() }
+
+        binding.isLastSearchButtonActive = prefs.lastSearchQuery != null
 
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        prefs = NewsSharedPreferences(requireContext())
+    }
 
     private fun setupSpinner() {
         val arrAdapter = ArrayAdapter.createFromResource(
@@ -71,7 +80,8 @@ class SearchParamsFragment: Fragment() {
                 query = query,
                 safeSearchEnabled = safeSearch,
                 thumbnailsEnabled = thumbnails,
-                pageSize = pageSize
+                pageSize = pageSize,
+                lastSearchQuery = null
             )
         )
     }
@@ -85,10 +95,14 @@ class SearchParamsFragment: Fragment() {
         }
     }
 
-    private fun showLastResults() {
+    private fun showLastSearchResults() {
         hideKeyboardIfShown()
-        //todo
-        Snackbar.make(binding.root, "Not implemented yet", Snackbar.LENGTH_SHORT).show()
+
+        findNavController().navigate(
+            SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
+                lastSearchQuery = prefs.lastSearchQuery
+            )
+        )
     }
 
     private fun showEmptyQueryWarning() {
