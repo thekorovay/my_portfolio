@@ -86,6 +86,7 @@ class SearchParamsFragment: Fragment() {
     }
 
     private fun showLastResults() {
+        hideKeyboardIfShown()
         //todo
         Snackbar.make(binding.root, "Not implemented yet", Snackbar.LENGTH_SHORT).show()
     }
