@@ -9,7 +9,6 @@ import com.thekorovay.myportfolio.news.domain_model.Article
 import com.thekorovay.myportfolio.news.network.FIRST_PAGE_NUMBER
 import com.thekorovay.myportfolio.news.network.LoadingState
 import com.thekorovay.myportfolio.news.network.newsApi
-import com.thekorovay.myportfolio.news.repository.NewsSharedPreferences
 
 class NewsRepository(
     private val database: NewsDatabase,

@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.thekorovay.myportfolio.main.AboutFragment"
+        android:name="com.thekorovay.myportfolio.about.AboutFragment"
         android:label="@string/menu_about" />
     <fragment
         android:id="@+id/searchParamsFragment"

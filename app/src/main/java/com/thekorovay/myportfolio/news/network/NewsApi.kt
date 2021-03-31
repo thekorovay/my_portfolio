@@ -16,7 +16,7 @@ const val HEADER_HOST = "x-rapidapi-host: contextualwebsearch-websearch-v1.p.rap
 const val STATIC_QUERY_PART = "fromPublishedDate=null&toPublishedDate=null&autoCorrect=false&withThumbnails=true"
 const val PATH = "api/search/NewsSearchAPI"
 
-interface INewsService {
+interface NewsService {
     @Headers(HEADER_KEY, HEADER_HOST)
     @GET("$PATH?$STATIC_QUERY_PART")
     suspend fun requestNewsArticlesAsync(
@@ -28,7 +28,7 @@ interface INewsService {
 }
 
 
-val newsApi: INewsService by lazy {
+val newsApi: NewsService by lazy {
 
     val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
@@ -39,5 +39,5 @@ val newsApi: INewsService by lazy {
         .baseUrl(BASE_URL)
         .build()
 
-    retrofit.create(INewsService::class.java)
+    retrofit.create(NewsService::class.java)
 }
