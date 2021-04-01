@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.thekorovay.myportfolio.main.MainFragment"
+        android:name="com.thekorovay.myportfolio.module_main.MainFragment"
         android:label="@string/app_name">
         <action
             android:id="@+id/action_mainFragment_to_aboutFragment"
@@ -25,11 +25,11 @@
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.thekorovay.myportfolio.about.AboutFragment"
+        android:name="com.thekorovay.myportfolio.module_about.AboutFragment"
         android:label="@string/menu_about" />
     <fragment
         android:id="@+id/searchParamsFragment"
-        android:name="com.thekorovay.myportfolio.search_news.fragments.SearchParamsFragment"
+        android:name="com.thekorovay.myportfolio.module_news.ui.SearchParamsFragment"
         android:label="@string/search_news">
         <action
             android:id="@+id/action_searchParamsFragment_to_searchResultsFragment"
@@ -41,15 +41,15 @@
     </fragment>
     <fragment
         android:id="@+id/readArticleFragment"
-        android:name="com.thekorovay.myportfolio.search_news.fragments.ReadArticleFragment"
+        android:name="com.thekorovay.myportfolio.module_news.ui.ReadArticleFragment"
         android:label="@string/article">
         <argument
             android:name="article"
-            app:argType="com.thekorovay.myportfolio.search_news.domain_model.Article" />
+            app:argType="com.thekorovay.myportfolio.domain_model.Article" />
     </fragment>
     <fragment
         android:id="@+id/searchResultsFragment"
-        android:name="com.thekorovay.myportfolio.search_news.fragments.SearchResultsFragment"
+        android:name="com.thekorovay.myportfolio.module_news.ui.SearchResultsFragment"
         android:label="@string/search_results">
         <action
             android:id="@+id/action_searchResultsFragment_to_readArticleFragment"
@@ -63,6 +63,6 @@
             app:argType="boolean" />
         <argument
             android:name="searchRequest"
-            app:argType="com.thekorovay.myportfolio.search_news.domain_model.SearchRequest" />
+            app:argType="com.thekorovay.myportfolio.domain_model.SearchRequest" />
     </fragment>
 </navigation>

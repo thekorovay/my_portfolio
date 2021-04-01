@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.search_news.viewmodel
+package com.thekorovay.myportfolio.module_news.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.ViewModel

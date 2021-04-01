@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.main
+package com.thekorovay.myportfolio.module_main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

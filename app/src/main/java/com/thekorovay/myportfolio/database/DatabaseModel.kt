@@ -4,8 +4,8 @@ import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.thekorovay.myportfolio.search_news.domain_model.Article
-import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
+import com.thekorovay.myportfolio.domain_model.Article
+import com.thekorovay.myportfolio.domain_model.SearchRequest
 
 @Keep
 @Entity(tableName = "articles")

@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.search_news.recycler_view
+package com.thekorovay.myportfolio.module_news.ui.recycler_view
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterBinding
 import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterNoThumbnailBinding
-import com.thekorovay.myportfolio.search_news.domain_model.Article
+import com.thekorovay.myportfolio.domain_model.Article
 
 class ArticleViewHolder private constructor(
     private val binding: CardNewsArticleAdapterBinding

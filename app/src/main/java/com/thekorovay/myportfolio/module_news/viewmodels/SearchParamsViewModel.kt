@@ -1,17 +1,17 @@
-package com.thekorovay.myportfolio.search_news.viewmodel
+package com.thekorovay.myportfolio.module_news.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
 import com.thekorovay.myportfolio.database.getNewsDatabase
-import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
-import com.thekorovay.myportfolio.search_news.repositories.SearchHistoryRepository
+import com.thekorovay.myportfolio.domain_model.SearchRequest
 
 class SearchParamsViewModel(application: Application): AndroidViewModel(application) {
 
     private val database = getNewsDatabase(application)
-    private val repository = SearchHistoryRepository(database)
 
-    val lastRequest: LiveData<SearchRequest?> = repository.lastRequest
+    val lastRequest: LiveData<SearchRequest?> = Transformations.map(database.searchHistoryDao().getLastRequest()) {
+        it?.toSearchRequest()
+    }
 
     private val _newSearchRequest = MutableLiveData<SearchRequest?>()
     val newSearchRequest: LiveData<SearchRequest?> = _newSearchRequest

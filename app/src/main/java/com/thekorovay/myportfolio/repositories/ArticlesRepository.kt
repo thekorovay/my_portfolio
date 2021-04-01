@@ -1,15 +1,15 @@
-package com.thekorovay.myportfolio.search_news.repositories
+package com.thekorovay.myportfolio.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import com.thekorovay.myportfolio.database.NewsDatabase
 import com.thekorovay.myportfolio.database.toArticles
-import com.thekorovay.myportfolio.search_news.domain_model.Article
-import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
-import com.thekorovay.myportfolio.search_news.network.FIRST_PAGE_NUMBER
-import com.thekorovay.myportfolio.search_news.network.LoadingState
-import com.thekorovay.myportfolio.search_news.network.newsApi
+import com.thekorovay.myportfolio.domain_model.Article
+import com.thekorovay.myportfolio.domain_model.SearchRequest
+import com.thekorovay.myportfolio.module_news.network.FIRST_PAGE_NUMBER
+import com.thekorovay.myportfolio.module_news.network.LoadingState
+import com.thekorovay.myportfolio.module_news.network.newsApi
 
 class ArticlesRepository(private val database: NewsDatabase) {
 

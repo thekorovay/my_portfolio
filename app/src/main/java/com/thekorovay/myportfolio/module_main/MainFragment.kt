@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.main
+package com.thekorovay.myportfolio.module_main
 
 import android.os.Bundle
 import android.view.*

@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.about
+package com.thekorovay.myportfolio.module_about
 
 import android.content.*
 import android.net.Uri

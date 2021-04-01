@@ -1,12 +1,12 @@
-package com.thekorovay.myportfolio.search_news.viewmodel
+package com.thekorovay.myportfolio.module_news.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.*
 import com.thekorovay.myportfolio.database.getNewsDatabase
-import com.thekorovay.myportfolio.search_news.domain_model.Article
-import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
-import com.thekorovay.myportfolio.search_news.network.LoadingState
-import com.thekorovay.myportfolio.search_news.repositories.ArticlesRepository
+import com.thekorovay.myportfolio.domain_model.Article
+import com.thekorovay.myportfolio.domain_model.SearchRequest
+import com.thekorovay.myportfolio.module_news.network.LoadingState
+import com.thekorovay.myportfolio.repositories.ArticlesRepository
 import kotlinx.coroutines.*
 
 class SearchResultsViewModel(application: Application): AndroidViewModel(application) {

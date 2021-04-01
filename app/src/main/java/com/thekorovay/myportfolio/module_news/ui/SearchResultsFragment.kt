@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.search_news.fragments
+package com.thekorovay.myportfolio.module_news.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,14 +12,14 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchArticlesListBinding
-import com.thekorovay.myportfolio.search_news.domain_model.Article
-import com.thekorovay.myportfolio.search_news.recycler_view.RecyclerViewAdapter
-import com.thekorovay.myportfolio.search_news.viewmodel.SearchResultsViewModel
-import com.thekorovay.myportfolio.search_news.network.LoadingState
-import com.thekorovay.myportfolio.search_news.recycler_view.NewsItemClickListener
-import com.thekorovay.myportfolio.search_news.recycler_view.NewsListItem
-import com.thekorovay.myportfolio.search_news.recycler_view.ShowMoreClickListener
-import com.thekorovay.myportfolio.search_news.viewmodel.SearchViewModelsFactory
+import com.thekorovay.myportfolio.domain_model.Article
+import com.thekorovay.myportfolio.module_news.ui.recycler_view.RecyclerViewAdapter
+import com.thekorovay.myportfolio.module_news.viewmodels.SearchResultsViewModel
+import com.thekorovay.myportfolio.module_news.network.LoadingState
+import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickListener
+import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsListItem
+import com.thekorovay.myportfolio.module_news.ui.recycler_view.ShowMoreClickListener
+import com.thekorovay.myportfolio.module_news.viewmodels.SearchViewModelsFactory
 
 class SearchResultsFragment: Fragment() {
 

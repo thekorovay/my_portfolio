@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.search_news.recycler_view
+package com.thekorovay.myportfolio.module_news.ui.recycler_view
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter

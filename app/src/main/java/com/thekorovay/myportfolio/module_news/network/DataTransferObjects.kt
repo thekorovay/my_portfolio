@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.search_news.network
+package com.thekorovay.myportfolio.module_news.network
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json

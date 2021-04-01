@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.search_news.fragments
+package com.thekorovay.myportfolio.module_news.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -14,9 +14,9 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
-import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
-import com.thekorovay.myportfolio.search_news.viewmodel.SearchParamsViewModel
-import com.thekorovay.myportfolio.search_news.viewmodel.SearchViewModelsFactory
+import com.thekorovay.myportfolio.domain_model.SearchRequest
+import com.thekorovay.myportfolio.module_news.viewmodels.SearchParamsViewModel
+import com.thekorovay.myportfolio.module_news.viewmodels.SearchViewModelsFactory
 
 class SearchParamsFragment: Fragment() {
 
