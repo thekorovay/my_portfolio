@@ -11,16 +11,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
 import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchParamsViewModel
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchViewModelsFactory
+import com.thekorovay.myportfolio.tools.setPageSize
 
 class SearchParamsFragment: Fragment() {
 
     private lateinit var binding: FragmentSearchParamsBinding
+
+    private val args: SearchParamsFragmentArgs by navArgs()
 
     private val viewModel by lazy {
         ViewModelProvider(this, SearchViewModelsFactory(requireActivity().application))
@@ -65,6 +69,21 @@ class SearchParamsFragment: Fragment() {
         }
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val request = args.request
+
+        binding.run {
+            if (request != null && etQuery.text.isEmpty()) {
+                etQuery.setText(request.query)
+                switchSafeSearch.isChecked = request.safeSearchEnabled
+                switchThumbnails.isChecked = request.thumbnailsEnabled
+                spinnerPageSize.setPageSize(request.pageSize)
+            }
+        }
     }
 
     private fun setupSpinner() {

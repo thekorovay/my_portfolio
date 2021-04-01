@@ -74,11 +74,13 @@ class MainFragment : Fragment() {
 
     private fun searchNews() {
         findNavController().navigate(
-            MainFragmentDirections.actionMainFragmentToSearchParamsFragment()
+            MainFragmentDirections.actionMainFragmentToSearchParamsFragment(null)
         )
     }
 
     private fun showSearchHistory() {
-        Toast.makeText(requireContext(), "showSearchHistory", Toast.LENGTH_SHORT).show()
+        findNavController().navigate(
+            MainFragmentDirections.actionMainFragmentToSearchHistoryFragment()
+        )
     }
 }

@@ -2,6 +2,7 @@ package com.thekorovay.myportfolio.tools
 
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -31,10 +32,13 @@ fun ImageView.setImageUrl(url: String) {
 
 @BindingAdapter("articleDate")
 fun TextView.setArticleDate(raw: String) {
-    val localDateTime = LocalDateTime.parse(raw)
-    val formatter = DateTimeFormatter.ofPattern(context.getString(R.string.datetime_format))
-    val stringDateTime = localDateTime.format(formatter)
-    text = context.getString(R.string.from_date, stringDateTime)
+    val formatted = raw.formatAsDateTime(context.getString(R.string.datetime_format))
+    text = context.getString(R.string.from_date, formatted)
+}
+
+@BindingAdapter("historyDateTime")
+fun TextView.setHistoryDateTime(raw: String) {
+    text = raw.formatAsDateTime(context.getString(R.string.datetime_format_with_seconds))
 }
 
 @BindingAdapter("articleSource")
@@ -49,4 +53,12 @@ fun Button.setActive(isActive: Boolean) {
         context,
         if (isActive) R.color.blue_700 else R.color.grey_500
     ))
+}
+
+@BindingAdapter("pageSize")
+fun Spinner.setPageSize(pageSize: Int) {
+    val stringArray = context.resources.getStringArray(R.array.results_per_page_values)
+    val intArray = stringArray.map { it.toInt() }
+    val position = intArray.indexOf(pageSize)
+    setSelection(position)
 }

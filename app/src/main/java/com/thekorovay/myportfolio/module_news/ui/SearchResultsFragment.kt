@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchArticlesListBinding
 import com.thekorovay.myportfolio.domain_model.Article
-import com.thekorovay.myportfolio.module_news.ui.recycler_view.RecyclerViewAdapter
+import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchResultsViewModel
 import com.thekorovay.myportfolio.module_news.network.LoadingState
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickListener
@@ -46,7 +46,7 @@ class SearchResultsFragment: Fragment() {
         )
 
 
-        val newsAdapter = RecyclerViewAdapter(
+        val newsAdapter = NewsRecyclerViewAdapter(
             NewsItemClickListener { article -> readArticle(article) },
             ShowMoreClickListener { showMoreNews() }
         )

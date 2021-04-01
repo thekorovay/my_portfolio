@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import java.lang.Exception
 
-class RecyclerViewAdapter(
+class NewsRecyclerViewAdapter(
     private val newsItemClickListener: NewsItemClickListener,
     private val showMoreClickListener: ShowMoreClickListener,
     ) : ListAdapter<NewsListItem, RecyclerView.ViewHolder>(ArticlesDiffCallback) {

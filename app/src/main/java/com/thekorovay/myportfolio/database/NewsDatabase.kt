@@ -15,7 +15,7 @@ interface ArticlesDao {
     fun insertAll(vararg articles: DatabaseArticle)
 
     @Query("DELETE FROM articles")
-    fun clearAll()
+    suspend fun clearAll()
 }
 
 @Dao
@@ -23,14 +23,14 @@ interface SearchHistoryDao {
     @Query("SELECT * FROM search_history LIMIT 1")
     fun getLastRequest(): LiveData<DatabaseSearchRequest?>
 
-    @Query("SELECT * FROM search_history")
+    @Query("SELECT * FROM search_history ORDER BY date_time DESC")
     fun getHistory(): LiveData<List<DatabaseSearchRequest>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertAll(vararg searchRequests: DatabaseSearchRequest)
 
     @Query("DELETE FROM search_history")
-    fun clearAll()
+    suspend fun clearAll()
 }
 
 
