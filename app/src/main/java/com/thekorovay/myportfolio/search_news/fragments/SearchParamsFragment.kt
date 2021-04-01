@@ -9,18 +9,25 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
 import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
-import com.thekorovay.myportfolio.search_news.repository.NewsSharedPreferences
-
-//import com.thekorovay.myportfolio.news.SearchParamsFragmentDirections
+import com.thekorovay.myportfolio.search_news.viewmodel.SearchParamsViewModel
+import com.thekorovay.myportfolio.search_news.viewmodel.SearchViewModelsFactory
 
 class SearchParamsFragment: Fragment() {
+
     private lateinit var binding: FragmentSearchParamsBinding
-    private lateinit var prefs: NewsSharedPreferences
+
+    private val viewModel by lazy {
+        ViewModelProvider(this, SearchViewModelsFactory(requireActivity().application))
+            .get(SearchParamsViewModel::class.java)
+    }
+
+    private var lastRequest: SearchRequest? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,14 +46,25 @@ class SearchParamsFragment: Fragment() {
         binding.btnSearch.setOnClickListener { search() }
         binding.btnShowLastSearch.setOnClickListener { showLastSearchResults() }
 
-        binding.isLastSearchButtonActive = prefs.lastSearchQuery != null
+        viewModel.lastRequest.observe(viewLifecycleOwner) { request ->
+            lastRequest = request
+            binding.isLastSearchButtonActive = request != null
+        }
+
+        viewModel.invalidQueryFlag.observe(viewLifecycleOwner) { isInvalidQuery ->
+            if (isInvalidQuery) {
+                showEmptyQueryWarning()
+                viewModel.setInvalidQueryWarningShown()
+            }
+        }
+
+        viewModel.newSearchRequest.observe(viewLifecycleOwner) { request ->
+            request?.let {
+                navigateToSearchResults(it)
+            }
+        }
 
         return binding.root
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        prefs = NewsSharedPreferences(requireContext())
     }
 
     private fun setupSpinner() {
@@ -66,22 +84,12 @@ class SearchParamsFragment: Fragment() {
     private fun search() {
         hideKeyboardIfShown()
 
-        val query = binding.etQuery.text.toString().trim()
-        if (query.isEmpty()) {
-            showEmptyQueryWarning()
-            return
-        }
-
+        val query = binding.etQuery.text.toString()
         val safeSearch = binding.switchSafeSearch.isChecked
         val thumbnails = binding.switchThumbnails.isChecked
         val pageSize = binding.spinnerPageSize.selectedItem.toString().toInt()
 
-        findNavController().navigate(
-            SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
-                searchRequest = SearchRequest(query, safeSearch, thumbnails, pageSize),
-                lastSearchQuery = null
-            )
-        )
+        viewModel.search(query, safeSearch, thumbnails, pageSize)
     }
 
     private fun hideKeyboardIfShown() {
@@ -96,15 +104,28 @@ class SearchParamsFragment: Fragment() {
     private fun showLastSearchResults() {
         hideKeyboardIfShown()
 
-        findNavController().navigate(
-            SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
-                searchRequest = SearchRequest.getEmpty(),
-                lastSearchQuery = prefs.lastSearchQuery
+        lastRequest?.let { request ->
+            findNavController().navigate(
+                SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
+                    searchRequest = request,
+                    showingLastSearchResults = true
+                )
             )
-        )
+        }
     }
 
     private fun showEmptyQueryWarning() {
         Snackbar.make(binding.root, R.string.snack_enter_query, Snackbar.LENGTH_SHORT).show()
+    }
+
+    private fun navigateToSearchResults(request: SearchRequest) {
+        findNavController().navigate(
+            SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
+                searchRequest = request,
+                showingLastSearchResults = false
+            )
+        )
+
+        viewModel.setNavigationToResultsCompleted()
     }
 }

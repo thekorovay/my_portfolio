@@ -5,9 +5,10 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.thekorovay.myportfolio.search_news.domain_model.Article
+import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
 
 @Keep
-@Entity(tableName = ARTICLES_TABLE_NAME)
+@Entity(tableName = "articles")
 data class DatabaseArticle(
     @PrimaryKey val id: String,
 
@@ -38,4 +39,23 @@ fun List<DatabaseArticle>.toArticles(): List<Article> {
             imageUrl = dbArticle.imageUrl ?: ""
         )
     }
+}
+
+
+
+@Keep
+@Entity(tableName = "search_history")
+data class DatabaseSearchRequest(
+    @PrimaryKey @ColumnInfo(name = "date_time") val dateTime: String,
+    val query: String,
+    @ColumnInfo(name = "safe_search_enabled") val safeSearchEnabled: Boolean,
+    @ColumnInfo(name = "thumbs_enabled") val thumbnailsEnabled: Boolean,
+    @ColumnInfo(name = "page_size") val pageSize: Int
+) {
+    fun toSearchRequest() = SearchRequest(
+        query = this.query,
+        safeSearchEnabled = this.safeSearchEnabled,
+        thumbnailsEnabled = this.thumbnailsEnabled,
+        pageSize = this.pageSize
+    )
 }

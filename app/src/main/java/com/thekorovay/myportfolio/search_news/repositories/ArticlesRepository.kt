@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.search_news.repository
+package com.thekorovay.myportfolio.search_news.repositories
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,16 +11,13 @@ import com.thekorovay.myportfolio.search_news.network.FIRST_PAGE_NUMBER
 import com.thekorovay.myportfolio.search_news.network.LoadingState
 import com.thekorovay.myportfolio.search_news.network.newsApi
 
-class ArticlesRepository(
-    private val database: NewsDatabase,
-    private val preferences: NewsSharedPreferences
-) {
+class ArticlesRepository(private val database: NewsDatabase) {
 
     private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState>
         get() = _loadingState
 
-    val articles: LiveData<List<Article>> = Transformations.map(database.newsDao().getArticles()) {
+    val articles: LiveData<List<Article>> = Transformations.map(database.articlesDao().getArticles()) {
         it.toArticles()
     }
 
@@ -31,14 +28,14 @@ class ArticlesRepository(
     /**
      * Loads next page of articles for specified parameters from [newsApi] changing [loadingState]
      * according to loading result. Automatically handles [nextPageNumber]. Caches fetched
-     * articles in [database] and sets last search query in [preferences] on success.
+     * articles in [database] and saves last search request in [database].
      */
     suspend fun loadMoreNews(request: SearchRequest) {
         _loadingState.postValue(LoadingState.LOADING)
 
         // Clear previous search results cache
         if (nextPageNumber == FIRST_PAGE_NUMBER) {
-            database.newsDao().clearAll()
+            database.articlesDao().clearAll()
         }
 
         try {
@@ -55,9 +52,11 @@ class ArticlesRepository(
                 else -> {
                     // Successfully received new articles
                     _loadingState.postValue(LoadingState.SUCCESS)
-                    preferences.lastSearchQuery = request.query
                     nextPageNumber++
-                    database.newsDao().insertAll(*response.databaseArticles)
+                    database.run {
+                        articlesDao().insertAll(*response.databaseArticles)
+                        searchHistoryDao().insertAll(request.toDatabaseSearchRequest())
+                    }
                 }
             }
         } catch (e: Exception) {

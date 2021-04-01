@@ -6,15 +6,13 @@ import com.thekorovay.myportfolio.database.getNewsDatabase
 import com.thekorovay.myportfolio.search_news.domain_model.Article
 import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
 import com.thekorovay.myportfolio.search_news.network.LoadingState
-import com.thekorovay.myportfolio.search_news.repository.ArticlesRepository
-import com.thekorovay.myportfolio.search_news.repository.NewsSharedPreferences
+import com.thekorovay.myportfolio.search_news.repositories.ArticlesRepository
 import kotlinx.coroutines.*
 
-class SearchViewModel(application: Application): AndroidViewModel(application) {
+class SearchResultsViewModel(application: Application): AndroidViewModel(application) {
 
     private val database = getNewsDatabase(application)
-    private val prefs = NewsSharedPreferences(application)
-    private val repository = ArticlesRepository(database, prefs)
+    private val repository = ArticlesRepository(database)
 
     private var job = Job()
 
@@ -37,19 +35,6 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
 
         scope.launch {
             repository.loadMoreNews(request)
-        }
-    }
-
-    /**
-     * Factory for constructing SearchViewModel with context parameter
-     */
-    class Factory(private val application: Application) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(SearchViewModel::class.java)) {
-                @Suppress("UNCHECKED_CAST")
-                return SearchViewModel(application) as T
-            }
-            throw IllegalArgumentException("Unable to construct viewModel")
         }
     }
 }

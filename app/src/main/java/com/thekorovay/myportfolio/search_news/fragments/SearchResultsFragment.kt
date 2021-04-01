@@ -14,21 +14,20 @@ import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchArticlesListBinding
 import com.thekorovay.myportfolio.search_news.domain_model.Article
 import com.thekorovay.myportfolio.search_news.recycler_view.RecyclerViewAdapter
-import com.thekorovay.myportfolio.search_news.viewmodel.SearchViewModel
+import com.thekorovay.myportfolio.search_news.viewmodel.SearchResultsViewModel
 import com.thekorovay.myportfolio.search_news.network.LoadingState
 import com.thekorovay.myportfolio.search_news.recycler_view.NewsItemClickListener
 import com.thekorovay.myportfolio.search_news.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.search_news.recycler_view.ShowMoreClickListener
+import com.thekorovay.myportfolio.search_news.viewmodel.SearchViewModelsFactory
 
 class SearchResultsFragment: Fragment() {
 
     private val args: SearchResultsFragmentArgs by navArgs()
     private lateinit var binding: FragmentSearchArticlesListBinding
     private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            SearchViewModel.Factory(requireActivity().application)
-        ).get(SearchViewModel::class.java)
+        ViewModelProvider(this, SearchViewModelsFactory(requireActivity().application))
+            .get(SearchResultsViewModel::class.java)
     }
 
     private var isMoreResultsAvailable = true
@@ -66,7 +65,7 @@ class SearchResultsFragment: Fragment() {
 
             // Show or hide the Show More button
             isListEmpty = listItems.isEmpty()
-            if (args.lastSearchQuery == null && isMoreResultsAvailable && !isListEmpty) {
+            if (!args.showingLastSearchResults && isMoreResultsAvailable && !isListEmpty) {
                 listItems.add(NewsListItem.ShowMoreNewsItem)
             }
 
@@ -99,7 +98,7 @@ class SearchResultsFragment: Fragment() {
         super.onCreate(savedInstanceState)
 
         // Initiate loading news for the first page or show snack with last search query
-        if (args.lastSearchQuery == null) {
+        if (!args.showingLastSearchResults) {
             showMoreNews()
         }
     }
@@ -107,7 +106,7 @@ class SearchResultsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (args.lastSearchQuery != null && !viewModel.isLastQuerySnackbarShown) {
+        if (args.showingLastSearchResults && !viewModel.isLastQuerySnackbarShown) {
             showLastSearchQuerySnack()
             viewModel.isLastQuerySnackbarShown = true
         }
@@ -124,7 +123,7 @@ class SearchResultsFragment: Fragment() {
     }
 
     private fun showLastSearchQuerySnack() {
-        val message = getString(R.string.showing_results_for_query, args.lastSearchQuery)
+        val message = getString(R.string.showing_results_for_query, args.searchRequest.query)
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
             .show()
     }

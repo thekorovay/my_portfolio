@@ -59,9 +59,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
-            android:name="lastSearchQuery"
-            app:argType="string"
-            app:nullable="true" />
+            android:name="showingLastSearchResults"
+            app:argType="boolean" />
         <argument
             android:name="searchRequest"
             app:argType="com.thekorovay.myportfolio.search_news.domain_model.SearchRequest" />
