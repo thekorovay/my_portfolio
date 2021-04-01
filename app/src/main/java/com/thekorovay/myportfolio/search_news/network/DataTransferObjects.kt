@@ -1,8 +1,8 @@
-package com.thekorovay.myportfolio.news.network
+package com.thekorovay.myportfolio.search_news.network
 
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
-import com.thekorovay.myportfolio.news.database.DatabaseArticle
+import com.thekorovay.myportfolio.database.DatabaseArticle
 
 const val RESPONSE_TYPE_NEWS = "news"
 

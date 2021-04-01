@@ -1,16 +1,17 @@
-package com.thekorovay.myportfolio.news.repository
+package com.thekorovay.myportfolio.search_news.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
-import com.thekorovay.myportfolio.news.database.NewsDatabase
-import com.thekorovay.myportfolio.news.database.toArticles
-import com.thekorovay.myportfolio.news.domain_model.Article
-import com.thekorovay.myportfolio.news.network.FIRST_PAGE_NUMBER
-import com.thekorovay.myportfolio.news.network.LoadingState
-import com.thekorovay.myportfolio.news.network.newsApi
+import com.thekorovay.myportfolio.database.NewsDatabase
+import com.thekorovay.myportfolio.database.toArticles
+import com.thekorovay.myportfolio.search_news.domain_model.Article
+import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
+import com.thekorovay.myportfolio.search_news.network.FIRST_PAGE_NUMBER
+import com.thekorovay.myportfolio.search_news.network.LoadingState
+import com.thekorovay.myportfolio.search_news.network.newsApi
 
-class NewsRepository(
+class ArticlesRepository(
     private val database: NewsDatabase,
     private val preferences: NewsSharedPreferences
 ) {
@@ -32,11 +33,7 @@ class NewsRepository(
      * according to loading result. Automatically handles [nextPageNumber]. Caches fetched
      * articles in [database] and sets last search query in [preferences] on success.
      */
-    suspend fun loadMoreNews(
-        query: String,
-        safeSearchEnabled: Boolean,
-        pageSize: Int
-    ) {
+    suspend fun loadMoreNews(request: SearchRequest) {
         _loadingState.postValue(LoadingState.LOADING)
 
         // Clear previous search results cache
@@ -46,9 +43,9 @@ class NewsRepository(
 
         try {
             val response = newsApi.requestNewsArticlesAsync(
-                query,
-                safeSearchEnabled,
-                pageSize,
+                request.query,
+                request.safeSearchEnabled,
+                request.pageSize,
                 nextPageNumber
             )
 
@@ -58,7 +55,7 @@ class NewsRepository(
                 else -> {
                     // Successfully received new articles
                     _loadingState.postValue(LoadingState.SUCCESS)
-                    preferences.lastSearchQuery = query
+                    preferences.lastSearchQuery = request.query
                     nextPageNumber++
                     database.newsDao().insertAll(*response.databaseArticles)
                 }

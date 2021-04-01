@@ -1,6 +1,6 @@
-package com.thekorovay.myportfolio.news.recycler_view
+package com.thekorovay.myportfolio.search_news.recycler_view
 
-import com.thekorovay.myportfolio.news.domain_model.Article
+import com.thekorovay.myportfolio.search_news.domain_model.Article
 
 
 sealed class NewsListItem {

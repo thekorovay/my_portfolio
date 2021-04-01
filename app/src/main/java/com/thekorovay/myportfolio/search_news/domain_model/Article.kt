@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.news.domain_model
+package com.thekorovay.myportfolio.search_news.domain_model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

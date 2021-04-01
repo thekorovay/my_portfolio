@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.news.fragments
+package com.thekorovay.myportfolio.search_news.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,8 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
-import com.thekorovay.myportfolio.news.repository.NewsSharedPreferences
+import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
+import com.thekorovay.myportfolio.search_news.repository.NewsSharedPreferences
 
 //import com.thekorovay.myportfolio.news.SearchParamsFragmentDirections
 
@@ -77,10 +78,7 @@ class SearchParamsFragment: Fragment() {
 
         findNavController().navigate(
             SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
-                query = query,
-                safeSearchEnabled = safeSearch,
-                thumbnailsEnabled = thumbnails,
-                pageSize = pageSize,
+                searchRequest = SearchRequest(query, safeSearch, thumbnails, pageSize),
                 lastSearchQuery = null
             )
         )
@@ -100,6 +98,7 @@ class SearchParamsFragment: Fragment() {
 
         findNavController().navigate(
             SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
+                searchRequest = SearchRequest.getEmpty(),
                 lastSearchQuery = prefs.lastSearchQuery
             )
         )

@@ -1,19 +1,20 @@
-package com.thekorovay.myportfolio.news.viewmodel
+package com.thekorovay.myportfolio.search_news.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.thekorovay.myportfolio.news.database.getNewsDatabase
-import com.thekorovay.myportfolio.news.domain_model.Article
-import com.thekorovay.myportfolio.news.network.LoadingState
-import com.thekorovay.myportfolio.news.repository.NewsRepository
-import com.thekorovay.myportfolio.news.repository.NewsSharedPreferences
+import com.thekorovay.myportfolio.database.getNewsDatabase
+import com.thekorovay.myportfolio.search_news.domain_model.Article
+import com.thekorovay.myportfolio.search_news.domain_model.SearchRequest
+import com.thekorovay.myportfolio.search_news.network.LoadingState
+import com.thekorovay.myportfolio.search_news.repository.ArticlesRepository
+import com.thekorovay.myportfolio.search_news.repository.NewsSharedPreferences
 import kotlinx.coroutines.*
 
 class SearchViewModel(application: Application): AndroidViewModel(application) {
 
     private val database = getNewsDatabase(application)
     private val prefs = NewsSharedPreferences(application)
-    private val repository = NewsRepository(database, prefs)
+    private val repository = ArticlesRepository(database, prefs)
 
     private var job = Job()
 
@@ -23,11 +24,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
     var isLastQuerySnackbarShown = false
 
 
-    fun requestMoreArticles(
-        query: String,
-        safeSearchEnabled: Boolean,
-        pageSize: Int
-    ) {
+    fun requestMoreArticles(request: SearchRequest) {
         // Prevent repeating clicks on Show More button
         if (loadingState.value == LoadingState.LOADING) {
             return
@@ -39,7 +36,7 @@ class SearchViewModel(application: Application): AndroidViewModel(application) {
         val scope = CoroutineScope(job + Dispatchers.IO)
 
         scope.launch {
-            repository.loadMoreNews(query, safeSearchEnabled, pageSize)
+            repository.loadMoreNews(request)
         }
     }
 

@@ -1,10 +1,10 @@
-package com.thekorovay.myportfolio.news.database
+package com.thekorovay.myportfolio.database
 
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.thekorovay.myportfolio.news.domain_model.Article
+import com.thekorovay.myportfolio.search_news.domain_model.Article
 
 @Keep
 @Entity(tableName = ARTICLES_TABLE_NAME)

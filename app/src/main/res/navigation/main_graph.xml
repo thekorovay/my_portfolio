@@ -29,7 +29,7 @@
         android:label="@string/menu_about" />
     <fragment
         android:id="@+id/searchParamsFragment"
-        android:name="com.thekorovay.myportfolio.news.fragments.SearchParamsFragment"
+        android:name="com.thekorovay.myportfolio.search_news.fragments.SearchParamsFragment"
         android:label="@string/search_news">
         <action
             android:id="@+id/action_searchParamsFragment_to_searchResultsFragment"
@@ -41,15 +41,15 @@
     </fragment>
     <fragment
         android:id="@+id/readArticleFragment"
-        android:name="com.thekorovay.myportfolio.news.fragments.ReadArticleFragment"
+        android:name="com.thekorovay.myportfolio.search_news.fragments.ReadArticleFragment"
         android:label="@string/article">
         <argument
             android:name="article"
-            app:argType="com.thekorovay.myportfolio.news.domain_model.Article" />
+            app:argType="com.thekorovay.myportfolio.search_news.domain_model.Article" />
     </fragment>
     <fragment
         android:id="@+id/searchResultsFragment"
-        android:name="com.thekorovay.myportfolio.news.fragments.SearchResultsFragment"
+        android:name="com.thekorovay.myportfolio.search_news.fragments.SearchResultsFragment"
         android:label="@string/search_results">
         <action
             android:id="@+id/action_searchResultsFragment_to_readArticleFragment"
@@ -59,24 +59,11 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <argument
-            android:name="query"
-            app:argType="string"
-            android:defaultValue="no_value" />
-        <argument
-            android:name="safeSearchEnabled"
-            app:argType="boolean"
-            android:defaultValue="true" />
-        <argument
             android:name="lastSearchQuery"
             app:argType="string"
             app:nullable="true" />
         <argument
-            android:name="thumbnailsEnabled"
-            app:argType="boolean"
-            android:defaultValue="true" />
-        <argument
-            android:name="pageSize"
-            app:argType="integer"
-            android:defaultValue="10" />
+            android:name="searchRequest"
+            app:argType="com.thekorovay.myportfolio.search_news.domain_model.SearchRequest" />
     </fragment>
 </navigation>

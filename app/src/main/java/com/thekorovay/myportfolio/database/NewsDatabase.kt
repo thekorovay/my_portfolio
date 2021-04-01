@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.news.database
+package com.thekorovay.myportfolio.database
 
 import android.content.Context
 import androidx.lifecycle.LiveData

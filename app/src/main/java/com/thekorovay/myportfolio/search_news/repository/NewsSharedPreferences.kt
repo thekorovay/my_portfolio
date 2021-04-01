@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.news.repository
+package com.thekorovay.myportfolio.search_news.repository
 
 import android.content.Context
 

@@ -7,11 +7,11 @@
 
         <variable
             name="article"
-            type="com.thekorovay.myportfolio.news.domain_model.Article" />
+            type="com.thekorovay.myportfolio.search_news.domain_model.Article" />
 
         <variable
             name="clickListener"
-            type="com.thekorovay.myportfolio.news.recycler_view.NewsItemClickListener" />
+            type="com.thekorovay.myportfolio.search_news.recycler_view.NewsItemClickListener" />
     </data>
 
     <androidx.cardview.widget.CardView

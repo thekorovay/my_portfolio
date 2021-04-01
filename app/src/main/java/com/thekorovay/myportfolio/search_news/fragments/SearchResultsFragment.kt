@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.news.fragments
+package com.thekorovay.myportfolio.search_news.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,13 +12,13 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchArticlesListBinding
-import com.thekorovay.myportfolio.news.domain_model.Article
-import com.thekorovay.myportfolio.news.recycler_view.RecyclerViewAdapter
-import com.thekorovay.myportfolio.news.viewmodel.SearchViewModel
-import com.thekorovay.myportfolio.news.network.LoadingState
-import com.thekorovay.myportfolio.news.recycler_view.NewsItemClickListener
-import com.thekorovay.myportfolio.news.recycler_view.NewsListItem
-import com.thekorovay.myportfolio.news.recycler_view.ShowMoreClickListener
+import com.thekorovay.myportfolio.search_news.domain_model.Article
+import com.thekorovay.myportfolio.search_news.recycler_view.RecyclerViewAdapter
+import com.thekorovay.myportfolio.search_news.viewmodel.SearchViewModel
+import com.thekorovay.myportfolio.search_news.network.LoadingState
+import com.thekorovay.myportfolio.search_news.recycler_view.NewsItemClickListener
+import com.thekorovay.myportfolio.search_news.recycler_view.NewsListItem
+import com.thekorovay.myportfolio.search_news.recycler_view.ShowMoreClickListener
 
 class SearchResultsFragment: Fragment() {
 
@@ -57,7 +57,7 @@ class SearchResultsFragment: Fragment() {
         viewModel.articles.observe(viewLifecycleOwner) { articles ->
             // Map Articles to ListItems with or without thumbs
             val listItems = articles.map {
-                if (args.thumbnailsEnabled) {
+                if (args.searchRequest.thumbnailsEnabled) {
                     NewsListItem.ArticleItem(it)
                 } else {
                     NewsListItem.ArticleNoThumbnailItem(it)
@@ -114,13 +114,7 @@ class SearchResultsFragment: Fragment() {
     }
 
     private fun showMoreNews() {
-        args.run {
-            viewModel.requestMoreArticles(
-                query,
-                safeSearchEnabled,
-                pageSize
-            )
-        }
+        viewModel.requestMoreArticles(args.searchRequest)
     }
 
     private fun showLoadingErrorSnack() {
