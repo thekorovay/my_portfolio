@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.thekorovay.myportfolio.R
@@ -54,6 +55,11 @@ class AboutFragment : Fragment() {
             ivIcon.setImageResource(R.drawable.ic_whatsapp_black)
             root.setOnClickListener { openWhatsapp() }
         }
+        binding.contactGithub.apply {
+            tvContact.text = getString(R.string.contact_github)
+            ivIcon.setImageResource(R.drawable.ic_github_black)
+            root.setOnClickListener { checkSourceCode() }
+        }
     }
 
     private fun makeTelephoneCall() {
@@ -100,6 +106,13 @@ class AboutFragment : Fragment() {
         )
 
         startActivityOrCopyToClipboard(whatsappIntent, "Whatsapp ID", whatsappId)
+    }
+
+    private fun checkSourceCode() {
+        val nickname = getString(R.string.contact_github)
+        val link = getString(R.string.contact_github_link, nickname)
+        val intent = Intent(Intent.ACTION_VIEW, link.toUri())
+        startActivityOrCopyToClipboard(intent, "Github Link", link)
     }
 
     private fun startActivityOrCopyToClipboard(someIntent: Intent, label: String, text: String) {

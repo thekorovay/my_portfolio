@@ -1,10 +1,8 @@
 package com.thekorovay.myportfolio.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -46,36 +44,41 @@ class MainFragment : Fragment() {
     }
 
     private fun setCards() {
-        binding.cardPlay.apply {
-            tvTitle.text = getString(R.string.card_play_game)
-            ivIcon.setImageResource(R.drawable.ic_play)
-            root.setOnClickListener { playGame() }
+        binding.cardSignInOut.apply {
+            //todo set values depending on viewmodel
+            tvTitle.text = getString(R.string.card_sign_in)
+            ivIcon.setImageResource(R.drawable.ic_sign_in)
+            root.setOnClickListener { signIn() }
         }
 
-        binding.cardNews.apply {
+        binding.cardSearchNews.apply {
             tvTitle.text = getString(R.string.card_news)
             ivIcon.setImageResource(R.drawable.ic_news)
-            root.setOnClickListener { readNews() }
+            root.setOnClickListener { searchNews() }
         }
 
-        binding.cardSourceCode.apply {
-            tvTitle.text = getString(R.string.card_src_code)
-            ivIcon.setImageResource(R.drawable.ic_source_code)
-            root.setOnClickListener { checkSourceCode() }
+        binding.cardSearchHistory.apply {
+            tvTitle.text = getString(R.string.card_search_history)
+            ivIcon.setImageResource(R.drawable.ic_search_history)
+            root.setOnClickListener { showSearchHistory() }
         }
     }
 
-    private fun playGame() {
-        Toast.makeText(requireContext(), "PLAY", Toast.LENGTH_SHORT).show()
+    private fun signIn() {
+        Toast.makeText(requireContext(), "signIn", Toast.LENGTH_SHORT).show()
     }
 
-    private fun readNews() {
+    private fun signOut() {
+        Toast.makeText(requireContext(), "signOut", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun searchNews() {
         findNavController().navigate(
             MainFragmentDirections.actionMainFragmentToSearchParamsFragment()
         )
     }
 
-    private fun checkSourceCode() {
-        startActivity(Intent(Intent.ACTION_VIEW, getString(R.string.github_project_link).toUri()))
+    private fun showSearchHistory() {
+        Toast.makeText(requireContext(), "showSearchHistory", Toast.LENGTH_SHORT).show()
     }
 }

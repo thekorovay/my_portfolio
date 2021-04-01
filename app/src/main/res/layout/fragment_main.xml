@@ -38,7 +38,7 @@
                 app:layout_constraintWidth_percent="0.9" />
 
             <include
-                android:id="@+id/card_play"
+                android:id="@+id/card_sign_in_out"
                 layout="@layout/card_main_activity"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -49,7 +49,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_subtitle" />
 
             <include
-                android:id="@+id/card_news"
+                android:id="@+id/card_search_news"
                 layout="@layout/card_main_activity"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -57,10 +57,10 @@
                 app:layout_constraintDimensionRatio="8:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_play" />
+                app:layout_constraintTop_toBottomOf="@id/card_sign_in_out" />
 
             <include
-                android:id="@+id/card_source_code"
+                android:id="@+id/card_search_history"
                 layout="@layout/card_main_activity"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -68,7 +68,7 @@
                 app:layout_constraintDimensionRatio="8:3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/card_news" />
+                app:layout_constraintTop_toBottomOf="@id/card_search_news" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
