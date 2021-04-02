@@ -20,7 +20,7 @@ interface ArticlesDao {
 
 @Dao
 interface SearchHistoryDao {
-    @Query("SELECT * FROM search_history LIMIT 1")
+    @Query("SELECT * FROM search_history ORDER BY date_time DESC LIMIT 1")
     fun getLastRequest(): LiveData<DatabaseSearchRequest?>
 
     @Query("SELECT * FROM search_history ORDER BY date_time DESC")
