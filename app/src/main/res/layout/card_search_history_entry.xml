@@ -15,12 +15,11 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:background="?colorSurface"
-        android:onClick="@{() -> clickListener.onClick(request, card)}"
+        android:onClick="@{() -> clickListener.onClick(request)}"
         app:cardCornerRadius="12dp"
         app:cardElevation="12dp">
 

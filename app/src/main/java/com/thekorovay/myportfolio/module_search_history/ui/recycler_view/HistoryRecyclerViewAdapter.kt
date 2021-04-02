@@ -13,6 +13,5 @@ class HistoryRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
         holder.bind(getItem(position), historyClickListener)
-        holder.itemView.transitionName = getItem(position).dateTime
     }
 }

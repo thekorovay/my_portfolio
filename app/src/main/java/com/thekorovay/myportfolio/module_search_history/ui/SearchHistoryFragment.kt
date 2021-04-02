@@ -4,12 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.database.DatabaseSearchRequest
 import com.thekorovay.myportfolio.databinding.FragmentSearchHistoryBinding
@@ -22,6 +21,13 @@ class SearchHistoryFragment: Fragment() {
     private val viewModel by lazy {
         ViewModelProvider(this, SearchHistoryViewModel.Factory(requireActivity().application))
             .get(SearchHistoryViewModel::class.java)
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onCreateView(
@@ -37,7 +43,7 @@ class SearchHistoryFragment: Fragment() {
         )
 
         val historyAdapter = HistoryRecyclerViewAdapter(
-            HistoryClickListener { request, view -> startSearchRequest(request, view) }
+            HistoryClickListener { request -> startSearchRequest(request) }
         )
         binding.rvSearchHistory.adapter = historyAdapter
 
@@ -51,20 +57,11 @@ class SearchHistoryFragment: Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
-    }
-
-    private fun startSearchRequest(request: DatabaseSearchRequest, sharedView: View) {
+    private fun startSearchRequest(request: DatabaseSearchRequest) {
         val searchRequest = request.toSearchRequest()
-        val extras = FragmentNavigatorExtras(sharedView to request.dateTime)
 
         findNavController().navigate(
-            SearchHistoryFragmentDirections.actionSearchHistoryFragmentToSearchParamsFragment(searchRequest),
-            extras
+            SearchHistoryFragmentDirections.actionSearchHistoryFragmentToSearchParamsFragment(searchRequest)
         )
     }
 }

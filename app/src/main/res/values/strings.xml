@@ -1,14 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">My Portfolio</string>
 
-<!--    Main fragment-->
-    <string name="welcome">Welcome</string>
-    <string name="explore_features">to the news app!</string>
-
-    <string name="card_news">Search News</string>
-    <string name="card_search_history">Search History</string>
-    <string name="card_sign_in">Sign In</string>
-    <string name="card_sign_out">Sign Out</string>
+<!--    Main Activity-->
+    <string name="search">Search</string>
+    <string name="profile">Profile</string>
+    <string name="history">History</string>
 
 <!--    About fragment-->
     <string name="menu_about">About</string>
@@ -26,6 +22,7 @@
     <string name="contact_whatsapp_link" translatable="false">https://api.whatsapp.com/send?phone=%s</string>
     <string name="contact_github" translatable="false">thekorovay</string>
     <string name="contact_github_link" translatable="false">https://github.com/%s/my_portfolio</string>
+    <string name="contact_icon">Contact icon</string>
 
     <string name="check_source_code_here">You can check source code of this app here:</string>
 
@@ -40,7 +37,6 @@
     <string name="open_articles_in_external_browser">Open articles in external browser</string>
     <string name="results_per_page">Results per page</string>
     <string name="search_news">Search News</string>
-    <string name="search">Search</string>
     <string name="last_search_results">Show last search results</string>
     <string name="content_desc_picture_for_article">Picture for article</string>
     <string name="content_desc_no_internet">No internet picture</string>
@@ -67,5 +63,4 @@
     <string name="content_desc_clear_search_history_button">Clear search history Button</string>
     <string name="search_history_is_empty">Search history is empty</string>
     <string name="search_history_fragment_label">Search History</string>
-    <string name="contact_icon">Contact icon</string>
 </resources>

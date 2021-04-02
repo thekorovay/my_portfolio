@@ -49,7 +49,7 @@ fun Button.setActive(isActive: Boolean) {
     isEnabled = isActive
     setTextColor(ContextCompat.getColor(
         context,
-        if (isActive) R.color.blue_500 else R.color.grey_800
+        if (isActive) R.color.blue_500 else R.color.grey_500
     ))
 }
 

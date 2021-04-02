@@ -2,19 +2,16 @@ package com.thekorovay.myportfolio.module_news.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
-import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.MaterialContainerTransform
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
@@ -39,9 +36,8 @@ class SearchParamsFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        sharedElementEnterTransition = MaterialContainerTransform()
-
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
@@ -59,11 +55,9 @@ class SearchParamsFragment: Fragment() {
             false
         )
 
-        setupSpinner()
+        setHasOptionsMenu(true)
 
-        args.request?.let {
-            binding.root.transitionName = it.dateTime
-        }
+        setupSpinner()
 
         binding.btnSearch.setOnClickListener { search() }
         binding.btnShowLastSearch.setOnClickListener { showLastSearchResults() }
@@ -81,9 +75,7 @@ class SearchParamsFragment: Fragment() {
         }
 
         viewModel.newSearchRequest.observe(viewLifecycleOwner) { request ->
-            request?.let {
-                navigateToSearchResults(it)
-            }
+            navigateToSearchResults(request, false)
         }
 
         return binding.root
@@ -102,6 +94,16 @@ class SearchParamsFragment: Fragment() {
                 spinnerPageSize.setPageSize(request.pageSize)
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.about_app_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item, findNavController())
+                || super.onOptionsItemSelected(item)
     }
 
     private fun setupSpinner() {
@@ -140,29 +142,23 @@ class SearchParamsFragment: Fragment() {
 
     private fun showLastSearchResults() {
         hideKeyboardIfShown()
-
-        lastRequest?.let { request ->
-            findNavController().navigate(
-                SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
-                    searchRequest = request,
-                    showingLastSearchResults = true
-                )
-            )
-        }
+        navigateToSearchResults(lastRequest, true)
     }
 
     private fun showEmptyQueryWarning() {
         Snackbar.make(binding.root, R.string.snack_enter_query, Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun navigateToSearchResults(request: SearchRequest) {
-        findNavController().navigate(
-            SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
-                searchRequest = request,
-                showingLastSearchResults = false
+    private fun navigateToSearchResults(request: SearchRequest?, showingLastSearchResults: Boolean) {
+        request?.let {
+            findNavController().navigate(
+                SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(
+                    searchRequest = it,
+                    showingLastSearchResults = showingLastSearchResults
+                )
             )
-        )
 
-        viewModel.setNavigationToResultsCompleted()
+            viewModel.setNavigationToResultsCompleted()
+        }
     }
 }

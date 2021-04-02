@@ -2,34 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_graph"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/searchParamsFragment">
 
-    <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.thekorovay.myportfolio.module_main.MainFragment"
-        android:label="@string/app_name">
-        <action
-            android:id="@+id/action_mainFragment_to_aboutFragment"
-            app:destination="@id/aboutFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_mainFragment_to_searchParamsFragment"
-            app:destination="@id/searchParamsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_mainFragment_to_searchHistoryFragment"
-            app:destination="@id/searchHistoryFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.thekorovay.myportfolio.module_about.AboutFragment"
@@ -40,15 +14,15 @@
         android:label="@string/search_news">
         <action
             android:id="@+id/action_searchParamsFragment_to_searchResultsFragment"
-            app:destination="@id/searchResultsFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/searchResultsFragment" />
         <argument
             android:name="request"
             app:argType="com.thekorovay.myportfolio.domain_model.SearchRequest"
-            app:nullable="true" />
+            app:nullable="true"
+            android:defaultValue="@null" />
+        <action
+            android:id="@+id/action_searchParamsFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment"/>
     </fragment>
     <fragment
         android:id="@+id/readArticleFragment"
@@ -64,11 +38,7 @@
         android:label="@string/search_results">
         <action
             android:id="@+id/action_searchResultsFragment_to_readArticleFragment"
-            app:destination="@id/readArticleFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/readArticleFragment"  />
         <argument
             android:name="showingLastSearchResults"
             app:argType="boolean" />
@@ -85,7 +55,12 @@
             app:destination="@id/searchParamsFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/searchParamsFragment" />
     </fragment>
+    <fragment android:id="@+id/placeholder" />
+
+
 </navigation>
