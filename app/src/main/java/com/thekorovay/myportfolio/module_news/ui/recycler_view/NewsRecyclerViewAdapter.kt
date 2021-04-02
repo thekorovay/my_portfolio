@@ -1,8 +1,10 @@
 package com.thekorovay.myportfolio.module_news.ui.recycler_view
 
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.card_news_article_adapter.view.*
 import java.lang.Exception
 
 class NewsRecyclerViewAdapter(
@@ -24,10 +26,12 @@ class NewsRecyclerViewAdapter(
             is ArticleViewHolder -> {
                 val articleItem = getItem(position) as NewsListItem.ArticleItem
                 holder.bind(articleItem.article, newsItemClickListener)
+                holder.itemView.transitionName = getItem(position).id
             }
             is ArticleViewHolderNoThumbnail -> {
                 val articleItem = getItem(position) as NewsListItem.ArticleNoThumbnailItem
                 holder.bind(articleItem.article, newsItemClickListener)
+                holder.itemView.transitionName = getItem(position).id
             }
             is ShowMoreViewHolder -> {
                 holder.bind(showMoreClickListener)

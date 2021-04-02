@@ -1,15 +1,21 @@
 package com.thekorovay.myportfolio.module_news.ui
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchArticlesListBinding
 import com.thekorovay.myportfolio.domain_model.Article
@@ -47,7 +53,7 @@ class SearchResultsFragment: Fragment() {
 
 
         val newsAdapter = NewsRecyclerViewAdapter(
-            NewsItemClickListener { article -> readArticle(article) },
+            NewsItemClickListener { article, view -> readArticle(article, view) },
             ShowMoreClickListener { showMoreNews() }
         )
         binding.rvSearchResults.adapter = newsAdapter
@@ -97,6 +103,9 @@ class SearchResultsFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+
         // Initiate loading news for the first page or show snack with last search query
         if (!args.showingLastSearchResults) {
             showMoreNews()
@@ -105,6 +114,9 @@ class SearchResultsFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
 
         if (args.showingLastSearchResults && !viewModel.isLastQuerySnackbarShown) {
             showLastSearchQuerySnack()
@@ -128,11 +140,13 @@ class SearchResultsFragment: Fragment() {
             .show()
     }
 
-    private fun readArticle(article: Article) {
+    private fun readArticle(article: Article, sharedView: View) {
+        val extras = FragmentNavigatorExtras(sharedView to article.id)
         findNavController().navigate(
             SearchResultsFragmentDirections.actionSearchResultsFragmentToReadArticleFragment(
                 article
-            )
+            ),
+            extras
         )
     }
 }

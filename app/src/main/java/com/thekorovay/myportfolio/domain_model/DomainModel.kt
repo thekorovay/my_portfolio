@@ -24,6 +24,7 @@ data class Article(
 
 @Parcelize
 data class SearchRequest(
+    val dateTime: String,
     val query: String,
     val safeSearchEnabled: Boolean,
     val thumbnailsEnabled: Boolean,
@@ -31,7 +32,7 @@ data class SearchRequest(
 ): Parcelable {
 
     fun toDatabaseSearchRequest() = DatabaseSearchRequest(
-        dateTime = LocalDateTime.now().toString(),
+        dateTime = this.dateTime,
         query = this.query,
         safeSearchEnabled = this.safeSearchEnabled,
         thumbnailsEnabled = this.thumbnailsEnabled,

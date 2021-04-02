@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.thekorovay.myportfolio.database.getNewsDatabase
 import com.thekorovay.myportfolio.domain_model.SearchRequest
+import java.time.LocalDateTime
 
 class SearchParamsViewModel(application: Application): AndroidViewModel(application) {
 
@@ -33,7 +34,13 @@ class SearchParamsViewModel(application: Application): AndroidViewModel(applicat
             return
         }
 
-        _newSearchRequest.value = SearchRequest(trimmedQuery, safeSearchEnabled, thumbnailsEnabled, pageSize)
+        _newSearchRequest.value = SearchRequest(
+            LocalDateTime.now().toString(),
+            trimmedQuery,
+            safeSearchEnabled,
+            thumbnailsEnabled,
+            pageSize
+        )
     }
 
     fun setInvalidQueryWarningShown() { _invalidQueryFlag.value = false }

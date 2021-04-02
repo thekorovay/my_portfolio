@@ -7,12 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
+import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
 import com.thekorovay.myportfolio.domain_model.SearchRequest
@@ -33,6 +36,17 @@ class SearchParamsFragment: Fragment() {
 
     private var lastRequest: SearchRequest? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedElementEnterTransition = MaterialContainerTransform()
+
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+    }
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,6 +60,10 @@ class SearchParamsFragment: Fragment() {
         )
 
         setupSpinner()
+
+        args.request?.let {
+            binding.root.transitionName = it.dateTime
+        }
 
         binding.btnSearch.setOnClickListener { search() }
         binding.btnShowLastSearch.setOnClickListener { showLastSearchResults() }

@@ -53,6 +53,7 @@ data class DatabaseSearchRequest(
     @ColumnInfo(name = "page_size") val pageSize: Int
 ) {
     fun toSearchRequest() = SearchRequest(
+        dateTime = this.dateTime,
         query = this.query,
         safeSearchEnabled = this.safeSearchEnabled,
         thumbnailsEnabled = this.thumbnailsEnabled,

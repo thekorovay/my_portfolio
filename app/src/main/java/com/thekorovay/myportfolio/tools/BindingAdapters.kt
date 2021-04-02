@@ -8,8 +8,6 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.thekorovay.myportfolio.R
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 @BindingAdapter("imageUrlRound")
 fun ImageView.setRoundImageUrl(url: String) {
@@ -51,7 +49,7 @@ fun Button.setActive(isActive: Boolean) {
     isEnabled = isActive
     setTextColor(ContextCompat.getColor(
         context,
-        if (isActive) R.color.blue_700 else R.color.grey_500
+        if (isActive) R.color.blue_500 else R.color.grey_800
     ))
 }
 

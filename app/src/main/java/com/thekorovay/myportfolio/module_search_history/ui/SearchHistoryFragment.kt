@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.database.DatabaseSearchRequest
@@ -35,7 +37,7 @@ class SearchHistoryFragment: Fragment() {
         )
 
         val historyAdapter = HistoryRecyclerViewAdapter(
-            HistoryClickListener { request -> startSearchRequest(request) }
+            HistoryClickListener { request, view -> startSearchRequest(request, view) }
         )
         binding.rvSearchHistory.adapter = historyAdapter
 
@@ -49,11 +51,20 @@ class SearchHistoryFragment: Fragment() {
         return binding.root
     }
 
-    private fun startSearchRequest(request: DatabaseSearchRequest) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
+    }
+
+    private fun startSearchRequest(request: DatabaseSearchRequest, sharedView: View) {
         val searchRequest = request.toSearchRequest()
+        val extras = FragmentNavigatorExtras(sharedView to request.dateTime)
 
         findNavController().navigate(
-            SearchHistoryFragmentDirections.actionSearchHistoryFragmentToSearchParamsFragment(searchRequest)
+            SearchHistoryFragmentDirections.actionSearchHistoryFragmentToSearchParamsFragment(searchRequest),
+            extras
         )
     }
 }

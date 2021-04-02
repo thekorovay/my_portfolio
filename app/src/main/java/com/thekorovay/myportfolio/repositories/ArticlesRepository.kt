@@ -52,11 +52,15 @@ class ArticlesRepository(private val database: NewsDatabase) {
                 else -> {
                     // Successfully received new articles
                     _loadingState.postValue(LoadingState.SUCCESS)
-                    nextPageNumber++
                     database.run {
+                        // Add new articles to cache
                         articlesDao().insertAll(*response.databaseArticles)
-                        searchHistoryDao().insertAll(request.toDatabaseSearchRequest())
+                        // Add search request to history only once, not after click on 'Show More' button
+                        if (nextPageNumber == FIRST_PAGE_NUMBER) {
+                            searchHistoryDao().insertAll(request.toDatabaseSearchRequest())
+                        }
                     }
+                    nextPageNumber++
                 }
             }
         } catch (e: Exception) {
