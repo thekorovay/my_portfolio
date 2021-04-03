@@ -44,4 +44,12 @@
     <style name="ButtonStyle">
         <item name="android:textSize">18sp</item>
     </style>
+
+
+
+    <style name="ToolbarStyle">
+        <item name="android:background">?android:colorBackground</item>
+        <item name="navigationIconTint">?colorPrimary</item>
+        <item name="colorControlNormal">?colorPrimary</item>
+    </style>
 </resources>

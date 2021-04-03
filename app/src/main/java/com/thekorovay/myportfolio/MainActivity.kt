@@ -2,18 +2,13 @@ package com.thekorovay.myportfolio
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
-import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.ActivityMainBinding
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,12 +26,12 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.myNavHostFragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        binding.bottomBar.setupWithNavController(navController)
-
         val topLevelDests = setOf(R.id.placeholder, R.id.searchParamsFragment, R.id.searchHistoryFragment)
         val config = AppBarConfiguration.Builder(topLevelDests)
             .build()
-        NavigationUI.setupActionBarWithNavController(this, navController, config)
+
+        binding.bottomBar.setupWithNavController(navController)
+        binding.mainToolbar.setupWithNavController(navController, config)
 
         // Prevent navigation to top-level destination from itself
         binding.bottomBar.setOnNavigationItemReselectedListener { selected ->
@@ -50,6 +45,11 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(selected.itemId, null, options)
                 }
             }
+        }
+
+        // Force Toolbar expanding in all destinations
+        navController.addOnDestinationChangedListener { _, _, _ ->
+            binding.appBarLayout.setExpanded(true, true)
         }
     }
 

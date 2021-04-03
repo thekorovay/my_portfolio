@@ -26,12 +26,10 @@ class NewsRecyclerViewAdapter(
             is ArticleViewHolder -> {
                 val articleItem = getItem(position) as NewsListItem.ArticleItem
                 holder.bind(articleItem.article, newsItemClickListener)
-                holder.itemView.transitionName = getItem(position).id
             }
             is ArticleViewHolderNoThumbnail -> {
                 val articleItem = getItem(position) as NewsListItem.ArticleNoThumbnailItem
                 holder.bind(articleItem.article, newsItemClickListener)
-                holder.itemView.transitionName = getItem(position).id
             }
             is ShowMoreViewHolder -> {
                 holder.bind(showMoreClickListener)

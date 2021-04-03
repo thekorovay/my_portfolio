@@ -15,12 +15,11 @@
     </data>
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:background="?colorSurface"
-        android:onClick="@{() -> clickListener.onClick(article, card)}"
+        android:onClick="@{() -> clickListener.onClick(article)}"
         app:cardCornerRadius="12dp"
         app:cardElevation="12dp">
 
@@ -40,7 +39,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.225"
-                tools:src="@drawable/ic_news" />
+                tools:src="@mipmap/icon_round" />
 
             <TextView
                 android:id="@+id/tv_title"

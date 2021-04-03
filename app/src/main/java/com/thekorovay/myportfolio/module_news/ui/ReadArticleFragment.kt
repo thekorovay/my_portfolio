@@ -9,8 +9,7 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import androidx.transition.ChangeTransform
-import com.google.android.material.transition.MaterialContainerTransform
+import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchReadArticleBinding
 
@@ -20,7 +19,9 @@ class ReadArticleFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = MaterialContainerTransform()
+
+        enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
 
     override fun onCreateView(
@@ -34,8 +35,6 @@ class ReadArticleFragment: Fragment() {
             container,
             false
         )
-
-        binding.root.transitionName = args.article.id
 
         binding.article = args.article
 

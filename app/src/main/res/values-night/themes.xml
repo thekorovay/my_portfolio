@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.MyPortfolio" parent="Theme.MaterialComponents.DayNight">
 
@@ -13,7 +13,8 @@
         <item name="colorSecondaryVariant">@color/grey_800</item>
         <item name="colorOnSecondary">@color/black</item>
 
-        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:statusBarColor">?colorPrimary</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="M">false</item>
 
         <item name="android:textColor">@color/white</item>
 

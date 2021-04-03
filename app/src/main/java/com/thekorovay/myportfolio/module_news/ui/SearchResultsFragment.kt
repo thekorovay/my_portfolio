@@ -1,11 +1,9 @@
 package com.thekorovay.myportfolio.module_news.ui
 
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.doOnPreDraw
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -51,7 +49,7 @@ class SearchResultsFragment: Fragment() {
 
 
         val newsAdapter = NewsRecyclerViewAdapter(
-            NewsItemClickListener { article, view -> readArticle(article, view) },
+            NewsItemClickListener { article -> readArticle(article) },
             ShowMoreClickListener { showMoreNews() }
         )
         binding.rvSearchResults.adapter = newsAdapter
@@ -103,6 +101,8 @@ class SearchResultsFragment: Fragment() {
 
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         returnTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
+        exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
 
         // Initiate loading news for the first page or show snack with last search query
         if (!args.showingLastSearchResults) {
@@ -112,9 +112,6 @@ class SearchResultsFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        postponeEnterTransition()
-        view.doOnPreDraw { startPostponedEnterTransition() }
 
         if (args.showingLastSearchResults && !viewModel.isLastQuerySnackbarShown) {
             showLastSearchQuerySnack()
@@ -138,13 +135,11 @@ class SearchResultsFragment: Fragment() {
             .show()
     }
 
-    private fun readArticle(article: Article, sharedView: View) {
-        val extras = FragmentNavigatorExtras(sharedView to article.id)
+    private fun readArticle(article: Article) {
         findNavController().navigate(
             SearchResultsFragmentDirections.actionSearchResultsFragmentToReadArticleFragment(
                 article
-            ),
-            extras
+            )
         )
     }
 }
