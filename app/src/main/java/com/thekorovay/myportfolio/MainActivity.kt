@@ -8,6 +8,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.thekorovay.myportfolio.databinding.ActivityMainBinding
+import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,13 +48,9 @@ class MainActivity : AppCompatActivity() {
                 var poppedBackStack = false
 
                 if (menuItem.itemId == R.id.searchParamsFragment) {
-                    if (!poppedBackStack) {
-                        poppedBackStack = navController.popBackStack(R.id.readArticleFragment, false)
-                    }
-
-                    if (!poppedBackStack) {
-                        poppedBackStack = navController.popBackStack(R.id.searchResultsFragment, false)
-                    }
+                    poppedBackStack = tryPopBackStack(
+                        R.id.aboutFragment, R.id.readArticleFragment, R.id.searchResultsFragment
+                    )
                 }
 
                 // Todo: save backstack of login flow too
@@ -79,6 +76,20 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, _, _ ->
             binding.appBarLayout.setExpanded(true, true)
         } */
+    }
+
+    private fun tryPopBackStack(vararg destinations: Int): Boolean {
+        var poppedBackStack = false
+
+        destinations.forEach { dest ->
+            if (!poppedBackStack) {
+                poppedBackStack = navController.popBackStack(dest, false)
+            } else {
+                return@forEach
+            }
+        }
+
+        return poppedBackStack
     }
 
     override fun onSupportNavigateUp() = navController.navigateUp()
