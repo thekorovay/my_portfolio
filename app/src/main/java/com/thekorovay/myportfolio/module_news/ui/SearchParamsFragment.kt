@@ -135,7 +135,8 @@ class SearchParamsFragment: Fragment() {
     }
 
     private fun showEmptyQueryWarning() {
-        Snackbar.make(binding.root, R.string.snack_enter_query, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(binding.root, R.string.snack_enter_query, Snackbar.LENGTH_SHORT)
+            .show()
     }
 
     private fun navigateToSearchResults(request: SearchRequest?, showingLastSearchResults: Boolean) {

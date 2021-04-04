@@ -54,12 +54,13 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:padding="6dp"
+            android:visibility="@{isNoHistoryMessageVisible ? View.GONE : View.VISIBLE}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <TextView
             android:id="@+id/tv_no_history"
-            style="@style/MainSubtitleTextStyle"
+            style="@style/TitleTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

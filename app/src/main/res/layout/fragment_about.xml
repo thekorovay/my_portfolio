@@ -55,7 +55,7 @@
 
                 <TextView
                     android:id="@+id/tv_title"
-                    style="@style/MainSubtitleTextStyle"
+                    style="@style/TitleTextStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"

@@ -42,28 +42,41 @@ class ArticlesRepository(private val database: NewsDatabase) {
             )
 
             when {
-                response.isError -> _loadingState.postValue(LoadingState.ERROR)
-                response.isEmpty -> _loadingState.postValue(LoadingState.EMPTY_PAGE)
+                response.isError -> {
+                    _loadingState.postValue(LoadingState.ERROR)
+                }
+                response.isEmpty -> {
+                    _loadingState.postValue(LoadingState.EMPTY_PAGE)
+
+                    // Clear cache and update history only when loading first page
+                    if (nextPageNumber == FIRST_PAGE_NUMBER) {
+                        clearCacheAndUpdateHistory(database, request)
+                    }
+                }
                 else -> {
                     // Successfully received new articles
                     _loadingState.postValue(LoadingState.SUCCESS)
-                    database.run {
-                        // Clear previous search results cache
-                        if (nextPageNumber == FIRST_PAGE_NUMBER) {
-                            articlesDao().clearAll()
-                        }
-                        // Add new articles to cache
-                        articlesDao().insertAll(*response.databaseArticles)
-                        // Add search request to history only once, not after click on 'Show More' button
-                        if (nextPageNumber == FIRST_PAGE_NUMBER) {
-                            searchHistoryDao().insertAll(request.toDatabaseSearchRequest())
-                        }
+
+                    // Clear cache and update history only when loading first page
+                    if (nextPageNumber == FIRST_PAGE_NUMBER) {
+                        clearCacheAndUpdateHistory(database, request)
                     }
+
+                    // Add new articles to cache
+                    database.articlesDao().insertAll(*response.databaseArticles)
+
                     nextPageNumber++
                 }
             }
         } catch (e: Exception) {
             _loadingState.postValue(LoadingState.ERROR)
+        }
+    }
+
+    private suspend fun clearCacheAndUpdateHistory(database: NewsDatabase, request: SearchRequest) {
+        database.run {
+            articlesDao().clearAll()
+            searchHistoryDao().insertAll(request.toDatabaseSearchRequest())
         }
     }
 }

@@ -43,7 +43,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                style="@style/NewsCardTitleTextStyle"
+                style="@style/CardTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
@@ -58,7 +58,7 @@
 
             <TextView
                 android:id="@+id/tv_date"
-                style="@style/NewsCardDescriptionTextStyle"
+                style="@style/CardContentTextStyle"
                 articleDate="@{article.datePublished}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
 
             <TextView
                 android:id="@+id/tv_description"
-                style="@style/NewsCardDescriptionTextStyle"
+                style="@style/CardContentTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"

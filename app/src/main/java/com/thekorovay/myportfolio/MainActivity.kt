@@ -8,7 +8,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.thekorovay.myportfolio.databinding.ActivityMainBinding
-import java.lang.Exception
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,13 +18,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        setupNavController()
+
+        setupBottomBar()
+
+        // IF THERE'S SINGLE TOOLBAR IN ACTIVITY LAYOUT
+        // setupSingleToolbar()
+    }
+
+    private fun setupNavController() {
         // Use supportFragmentManager.findFragmentById() instead of
         // findNavController() to find a navController
         // while using androidx.fragment.app.FragmentContainerView in layout
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.mainNavHostFragment) as NavHostFragment
         navController = navHostFragment.navController
+    }
 
+    private fun setupBottomBar() {
         binding.bottomBar.run {
             setupWithNavController(navController)
 
@@ -42,55 +52,17 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
-            // Save backstack of the search news and login flow
-            setOnNavigationItemSelectedListener { menuItem ->
-                var poppedBackStack = false
-
-                if (menuItem.itemId == R.id.searchParamsFragment) {
-                    poppedBackStack = tryPopBackStack(
-                        R.id.aboutFragment, R.id.readArticleFragment, R.id.searchResultsFragment
-                    )
-                }
-
-                // Todo: save backstack of login flow too
-
-                val navOptions = NavOptions.Builder()
-                    .setPopUpTo(menuItem.itemId, false)
-                    .setLaunchSingleTop(true)
-                    .build()
-
-                if (!poppedBackStack) {
-                    navController.navigate(menuItem.itemId, null, navOptions)
-                }
-
-                // Select item in BottomNavView
-                true
-            }
         }
+    }
 
-        // IF THERE'S SINGLE TOOLBAR IN ACTIVITY LAYOUT
-        /*// Allow fragments to set own Toolbar menu items
+    /*private fun setupSingleToolbar() {
+        // Allow fragments to set own Toolbar menu items
         setSupportActionBar(binding.mainToolbar)
         // Force Toolbar expanding in all destinations
         navController.addOnDestinationChangedListener { _, _, _ ->
             binding.appBarLayout.setExpanded(true, true)
-        } */
-    }
-
-    private fun tryPopBackStack(vararg destinations: Int): Boolean {
-        var poppedBackStack = false
-
-        destinations.forEach { dest ->
-            if (!poppedBackStack) {
-                poppedBackStack = navController.popBackStack(dest, false)
-            } else {
-                return@forEach
-            }
         }
-
-        return poppedBackStack
-    }
+    }*/
 
     override fun onSupportNavigateUp() = navController.navigateUp()
 }

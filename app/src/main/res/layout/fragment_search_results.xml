@@ -80,7 +80,7 @@
 
             <TextView
                 android:id="@+id/tv_error_title"
-                style="@style/MainTitleTextStyle"
+                style="@style/TitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/oops"
@@ -94,10 +94,11 @@
 
             <TextView
                 android:id="@+id/tv_error_description"
-                style="@style/MainSubtitleTextStyle"
+                style="@style/ContentTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/no_internet_description"
+                android:textAlignment="center"
                 android:visibility="@{isErrorScreenVisible ? View.VISIBLE : View.GONE}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -108,7 +109,7 @@
 
             <TextView
                 android:id="@+id/tv_no_results"
-                style="@style/MainSubtitleTextStyle"
+                style="@style/TitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/no_news_for_request"

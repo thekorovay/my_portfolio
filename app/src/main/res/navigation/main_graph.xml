@@ -4,6 +4,8 @@
     android:id="@+id/main_graph"
     app:startDestination="@id/searchParamsFragment">
 
+    <fragment android:id="@+id/placeholder" />
+
     <fragment
         android:id="@+id/aboutFragment"
         android:name="com.thekorovay.myportfolio.module_about.AboutFragment"
@@ -17,12 +19,12 @@
             app:destination="@id/searchResultsFragment" />
         <argument
             android:name="request"
+            android:defaultValue="@null"
             app:argType="com.thekorovay.myportfolio.domain_model.SearchRequest"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
         <action
             android:id="@+id/action_searchParamsFragment_to_aboutFragment"
-            app:destination="@id/aboutFragment"/>
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/readArticleFragment"
@@ -38,7 +40,7 @@
         android:label="@string/search_results">
         <action
             android:id="@+id/action_searchResultsFragment_to_readArticleFragment"
-            app:destination="@id/readArticleFragment"  />
+            app:destination="@id/readArticleFragment" />
         <argument
             android:name="showingLastSearchResults"
             app:argType="boolean" />
@@ -49,7 +51,7 @@
     <fragment
         android:id="@+id/searchHistoryFragment"
         android:name="com.thekorovay.myportfolio.module_search_history.ui.SearchHistoryFragment"
-        android:label="@string/search_history_fragment_label" >
+        android:label="@string/search_history_fragment_label">
         <action
             android:id="@+id/action_searchHistoryFragment_to_searchParamsFragment"
             app:destination="@id/searchParamsFragment"
@@ -60,7 +62,5 @@
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/searchParamsFragment" />
     </fragment>
-    <fragment android:id="@+id/placeholder" />
-
 
 </navigation>

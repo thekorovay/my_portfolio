@@ -30,7 +30,7 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                style="@style/NewsCardTitleTextStyle"
+                style="@style/CardTitleTextStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/tv_date_time"
-                style="@style/NewsCardDescriptionTextStyle"
+                style="@style/CardContentTextStyle"
                 historyDateTime="@{request.dateTime}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

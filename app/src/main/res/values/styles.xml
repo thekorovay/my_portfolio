@@ -1,34 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="MainTitleTextStyle">
+    <!-- Text Style -->
+    <style name="TitleTextStyle">
         <item name="android:fontFamily">@font/roboto</item>
+        <item name="android:textSize">24sp</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="MainCardTitleTextStyle">
-        <item name="android:fontFamily">@font/roboto_medium</item>
-        <item name="android:textSize">24sp</item>
-    </style>
-
-    <style name="NewsCardTitleTextStyle" parent="MainCardTitleTextStyle">
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="NewsCardDescriptionTextStyle" parent="NewsCardTitleTextStyle">
-        <item name="android:fontFamily">@font/roboto</item>
-    </style>
-
-    <style name="MainSubtitleTextStyle" parent="MainTitleTextStyle">
-        <item name="android:textSize">24sp</item>
-    </style>
-
-    <style name="NewsTitleTextStyle" parent="MainTitleTextStyle">
+    <style name="ContentTextStyle" parent="TitleTextStyle">
         <item name="android:textAlignment">textStart</item>
-    </style>
-
-    <style name="ContentTextStyle" parent="NewsTitleTextStyle">
         <item name="android:textSize">20sp</item>
     </style>
 
@@ -36,6 +17,18 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+
+    <style name="CardTitleTextStyle">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="CardContentTextStyle" parent="CardTitleTextStyle">
+        <item name="android:fontFamily">@font/roboto</item>
+    </style>
+
+
+    <!-- Button Style -->
     <style name="ActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">18sp</item>
@@ -46,7 +39,7 @@
     </style>
 
 
-
+    <!-- Toolbar Style -->
     <style name="ToolbarStyle">
         <item name="android:background">?android:colorBackground</item>
         <item name="navigationIconTint">?colorPrimary</item>
