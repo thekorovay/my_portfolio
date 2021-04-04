@@ -33,11 +33,6 @@ class ArticlesRepository(private val database: NewsDatabase) {
     suspend fun loadMoreNews(request: SearchRequest) {
         _loadingState.postValue(LoadingState.LOADING)
 
-        // Clear previous search results cache
-        if (nextPageNumber == FIRST_PAGE_NUMBER) {
-            database.articlesDao().clearAll()
-        }
-
         try {
             val response = newsApi.requestNewsArticlesAsync(
                 request.query,
@@ -53,6 +48,10 @@ class ArticlesRepository(private val database: NewsDatabase) {
                     // Successfully received new articles
                     _loadingState.postValue(LoadingState.SUCCESS)
                     database.run {
+                        // Clear previous search results cache
+                        if (nextPageNumber == FIRST_PAGE_NUMBER) {
+                            articlesDao().clearAll()
+                        }
                         // Add new articles to cache
                         articlesDao().insertAll(*response.databaseArticles)
                         // Add search request to history only once, not after click on 'Show More' button
