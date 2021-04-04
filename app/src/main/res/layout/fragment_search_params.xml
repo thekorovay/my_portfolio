@@ -14,6 +14,14 @@
         android:layout_height="match_parent"
         android:background="?android:colorBackground">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ToolbarStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:title="@string/search_news" />
+
         <EditText
             android:id="@+id/et_query"
             style="@style/ContentTextStyle"
@@ -26,7 +34,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:layout_constraintVertical_bias="0.05"
             app:layout_constraintWidth_percent="0.8" />
 

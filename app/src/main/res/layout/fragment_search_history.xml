@@ -11,36 +11,41 @@
             type="Boolean" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:colorBackground">
 
-
-        <TextView
-            android:id="@+id/tv_no_history"
-            style="@style/MainSubtitleTextStyle"
-            android:layout_width="0dp"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/search_history_is_empty"
-            android:visibility="@{isNoHistoryMessageVisible ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.8" />
+            android:elevation="8dp"
+            app:liftOnScroll="true">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:theme="@style/ToolbarStyle"
+                app:layout_scrollFlags="scroll|snap|enterAlways"
+                app:title="@string/search_history_fragment_label" />
+
+        </com.google.android.material.appbar.AppBarLayout>
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_clear_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
             android:contentDescription="@string/content_desc_clear_search_history_button"
             android:src="@drawable/ic_round_delete_forever_48"
             android:visibility="@{isNoHistoryMessageVisible ? View.GONE : View.VISIBLE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
 
 
         <androidx.recyclerview.widget.RecyclerView
@@ -49,9 +54,18 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:padding="6dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+        <TextView
+            android:id="@+id/tv_no_history"
+            style="@style/MainSubtitleTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/search_history_is_empty"
+            android:visibility="@{isNoHistoryMessageVisible ? View.VISIBLE : View.GONE}" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

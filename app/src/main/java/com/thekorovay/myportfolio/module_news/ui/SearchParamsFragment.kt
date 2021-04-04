@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
@@ -19,6 +18,7 @@ import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchParamsViewModel
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchViewModelsFactory
 import com.thekorovay.myportfolio.tools.setPageSize
+import com.thekorovay.myportfolio.tools.setupNavMenu
 
 class SearchParamsFragment: Fragment() {
 
@@ -33,6 +33,7 @@ class SearchParamsFragment: Fragment() {
 
     private var lastRequest: SearchRequest? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,8 +41,6 @@ class SearchParamsFragment: Fragment() {
         enterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
     }
-
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +54,7 @@ class SearchParamsFragment: Fragment() {
             false
         )
 
-        setHasOptionsMenu(true)
+        binding.toolbar.setupNavMenu(findNavController(), R.menu.about_app_menu)
 
         setupSpinner()
 
@@ -94,16 +93,6 @@ class SearchParamsFragment: Fragment() {
                 spinnerPageSize.setPageSize(request.pageSize)
             }
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.about_app_menu, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item, findNavController())
-                || super.onOptionsItemSelected(item)
     }
 
     private fun setupSpinner() {

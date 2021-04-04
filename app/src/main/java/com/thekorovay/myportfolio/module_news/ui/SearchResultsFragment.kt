@@ -4,16 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
-import com.thekorovay.myportfolio.databinding.FragmentSearchArticlesListBinding
+import com.thekorovay.myportfolio.databinding.FragmentSearchResultsBinding
 import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchResultsViewModel
@@ -22,18 +23,19 @@ import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickList
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.ShowMoreClickListener
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchViewModelsFactory
+import com.thekorovay.myportfolio.tools.setupNavUpButton
 
 class SearchResultsFragment: Fragment() {
 
     private val args: SearchResultsFragmentArgs by navArgs()
-    private lateinit var binding: FragmentSearchArticlesListBinding
+    private lateinit var binding: FragmentSearchResultsBinding
     private val viewModel by lazy {
         ViewModelProvider(this, SearchViewModelsFactory(requireActivity().application))
             .get(SearchResultsViewModel::class.java)
     }
 
     private var isMoreResultsAvailable = true
-    private var isListEmpty = true
+    private var isListVisible = MutableLiveData(false)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,11 +44,16 @@ class SearchResultsFragment: Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_search_articles_list,
+            R.layout.fragment_search_results,
             container,
             false
         )
 
+        isListVisible.observe(viewLifecycleOwner) { visibility ->
+            binding.isRecyclerViewVisible = visibility
+        }
+
+        binding.toolbar.setupNavUpButton(findNavController())
 
         val newsAdapter = NewsRecyclerViewAdapter(
             NewsItemClickListener { article -> readArticle(article) },
@@ -66,8 +73,7 @@ class SearchResultsFragment: Fragment() {
             }.toMutableList()
 
             // Show or hide the Show More button
-            isListEmpty = listItems.isEmpty()
-            if (!args.showingLastSearchResults && isMoreResultsAvailable && !isListEmpty) {
+            if (!args.showingLastSearchResults && isMoreResultsAvailable && listItems.isNotEmpty()) {
                 listItems.add(NewsListItem.ShowMoreNewsItem)
             }
 
@@ -76,13 +82,17 @@ class SearchResultsFragment: Fragment() {
 
 
         viewModel.loadingState.observe(viewLifecycleOwner) { state ->
+            if (state == LoadingState.SUCCESS) {
+                isListVisible.postValue(true)
+            }
+
             isMoreResultsAvailable = state != LoadingState.EMPTY_PAGE
 
             binding.isProgressBarVisible = state == LoadingState.LOADING
-            binding.isErrorScreenVisible = isListEmpty && state == LoadingState.ERROR
-            binding.isNoResultsMessageVisible = isListEmpty && !isMoreResultsAvailable
+            binding.isErrorScreenVisible = !isListVisible.value!! && state == LoadingState.ERROR
+            binding.isNoResultsMessageVisible = !isListVisible.value!! && !isMoreResultsAvailable
 
-            if (state == LoadingState.ERROR && !isListEmpty) {
+            if (state == LoadingState.ERROR && isListVisible.value!!) {
                 showLoadingErrorSnack()
             }
         }
@@ -104,9 +114,11 @@ class SearchResultsFragment: Fragment() {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
 
-        // Initiate loading news for the first page or show snack with last search query
+        // Initiate loading news for the first page or just show the recyclerview
         if (!args.showingLastSearchResults) {
             showMoreNews()
+        } else {
+            isListVisible.value = true
         }
     }
 

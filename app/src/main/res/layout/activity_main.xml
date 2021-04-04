@@ -2,36 +2,20 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:elevation="8dp"
-            app:liftOnScroll="true">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/mainToolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top"
-                android:theme="@style/ToolbarStyle"
-                app:layout_scrollFlags="scroll|snap|enterAlways" />
-
-        </com.google.android.material.appbar.AppBarLayout>
+        android:layout_height="match_parent"
+        android:background="?android:colorBackground">
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/myNavHostFragment"
+            android:id="@+id/mainNavHostFragment"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="?actionBarSize"
-            android:background="?android:colorBackground"
+            android:layout_height="0dp"
             app:defaultNavHost="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toTopOf="@id/bottom_bar"
+            app:layout_constraintTop_toTopOf="parent"
             app:navGraph="@navigation/main_graph" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -40,8 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:elevation="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:menu="@menu/bottom_bar_menu" />
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchReadArticleBinding
+import com.thekorovay.myportfolio.tools.setupNavUpButton
 
 class ReadArticleFragment: Fragment() {
     private lateinit var binding: FragmentSearchReadArticleBinding
@@ -35,6 +37,8 @@ class ReadArticleFragment: Fragment() {
             container,
             false
         )
+
+        binding.toolbar.setupNavUpButton(findNavController())
 
         binding.article = args.article
 

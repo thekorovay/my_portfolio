@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentAboutBinding
+import com.thekorovay.myportfolio.tools.setupNavUpButton
 
 class AboutFragment : Fragment() {
 
@@ -28,6 +30,8 @@ class AboutFragment : Fragment() {
             container,
             false
         )
+
+        binding.toolbar.setupNavUpButton(findNavController())
 
         setContacts()
 
