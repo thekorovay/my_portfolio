@@ -1,9 +1,8 @@
 package com.thekorovay.myportfolio.tools
 
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
@@ -44,12 +43,38 @@ fun TextView.setArticleSource(source: String) {
     text = context.getString(R.string.source_template, source)
 }
 
+@BindingAdapter("textWithFade")
+fun setTextWithFade(textView: TextView, string: String) {
+    val fadeAwayAnim = AnimationUtils.loadAnimation(textView.context, R.anim.fade_away)
+    val fadeInAnim = AnimationUtils.loadAnimation(textView.context, R.anim.fade_in)
+
+    fadeAwayAnim.setAnimationListener(object : Animation.AnimationListener {
+        override fun onAnimationStart(animation: Animation?) { }
+        override fun onAnimationRepeat(animation: Animation?) { }
+        override fun onAnimationEnd(animation: Animation?) {
+            textView.text = string
+            textView.startAnimation(fadeInAnim)
+        }
+    })
+
+    textView.startAnimation(fadeAwayAnim)
+}
+
 @BindingAdapter("isActive")
 fun Button.setActive(isActive: Boolean) {
     isEnabled = isActive
     setTextColor(ContextCompat.getColor(
         context,
-        if (isActive) R.color.blue_500 else R.color.grey_500
+        if (isActive) R.attr.colorPrimary else R.color.grey_500
+    ))
+}
+
+@BindingAdapter("isActive")
+fun EditText.setActive(isActive: Boolean) {
+    isEnabled = isActive
+    setTextColor(ContextCompat.getColor(
+        context,
+        if (isActive) R.attr.colorPrimary else R.color.grey_500
     ))
 }
 

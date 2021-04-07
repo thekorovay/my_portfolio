@@ -4,7 +4,17 @@
     android:id="@+id/main_graph"
     app:startDestination="@id/searchParamsFragment">
 
-    <fragment android:id="@+id/placeholder" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.thekorovay.myportfolio.module_profile.ui.ProfileFragment"
+        android:label="@string/profile">
+        <action
+            android:id="@+id/action_profileFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/aboutFragment"
@@ -61,6 +71,22 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/searchParamsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.thekorovay.myportfolio.module_profile.ui.SignInFragment"
+        android:label="@string/sign_in" >
+        <action
+            android:id="@+id/action_signInFragment_to_signUpFragment"
+            app:destination="@id/signUpFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/signUpFragment"
+        android:name="com.thekorovay.myportfolio.module_profile.ui.SignUpFragment"
+        android:label="@string/sign_up" >
+        <action
+            android:id="@+id/action_signUpFragment_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
 
 </navigation>
