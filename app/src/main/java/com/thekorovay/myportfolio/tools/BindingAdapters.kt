@@ -6,6 +6,7 @@ import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
+import com.google.android.material.color.MaterialColors
 import com.thekorovay.myportfolio.R
 
 @BindingAdapter("imageUrlRound")
@@ -63,18 +64,18 @@ fun setTextWithFade(textView: TextView, string: String) {
 @BindingAdapter("isActive")
 fun Button.setActive(isActive: Boolean) {
     isEnabled = isActive
-    setTextColor(ContextCompat.getColor(
-        context,
-        if (isActive) R.attr.colorPrimary else R.color.grey_500
+    setTextColor(MaterialColors.getColor(
+        this,
+        if (isActive) R.attr.colorPrimary else R.attr.colorPrimaryVariant
     ))
 }
 
 @BindingAdapter("isActive")
 fun EditText.setActive(isActive: Boolean) {
     isEnabled = isActive
-    setTextColor(ContextCompat.getColor(
-        context,
-        if (isActive) R.attr.colorPrimary else R.color.grey_500
+    setTextColor(MaterialColors.getColor(
+        this,
+        if (isActive) R.attr.colorPrimary else R.attr.colorPrimaryVariant
     ))
 }
 
