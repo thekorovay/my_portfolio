@@ -61,13 +61,16 @@ fun setTextWithFade(textView: TextView, string: String) {
     textView.startAnimation(fadeAwayAnim)
 }
 
-@BindingAdapter("isActive")
-fun Button.setActive(isActive: Boolean) {
+@BindingAdapter("isActive", "invertTextColor", requireAll = false)
+fun Button.setActive(isActive: Boolean, invertTextColor: Boolean = false) {
     isEnabled = isActive
-    setTextColor(MaterialColors.getColor(
-        this,
-        if (isActive) R.attr.colorPrimary else R.attr.colorPrimaryVariant
-    ))
+
+    val attribute = when {
+        !isActive -> R.attr.colorPrimaryVariant
+        invertTextColor -> R.attr.colorOnPrimary
+        else -> R.attr.colorPrimary
+    }
+    setTextColor(MaterialColors.getColor(this, attribute))
 }
 
 @BindingAdapter("isActive")
