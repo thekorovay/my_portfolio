@@ -1,6 +1,7 @@
 package com.thekorovay.myportfolio.module_profile.firebase
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.*
@@ -65,13 +66,18 @@ object EasyFirebase {
     private fun updateUserName(context: Context, name: String?) {
         val sureUser = auth.currentUser!!
 
-        val request = userProfileChangeRequest {
-            displayName = if (!name.isNullOrEmpty()) name else sureUser.uid
-        }
+        // Builder() is used because handy userProfileChangeRequest { ... } lambda causes mysterious
+        // 'Back-end (JVM) Internal error: Couldn't inline method call 'userProfileChangeRequest' into'
+        val request = UserProfileChangeRequest.Builder()
+            .setDisplayName(if (!name.isNullOrEmpty()) name else sureUser.email)
+            .build()
 
         sureUser.updateProfile(request)
             .addOnCompleteListener { task ->
-                if (!task.isSuccessful) {
+                if (task.isSuccessful) {
+                    // Notify listeners that userName has changed
+                    _user.postValue(_user.value)
+                } else {
                     exception = Exception(context.getString(R.string.user_name_updating_error))
                 }
             }
