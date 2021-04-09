@@ -8,8 +8,16 @@
         <import type="android.view.View" />
 
         <variable
-            name="isSignedIn"
+            name="viewModel"
+            type="com.thekorovay.myportfolio.module_profile.viewmodels.ProfileViewModel" />
+
+        <variable
+            name="isLoading"
             type="Boolean" />
+
+        <variable
+            name="user"
+            type="com.google.firebase.auth.FirebaseUser" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,20 +50,20 @@
         <TextView
             android:id="@+id/tv_title"
             style="@style/TitleTextStyle"
-            textWithFade="@{isSignedIn ? @string/signed_in_as(`TEST USER`) : @string/you_are_signed_out}"
+            textWithFade="@{user != null ? @string/signed_in_as(user.displayName) : @string/you_are_signed_out}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="@string/you_are_signed_out"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_status"
-            app:layout_constraintWidth_percent="0.8" />
+            app:layout_constraintWidth_percent="0.8"
+            tools:text="@string/you_are_signed_out" />
 
         <TextView
             android:id="@+id/tv_subtitle"
             style="@style/ContentTextStyle"
-            textWithFade="@{@string/history_will_be_saved(isSignedIn ? @string/history_will : @string/history_wont)}"
+            textWithFade="@{@string/history_will_be_saved(user != null ? @string/history_will : @string/history_wont)}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -69,9 +77,12 @@
         <Button
             android:id="@+id/btn_sign_in"
             style="@style/ButtonStyle"
+            invertTextColor="@{true}"
+            isActive="@{!isLoading}"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:text="@{isSignedIn ? @string/sign_out : @string/sign_in}"
+            android:onClick="@{() -> user == null ? viewModel.signIn() : viewModel.signOut()}"
+            android:text="@{user != null ? @string/sign_out : @string/sign_in}"
             app:layout_constraintBottom_toTopOf="@id/btn_sign_up"
             app:layout_constraintDimensionRatio="10:3"
             app:layout_constraintEnd_toEndOf="parent"
@@ -81,11 +92,12 @@
         <Button
             android:id="@+id/btn_sign_up"
             style="@style/ActionButtonStyle"
-            isActive="true"
+            isActive="@{!isLoading}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> viewModel.signUp()}"
             android:text="@string/or_sign_up"
-            android:visibility="@{isSignedIn ? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{user != null ? View.INVISIBLE : View.VISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "970519561724",
+    "project_id": "my-portfolio-news-app",
+    "storage_bucket": "my-portfolio-news-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970519561724:android:734683fcc85c6ac3a51e79",
+        "android_client_info": {
+          "package_name": "com.thekorovay.myportfolio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "970519561724-nf76ceenmnpmg8kjc0pg03dojuabh3ur.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thekorovay.myportfolio",
+            "certificate_hash": "b9e8fde20a3927e0accf94efc5b69b53b10a5f2c"
+          }
+        },
+        {
+          "client_id": "970519561724-hkd2djvdjkbtvh2bqrt71cje81s2sjqu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMc0JaDU2ZfRo6IlPcxjH2ih1Aewb3ZRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "970519561724-hkd2djvdjkbtvh2bqrt71cje81s2sjqu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

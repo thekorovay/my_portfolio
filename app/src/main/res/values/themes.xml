@@ -5,12 +5,12 @@
 
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/black</item>
-        <item name="colorPrimaryVariant">@color/grey_800</item>
+        <item name="colorPrimaryVariant">@color/grey_500</item>
         <item name="colorOnPrimary">@color/white</item>
 
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/black</item>
-        <item name="colorSecondaryVariant">@color/grey_800</item>
+        <item name="colorSecondaryVariant">@color/grey_500</item>
         <item name="colorOnSecondary">@color/white</item>
 
         <item name="android:statusBarColor">?colorOnPrimary</item>

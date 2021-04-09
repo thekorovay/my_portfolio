@@ -75,11 +75,17 @@
     <string name="sign_up">Sign up</string>
     <string name="or_sign_up">…or sign up</string>
     <string name="content_desc_sign_in_status_icon">Sign in status icon</string>
-    <string name="your_email">Your email</string>
     <string name="sign_in_with_google">…or sign in with Google</string>
     <string name="sign_up_with_google">…or sign up with Google</string>
     <string name="sign_in_with_email_and_password">Sign in with email and password</string>
+    <string name="your_email">Your email</string>
     <string name="your_password">Your password</string>
-    <string name="enter_email_and_password_signing_up">Enter your email and create password. Be careful: you won\'t be able to change it later.</string>
+    <string name="name_optionally">Name (optionally)</string>
     <string name="repeat_password">Repeat password</string>
+    <string name="unknown_error">Something went wrong. Try again later</string>
+    <string name="invalid_email_error">Invalid email</string>
+    <string name="invalid_password_error">Password must be between %1$d and %2$d characters and not contain spaces</string>
+    <string name="passwords_not_match_error">Passwords don\'t match</string>
+    <string name="user_name_updating_error">Failed to update user name</string>
+    <string name="hide">Hide</string>
 </resources>

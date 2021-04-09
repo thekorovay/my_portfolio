@@ -1,18 +1,32 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseUser
+import com.thekorovay.myportfolio.module_profile.firebase.EasyFirebase
+import java.lang.Exception
 
-class SignInViewModel: ViewModel() {
-    private val _isSignedIn = MutableLiveData<Boolean>(false)
-    val isSignedIn: LiveData<Boolean> = _isSignedIn
+class SignInViewModel(application: Application): AndroidViewModel(application) {
+    val email = MutableLiveData<String>("")
+    val password = MutableLiveData<String>("")
 
-    fun signIn(email: String, password: String) {
+    val user: LiveData<FirebaseUser?> = EasyFirebase.user
 
+    val state: LiveData<EasyFirebase.State> = EasyFirebase.state
+
+    val exception: Exception? get() = EasyFirebase.exception
+
+    fun signIn() {
+        EasyFirebase.signIn(getApplication(), email.value, password.value)
     }
 
     fun signInWithGoogle() {
+        EasyFirebase.signInWithGoogle()
+    }
 
+    fun setErrorMessageDisplayed() {
+        EasyFirebase.flushErrorState()
     }
 }

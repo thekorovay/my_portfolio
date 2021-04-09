@@ -1,10 +1,8 @@
 package com.thekorovay.myportfolio.module_news.ui.recycler_view
 
 import android.view.ViewGroup
-import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.card_news_article_adapter.view.*
 import java.lang.Exception
 
 class NewsRecyclerViewAdapter(
