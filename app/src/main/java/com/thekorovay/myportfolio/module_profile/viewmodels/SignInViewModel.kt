@@ -1,6 +1,8 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -13,7 +15,6 @@ class SignInViewModel(application: Application): AndroidViewModel(application) {
     val password = MutableLiveData<String>("")
 
     val user: LiveData<FirebaseUser?> = EasyFirebase.user
-
     val state: LiveData<EasyFirebase.State> = EasyFirebase.state
 
     val exception: Exception? get() = EasyFirebase.exception
@@ -33,8 +34,10 @@ class SignInViewModel(application: Application): AndroidViewModel(application) {
         EasyFirebase.signIn(getApplication(), email.value, password.value)
     }
 
-    fun signInWithGoogle() {
-        EasyFirebase.signInWithGoogle()
+    fun getGoogleSignInIntent(activityContext: Context) = EasyFirebase.getGoogleSignInIntent(activityContext)
+
+    fun signInWithGoogle(data: Intent?) {
+        data?.let { EasyFirebase.signInWithGoogle(it) }
     }
 
     fun setErrorMessageDisplayed() {

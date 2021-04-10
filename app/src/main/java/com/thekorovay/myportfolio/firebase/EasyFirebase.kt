@@ -1,8 +1,13 @@
 package com.thekorovay.myportfolio.firebase
 
 import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -84,13 +89,6 @@ object EasyFirebase {
             }
     }
 
-    fun signUpWithGoogle() {
-        _state.value = State.BUSY
-
-        /*auth.startActivityForSignInWithProvider(email, password)
-            .addOnCompleteListener(onAuthCompleteListener)*/
-    }
-
     fun signIn(context: Context, email: String?, password: String?) {
         _state.value = State.BUSY
 
@@ -99,7 +97,12 @@ object EasyFirebase {
             return
         }
 
-        auth.signInWithEmailAndPassword(email!!, password!!)
+        val credential = EmailAuthProvider.getCredential(email!!, password!!)
+        signInWithCredential(credential)
+    }
+
+    private fun signInWithCredential(cred: AuthCredential) {
+        auth.signInWithCredential(cred)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     _state.value = State.IDLE
@@ -109,11 +112,32 @@ object EasyFirebase {
             }
     }
 
-    fun signInWithGoogle() {
-        _state.value = State.BUSY
+    fun getGoogleSignInIntent(context: Context): Intent {
+        val options = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(context.getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
 
-        /*auth.startActivityForSignInWithProvider(email, password)
-            .addOnCompleteListener(onAuthCompleteListener)*/
+        val client = GoogleSignIn.getClient(context, options)
+
+        return client.signInIntent
+    }
+
+    fun signInWithGoogle(data: Intent) {
+        val taskWithAccount = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+        val account: GoogleSignInAccount? = try {
+            taskWithAccount.getResult(ApiException::class.java)
+        } catch (exception: ApiException) {
+            null
+        }
+
+        if (account != null) {
+            _state.value = State.BUSY
+
+            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+            signInWithCredential(credential)
+        }
     }
 
     fun signOut() {

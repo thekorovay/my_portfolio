@@ -1,5 +1,6 @@
 package com.thekorovay.myportfolio.module_profile.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ import com.thekorovay.myportfolio.tools.setupNavUpButton
 import java.lang.Exception
 
 class SignInFragment: Fragment() {
+    private val GOOGLE_SIGN_IN_CODE = 0
+
     private lateinit var binding: FragmentProfileSignInBinding
 
     private val viewModel: SignInViewModel by viewModels()
@@ -65,7 +68,14 @@ class SignInFragment: Fragment() {
             }
         }
 
+        binding.btnSignInWithGoogle.setOnClickListener { signInWithGoogle() }
+
         return binding.root
+    }
+
+    private fun signInWithGoogle() {
+        val googleSignInIntent = viewModel.getGoogleSignInIntent(requireActivity())
+        startActivityForResult(googleSignInIntent, GOOGLE_SIGN_IN_CODE)
     }
 
     private fun showErrorMessage(exception: Exception?) {
@@ -86,5 +96,13 @@ class SignInFragment: Fragment() {
                 )
         )
         viewModel.setNavigationCompleted()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == GOOGLE_SIGN_IN_CODE) {
+            viewModel.signInWithGoogle(data)
+        }
     }
 }

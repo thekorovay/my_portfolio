@@ -1,6 +1,8 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -30,8 +32,10 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
         )
     }
 
-    fun signUpWithGoogle() {
-        EasyFirebase.signUpWithGoogle()
+    fun getGoogleSignInIntent(activityContext: Context) = EasyFirebase.getGoogleSignInIntent(activityContext)
+
+    fun signUpWithGoogle(data: Intent?) {
+        data?.let { EasyFirebase.signInWithGoogle(it) }
     }
 
     fun setErrorMessageDisplayed() {

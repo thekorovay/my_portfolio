@@ -136,7 +136,6 @@
             isActive="@{!isLoading}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="@{() -> viewModel.signUpWithGoogle()}"
             android:text="@string/sign_up_with_google"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
