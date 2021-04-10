@@ -7,7 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
@@ -16,7 +16,6 @@ import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
 import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchParamsViewModel
-import com.thekorovay.myportfolio.module_news.viewmodels.SearchViewModelsFactory
 import com.thekorovay.myportfolio.tools.setPageSize
 import com.thekorovay.myportfolio.tools.setupNavMenu
 
@@ -26,10 +25,7 @@ class SearchParamsFragment: Fragment() {
 
     private val args: SearchParamsFragmentArgs by navArgs()
 
-    private val viewModel by lazy {
-        ViewModelProvider(this, SearchViewModelsFactory(requireActivity().application))
-            .get(SearchParamsViewModel::class.java)
-    }
+    private val viewModel: SearchParamsViewModel by viewModels()
 
     private var lastRequest: SearchRequest? = null
 

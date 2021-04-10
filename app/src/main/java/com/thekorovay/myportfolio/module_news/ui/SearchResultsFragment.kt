@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
@@ -22,17 +21,14 @@ import com.thekorovay.myportfolio.module_news.network.LoadingState
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickListener
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.ShowMoreClickListener
-import com.thekorovay.myportfolio.module_news.viewmodels.SearchViewModelsFactory
 import com.thekorovay.myportfolio.tools.setupNavUpButton
 
 class SearchResultsFragment: Fragment() {
 
     private val args: SearchResultsFragmentArgs by navArgs()
     private lateinit var binding: FragmentSearchResultsBinding
-    private val viewModel by lazy {
-        ViewModelProvider(this, SearchViewModelsFactory(requireActivity().application))
-            .get(SearchResultsViewModel::class.java)
-    }
+
+    private val viewModel: SearchResultsViewModel by viewModels()
 
     private var isMoreResultsAvailable = true
     private var isListVisible = MutableLiveData(false)
