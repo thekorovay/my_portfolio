@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.thekorovay.myportfolio.module_profile.firebase.EasyFirebase
+import com.thekorovay.myportfolio.firebase.EasyFirebase
 import java.lang.Exception
 
 class RestorePasswordViewModel(application: Application): AndroidViewModel(application) {

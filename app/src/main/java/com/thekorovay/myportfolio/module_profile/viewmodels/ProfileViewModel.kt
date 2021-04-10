@@ -2,7 +2,7 @@ package com.thekorovay.myportfolio.module_profile.viewmodels
 
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
-import com.thekorovay.myportfolio.module_profile.firebase.EasyFirebase
+import com.thekorovay.myportfolio.firebase.EasyFirebase
 import java.lang.Exception
 
 class ProfileViewModel: ViewModel() {

@@ -5,7 +5,7 @@ import androidx.lifecycle.*
 import com.thekorovay.myportfolio.database.getNewsDatabase
 import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
-import com.thekorovay.myportfolio.module_news.network.LoadingState
+import com.thekorovay.myportfolio.network.LoadingState
 import com.thekorovay.myportfolio.repositories.ArticlesRepository
 import kotlinx.coroutines.*
 

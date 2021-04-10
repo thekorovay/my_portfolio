@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.module_news.network
+package com.thekorovay.myportfolio.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -40,4 +40,8 @@ val newsApi: NewsService by lazy {
         .build()
 
     retrofit.create(NewsService::class.java)
+}
+
+enum class LoadingState {
+    LOADING, ERROR, SUCCESS, EMPTY_PAGE
 }

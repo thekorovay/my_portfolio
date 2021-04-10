@@ -18,7 +18,7 @@
 
     <fragment
         android:id="@+id/aboutFragment"
-        android:name="com.thekorovay.myportfolio.module_about.AboutFragment"
+        android:name="com.thekorovay.myportfolio.module_news.ui.AboutFragment"
         android:label="@string/menu_about" />
     <fragment
         android:id="@+id/searchParamsFragment"

@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
-import com.thekorovay.myportfolio.module_profile.firebase.EasyFirebase
+import com.thekorovay.myportfolio.firebase.EasyFirebase
 import java.lang.Exception
 
 class SignUpViewModel(application: Application): AndroidViewModel(application) {

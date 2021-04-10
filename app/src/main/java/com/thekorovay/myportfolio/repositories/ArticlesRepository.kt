@@ -7,9 +7,9 @@ import com.thekorovay.myportfolio.database.NewsDatabase
 import com.thekorovay.myportfolio.database.toArticles
 import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
-import com.thekorovay.myportfolio.module_news.network.FIRST_PAGE_NUMBER
-import com.thekorovay.myportfolio.module_news.network.LoadingState
-import com.thekorovay.myportfolio.module_news.network.newsApi
+import com.thekorovay.myportfolio.network.FIRST_PAGE_NUMBER
+import com.thekorovay.myportfolio.network.LoadingState
+import com.thekorovay.myportfolio.network.newsApi
 
 class ArticlesRepository(private val database: NewsDatabase) {
 

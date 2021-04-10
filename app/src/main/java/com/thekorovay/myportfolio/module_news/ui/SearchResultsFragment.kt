@@ -17,7 +17,7 @@ import com.thekorovay.myportfolio.databinding.FragmentSearchResultsBinding
 import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchResultsViewModel
-import com.thekorovay.myportfolio.module_news.network.LoadingState
+import com.thekorovay.myportfolio.network.LoadingState
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickListener
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.ShowMoreClickListener

@@ -1,12 +1,10 @@
-package com.thekorovay.myportfolio.module_profile.firebase
+package com.thekorovay.myportfolio.firebase
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.auth.ktx.userProfileChangeRequest
 import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 import com.thekorovay.myportfolio.R

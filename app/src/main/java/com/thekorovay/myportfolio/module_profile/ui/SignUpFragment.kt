@@ -12,7 +12,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentProfileSignUpBinding
-import com.thekorovay.myportfolio.module_profile.firebase.EasyFirebase
+import com.thekorovay.myportfolio.firebase.EasyFirebase
 import com.thekorovay.myportfolio.module_profile.viewmodels.SignUpViewModel
 import com.thekorovay.myportfolio.tools.setupNavUpButton
 import java.lang.Exception

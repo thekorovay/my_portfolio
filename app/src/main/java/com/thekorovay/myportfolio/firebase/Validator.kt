@@ -1,4 +1,4 @@
-package com.thekorovay.myportfolio.module_profile.firebase
+package com.thekorovay.myportfolio.firebase
 
 import android.content.Context
 import android.util.Patterns
