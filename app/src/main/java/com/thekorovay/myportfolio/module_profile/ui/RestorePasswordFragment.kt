@@ -8,19 +8,22 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
-import com.thekorovay.myportfolio.databinding.FragmentProfileSignInBinding
+import com.thekorovay.myportfolio.databinding.FragmentProfileRestorePasswordBinding
 import com.thekorovay.myportfolio.module_profile.firebase.EasyFirebase
-import com.thekorovay.myportfolio.module_profile.viewmodels.SignInViewModel
+import com.thekorovay.myportfolio.module_profile.viewmodels.RestorePasswordViewModel
 import com.thekorovay.myportfolio.tools.setupNavUpButton
 import java.lang.Exception
 
-class SignInFragment: Fragment() {
-    private lateinit var binding: FragmentProfileSignInBinding
+class RestorePasswordFragment: Fragment() {
+    private lateinit var binding: FragmentProfileRestorePasswordBinding
 
-    private val viewModel: SignInViewModel by viewModels()
+    private val viewModel: RestorePasswordViewModel by viewModels()
+
+    private val args: RestorePasswordFragmentArgs by navArgs()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,7 +40,7 @@ class SignInFragment: Fragment() {
     ): View {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.fragment_profile_sign_in,
+            R.layout.fragment_profile_restore_password,
             container,
             false
         )
@@ -46,22 +49,19 @@ class SignInFragment: Fragment() {
 
         binding.viewModel = viewModel
 
-        viewModel.user.observe(viewLifecycleOwner) { user ->
-            user?.let { goBackToProfile() }
-        }
+        viewModel.email.value = args.email
 
         viewModel.state.observe(viewLifecycleOwner) { state ->
             binding.isLoading = state == EasyFirebase.State.BUSY
 
             if (state == EasyFirebase.State.ERROR) {
                 showErrorMessage(viewModel.exception)
-                viewModel.setErrorMessageDisplayed()
             }
         }
 
-        viewModel.navigateToRestorePassword.observe(viewLifecycleOwner) { navigate ->
-            if (navigate) {
-                navigateToRestorePassword()
+        viewModel.emailSent.observe(viewLifecycleOwner) { emailSent ->
+            if (emailSent) {
+                showEmailSentMessage()
             }
         }
 
@@ -73,18 +73,21 @@ class SignInFragment: Fragment() {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
             .setAction(R.string.hide) { /* Just hide the snackbar */ }
             .show()
+
+        viewModel.setErrorMessageDisplayed()
     }
 
-    private fun goBackToProfile() {
+    private fun showEmailSentMessage() {
+        Snackbar.make(binding.root, getString(R.string.restore_password_email_sent), Snackbar.LENGTH_LONG)
+                .setAction(R.string.hide) { /* Just hide the snackbar */ }
+                .show()
+
+        viewModel.setSuccessMessageDisplayed()
+
+        goBackToSignIn()
+    }
+
+    private fun goBackToSignIn() {
         findNavController().navigateUp()
-    }
-
-    private fun navigateToRestorePassword() {
-        findNavController().navigate(
-                SignInFragmentDirections.actionSignInFragmentToRestorePasswordFragment(
-                        binding.etEmail.text.toString()
-                )
-        )
-        viewModel.setNavigationCompleted()
     }
 }

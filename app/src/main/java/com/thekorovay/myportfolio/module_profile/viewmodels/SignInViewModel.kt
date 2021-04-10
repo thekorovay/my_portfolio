@@ -18,6 +18,17 @@ class SignInViewModel(application: Application): AndroidViewModel(application) {
 
     val exception: Exception? get() = EasyFirebase.exception
 
+    private val _navigateToRestorePassword = MutableLiveData(false)
+    val navigateToRestorePassword: LiveData<Boolean> = _navigateToRestorePassword
+
+    fun restorePassword() {
+        _navigateToRestorePassword.value = true
+    }
+
+    fun setNavigationCompleted() {
+        _navigateToRestorePassword.value = false
+    }
+
     fun signIn() {
         EasyFirebase.signIn(getApplication(), email.value, password.value)
     }

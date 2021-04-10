@@ -88,4 +88,9 @@
     <string name="passwords_not_match_error">Passwords don\'t match</string>
     <string name="user_name_updating_error">Failed to update user name</string>
     <string name="hide">Hide</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="restore_password">Restore password</string>
+    <string name="enter_your_email_address">Enter your email address</string>
+    <string name="restore">Restore</string>
+    <string name="restore_password_email_sent">Email with further instructions was sent to your email</string>
 </resources>

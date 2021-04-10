@@ -28,6 +28,9 @@ object EasyFirebase {
     private val _state = MutableLiveData(State.IDLE)
     val state: LiveData<State> = _state
 
+    private val _restorePasswordEmailSent = MutableLiveData(false)
+    val restorePasswordEmailSent: LiveData<Boolean> = _restorePasswordEmailSent
+
     var exception: Exception? = null
         private set(value) {
             field = value
@@ -119,10 +122,33 @@ object EasyFirebase {
         auth.signOut()
     }
 
+    fun sendRestorePasswordEmail(context: Context, email: String?) {
+        _state.value = State.BUSY
+
+        exception = Validator.validateEmail(context, email)
+        if (exception != null) {
+            return
+        }
+
+        Firebase.auth.sendPasswordResetEmail(email!!)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        _restorePasswordEmailSent.value = true
+                        _state.value = State.IDLE
+                    } else {
+                        exception = task.exception
+                    }
+                }
+    }
+
     fun flushErrorState() {
         if (_state.value == State.ERROR) {
             _state.value = State.IDLE
         }
+    }
+
+    fun flushRestorePasswordEmailSent() {
+        _restorePasswordEmailSent.value = false
     }
 
 

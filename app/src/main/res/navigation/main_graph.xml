@@ -77,16 +77,22 @@
         android:name="com.thekorovay.myportfolio.module_profile.ui.SignInFragment"
         android:label="@string/sign_in" >
         <action
-            android:id="@+id/action_signInFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
+            android:id="@+id/action_signInFragment_to_restorePasswordFragment"
+            app:destination="@id/restorePasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.thekorovay.myportfolio.module_profile.ui.SignUpFragment"
-        android:label="@string/sign_up" >
-        <action
-            android:id="@+id/action_signUpFragment_to_signInFragment"
-            app:destination="@id/signInFragment" />
+        android:label="@string/sign_up" />
+    <fragment
+        android:id="@+id/restorePasswordFragment"
+        android:name="com.thekorovay.myportfolio.module_profile.ui.RestorePasswordFragment"
+        android:label="RestorePasswordFragment" >
+        <argument
+            android:name="email"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
     </fragment>
 
 </navigation>

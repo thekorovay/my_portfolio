@@ -19,30 +19,39 @@ object Validator {
         password: String?,
         repeatPassword: String? = password
     ): Exception? {
-        return when {
-            email == null || !Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                // Invalid email
-                Exception(context.getString(R.string.invalid_email_error))
-            }
+        return validateEmail(context, email)
+                ?: validatePassword(context, password)
+                ?: validateRepeatPassword(context, password, repeatPassword)
+    }
 
-            password == null || password.contains(" ")
-                    || password.length !in PASSWORD_MIN_LENGTH..PASSWORD_MAX_LENGTH -> {
-                // Invalid password
-                Exception(
-                    context.getString(
-                        R.string.invalid_password_error,
-                        PASSWORD_MIN_LENGTH,
-                        PASSWORD_MAX_LENGTH
-                    )
-                )
-            }
-
-            repeatPassword != password -> {
-                // Passwords don't match email
-                Exception(context.getString(R.string.passwords_not_match_error))
-            }
-
-            else -> null
+    fun validateEmail(context: Context, email: String?): Exception? {
+        if (email == null || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            return Exception(context.getString(R.string.invalid_email_error))
         }
+
+        return null
+    }
+
+    fun validatePassword(context: Context, password: String?): Exception? {
+        if (password == null || password.contains(" ")
+                || password.length !in PASSWORD_MIN_LENGTH..PASSWORD_MAX_LENGTH) {
+            return Exception(
+                    context.getString(
+                            R.string.invalid_password_error,
+                            PASSWORD_MIN_LENGTH,
+                            PASSWORD_MAX_LENGTH
+                    )
+            )
+        }
+
+        return null
+    }
+
+    fun validateRepeatPassword(context: Context, password: String?, repeatPassword: String?): Exception? {
+        if (repeatPassword != password) {
+            return Exception(context.getString(R.string.passwords_not_match_error))
+        }
+
+        return null
     }
 }
