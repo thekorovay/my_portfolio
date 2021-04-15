@@ -76,7 +76,6 @@ class SearchResultsFragment: Fragment() {
             newsAdapter.submitList(listItems)
         }
 
-
         viewModel.loadingState.observe(viewLifecycleOwner) { state ->
             if (state == LoadingState.SUCCESS) {
                 isListVisible.postValue(true)

@@ -60,3 +60,9 @@ data class DatabaseSearchRequest(
         pageSize = this.pageSize
     )
 }
+
+fun List<DatabaseSearchRequest>.toSearchRequests(): List<SearchRequest> {
+    return map { dbRequest ->
+        dbRequest.toSearchRequest()
+    }
+}

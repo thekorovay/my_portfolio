@@ -7,17 +7,19 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseUser
-import com.thekorovay.myportfolio.firebase.EasyFirebase
+import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
 
 class SignInViewModel(application: Application): AndroidViewModel(application) {
+    val firebase = EasyFirebase.getInstance(application)
+
     val email = MutableLiveData<String>("")
     val password = MutableLiveData<String>("")
 
-    val user: LiveData<FirebaseUser?> = EasyFirebase.user
-    val state: LiveData<EasyFirebase.State> = EasyFirebase.state
+    val user: LiveData<FirebaseUser?> = firebase.user
+    val state: LiveData<EasyFirebase.State> = firebase.state
 
-    val exception: Exception? get() = EasyFirebase.exception
+    val exception: Exception? get() = firebase.exception
 
     private val _navigateToRestorePassword = MutableLiveData(false)
     val navigateToRestorePassword: LiveData<Boolean> = _navigateToRestorePassword
@@ -31,16 +33,16 @@ class SignInViewModel(application: Application): AndroidViewModel(application) {
     }
 
     fun signIn() {
-        EasyFirebase.signIn(getApplication(), email.value, password.value)
+        firebase.signIn(email.value, password.value)
     }
 
-    fun getGoogleSignInIntent(activityContext: Context) = EasyFirebase.getGoogleSignInIntent(activityContext)
+    fun getGoogleSignInIntent(activityContext: Context) = firebase.getGoogleSignInIntent(activityContext)
 
     fun signInWithGoogle(data: Intent?) {
-        data?.let { EasyFirebase.signInWithGoogle(it) }
+        data?.let { firebase.signInWithGoogle(it) }
     }
 
     fun setErrorMessageDisplayed() {
-        EasyFirebase.flushErrorState()
+        firebase.flushErrorState()
     }
 }

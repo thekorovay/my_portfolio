@@ -6,23 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
-import com.thekorovay.myportfolio.database.DatabaseSearchRequest
 import com.thekorovay.myportfolio.databinding.FragmentSearchHistoryBinding
+import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.HistoryClickListener
 import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.HistoryRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_search_history.viewmodel.SearchHistoryViewModel
+import com.thekorovay.myportfolio.network.EasyFirebase
 
 class SearchHistoryFragment: Fragment() {
     private lateinit var binding: FragmentSearchHistoryBinding
-    private val viewModel by lazy {
-        ViewModelProvider(this, SearchHistoryViewModel.Factory(requireActivity().application))
-            .get(SearchHistoryViewModel::class.java)
-    }
+    private val viewModel: SearchHistoryViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +48,16 @@ class SearchHistoryFragment: Fragment() {
 
         viewModel.searchHistory.observe(viewLifecycleOwner) { historyEntries ->
             historyAdapter.submitList(historyEntries)
-            binding.isNoHistoryMessageVisible = historyEntries.isEmpty()
+            binding.isHistoryEmpty = historyEntries.isEmpty()
+        }
+
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            binding.isLoading = state == EasyFirebase.State.BUSY
+
+            if (state == EasyFirebase.State.ERROR) {
+                showErrorMessage(viewModel.exception)
+                viewModel.setErrorMessageDisplayed()
+            }
         }
 
         binding.btnClearHistory.setOnClickListener { viewModel.clearHistory() }
@@ -58,11 +65,16 @@ class SearchHistoryFragment: Fragment() {
         return binding.root
     }
 
-    private fun startSearchRequest(request: DatabaseSearchRequest) {
-        val searchRequest = request.toSearchRequest()
+    private fun showErrorMessage(exception: Exception?) {
+        val message = exception?.localizedMessage ?: getString(R.string.unknown_error)
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+                .setAction(R.string.hide) { /* Just hide the snackbar */ }
+                .show()
+    }
 
+    private fun startSearchRequest(request: SearchRequest) {
         findNavController().navigate(
-            SearchHistoryFragmentDirections.actionSearchHistoryFragmentToSearchParamsFragment(searchRequest)
+            SearchHistoryFragmentDirections.actionSearchHistoryFragmentToSearchParamsFragment(request)
         )
     }
 }

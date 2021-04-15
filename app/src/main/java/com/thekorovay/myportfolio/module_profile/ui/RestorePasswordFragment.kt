@@ -13,7 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentProfileRestorePasswordBinding
-import com.thekorovay.myportfolio.firebase.EasyFirebase
+import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.module_profile.viewmodels.RestorePasswordViewModel
 import com.thekorovay.myportfolio.tools.setupNavUpButton
 import java.lang.Exception
@@ -62,6 +62,7 @@ class RestorePasswordFragment: Fragment() {
         viewModel.emailSent.observe(viewLifecycleOwner) { emailSent ->
             if (emailSent) {
                 showEmailSentMessage()
+                goBackToSignIn()
             }
         }
 
@@ -83,8 +84,6 @@ class RestorePasswordFragment: Fragment() {
                 .show()
 
         viewModel.setSuccessMessageDisplayed()
-
-        goBackToSignIn()
     }
 
     private fun goBackToSignIn() {

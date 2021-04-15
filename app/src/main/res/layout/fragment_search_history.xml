@@ -7,7 +7,11 @@
         <import type="android.view.View" />
 
         <variable
-            name="isNoHistoryMessageVisible"
+            name="isLoading"
+            type="Boolean" />
+
+        <variable
+            name="isHistoryEmpty"
             type="Boolean" />
     </data>
 
@@ -36,6 +40,47 @@
         </com.google.android.material.appbar.AppBarLayout>
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_search_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:padding="6dp"
+            android:visibility="@{isHistoryEmpty ? View.GONE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="?actionBarSize">
+
+            <ProgressBar
+                android:id="@+id/pb_loading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{isLoading ? View.VISIBLE : View.INVISIBLE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.1" />
+
+            <TextView
+                android:id="@+id/tv_no_history"
+                style="@style/TitleTextStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/search_history_is_empty"
+                android:visibility="@{isHistoryEmpty &amp;&amp; !isLoading ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.8" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btn_clear_history"
             android:layout_width="wrap_content"
@@ -44,28 +89,8 @@
             android:layout_margin="16dp"
             android:contentDescription="@string/content_desc_clear_search_history_button"
             android:src="@drawable/ic_round_delete_forever_48"
-            android:visibility="@{isNoHistoryMessageVisible ? View.GONE : View.VISIBLE}"
+            android:visibility="@{isHistoryEmpty || isLoading ? View.GONE : View.VISIBLE}"
             app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior" />
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_search_history"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:padding="6dp"
-            android:visibility="@{isNoHistoryMessageVisible ? View.GONE : View.VISIBLE}"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-        <TextView
-            android:id="@+id/tv_no_history"
-            style="@style/TitleTextStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="@string/search_history_is_empty"
-            android:visibility="@{isNoHistoryMessageVisible ? View.VISIBLE : View.GONE}" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

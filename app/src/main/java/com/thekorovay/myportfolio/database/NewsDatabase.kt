@@ -27,7 +27,7 @@ interface SearchHistoryDao {
     fun getHistory(): LiveData<List<DatabaseSearchRequest>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertAll(vararg searchRequests: DatabaseSearchRequest)
+    fun insert(searchRequest: DatabaseSearchRequest)
 
     @Query("DELETE FROM search_history")
     suspend fun clearAll()

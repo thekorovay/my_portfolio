@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 
 class SearchParamsViewModel(application: Application): AndroidViewModel(application) {
 
-    private val database = getNewsDatabase(application)
+    val database = getNewsDatabase(application)
 
     val lastRequest: LiveData<SearchRequest?> = Transformations.map(database.searchHistoryDao().getLastRequest()) {
         it?.toSearchRequest()

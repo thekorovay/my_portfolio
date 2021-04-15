@@ -58,8 +58,8 @@ class SearchParamsFragment: Fragment() {
         binding.btnShowLastSearch.setOnClickListener { showLastSearchResults() }
 
         viewModel.lastRequest.observe(viewLifecycleOwner) { request ->
-            lastRequest = request
             binding.isLastSearchButtonActive = request != null
+            this.lastRequest = request
         }
 
         viewModel.invalidQueryFlag.observe(viewLifecycleOwner) { isInvalidQuery ->

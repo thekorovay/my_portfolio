@@ -1,14 +1,14 @@
 package com.thekorovay.myportfolio.module_search_history.ui.recycler_view
 
 import androidx.recyclerview.widget.DiffUtil
-import com.thekorovay.myportfolio.database.DatabaseSearchRequest
+import com.thekorovay.myportfolio.domain_model.SearchRequest
 
-object HistoryDiffCallback: DiffUtil.ItemCallback<DatabaseSearchRequest>() {
-    override fun areItemsTheSame(oldItem: DatabaseSearchRequest, newItem: DatabaseSearchRequest): Boolean {
+object HistoryDiffCallback: DiffUtil.ItemCallback<SearchRequest>() {
+    override fun areItemsTheSame(oldItem: SearchRequest, newItem: SearchRequest): Boolean {
         return oldItem.dateTime == newItem.dateTime
     }
 
-    override fun areContentsTheSame(oldItem: DatabaseSearchRequest, newItem: DatabaseSearchRequest): Boolean {
+    override fun areContentsTheSame(oldItem: SearchRequest, newItem: SearchRequest): Boolean {
         return oldItem == newItem
     }
 }

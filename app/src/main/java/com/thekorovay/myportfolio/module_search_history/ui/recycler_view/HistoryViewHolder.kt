@@ -3,8 +3,8 @@ package com.thekorovay.myportfolio.module_search_history.ui.recycler_view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.thekorovay.myportfolio.database.DatabaseSearchRequest
 import com.thekorovay.myportfolio.databinding.CardSearchHistoryEntryBinding
+import com.thekorovay.myportfolio.domain_model.SearchRequest
 
 class HistoryViewHolder private constructor(
     private val binding: CardSearchHistoryEntryBinding
@@ -19,7 +19,7 @@ class HistoryViewHolder private constructor(
     }
 
     fun bind(
-        request: DatabaseSearchRequest,
+        request: SearchRequest,
         historyClickListener: HistoryClickListener
     ) {
         binding.request = request

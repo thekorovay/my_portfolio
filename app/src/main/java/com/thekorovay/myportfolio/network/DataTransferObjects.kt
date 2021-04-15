@@ -3,6 +3,8 @@ package com.thekorovay.myportfolio.network
 import androidx.annotation.Keep
 import com.squareup.moshi.Json
 import com.thekorovay.myportfolio.database.DatabaseArticle
+import com.thekorovay.myportfolio.domain_model.SearchRequest
+import java.time.LocalDateTime
 
 const val RESPONSE_TYPE_NEWS = "news"
 
@@ -51,3 +53,29 @@ data class Provider(val name: String)
 
 @Keep
 data class Image(val url: String, val thumbnail: String)
+
+
+
+// Firebase Realtime Database requires no-argument constructor so set default values for fields
+@Keep
+data class FirebaseSearchRequest(
+        val date_time: String = LocalDateTime.now().toString(),
+        val query: String = "",
+        val safe_search: Boolean = true,
+        val thumbnails: Boolean = true,
+        val page_size: Int = 10
+) {
+    fun toSearchRequest() = SearchRequest(
+            dateTime = this.date_time,
+            query = this.query,
+            safeSearchEnabled = this.safe_search,
+            thumbnailsEnabled = this.thumbnails,
+            pageSize = this.page_size
+    )
+}
+
+fun List<FirebaseSearchRequest>.toSearchRequests(): List<SearchRequest> {
+    return map { firebaseRequest ->
+        firebaseRequest.toSearchRequest()
+    }
+}

@@ -4,27 +4,29 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.thekorovay.myportfolio.firebase.EasyFirebase
+import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
 
 class RestorePasswordViewModel(application: Application): AndroidViewModel(application) {
+    val firebase = EasyFirebase.getInstance(application)
+
     val email = MutableLiveData<String>("")
 
-    val state: LiveData<EasyFirebase.State> = EasyFirebase.state
+    val state: LiveData<EasyFirebase.State> = firebase.state
 
-    val emailSent: LiveData<Boolean> = EasyFirebase.restorePasswordEmailSent
+    val emailSent: LiveData<Boolean> = firebase.restorePasswordEmailSent
 
-    val exception: Exception? get() = EasyFirebase.exception
+    val exception: Exception? get() = firebase.exception
 
     fun restore() {
-        EasyFirebase.sendRestorePasswordEmail(getApplication(), email.value)
+        firebase.sendRestorePasswordEmail(email.value)
     }
 
     fun setErrorMessageDisplayed() {
-        EasyFirebase.flushErrorState()
+        firebase.flushErrorState()
     }
 
     fun setSuccessMessageDisplayed() {
-        EasyFirebase.flushRestorePasswordEmailSent()
+        firebase.flushRestorePasswordEmailSent()
     }
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.thekorovay.myportfolio.database.getNewsDatabase
 import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
+import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.network.LoadingState
 import com.thekorovay.myportfolio.repositories.ArticlesRepository
 import kotlinx.coroutines.*
@@ -12,7 +13,8 @@ import kotlinx.coroutines.*
 class SearchResultsViewModel(application: Application): AndroidViewModel(application) {
 
     private val database = getNewsDatabase(application)
-    private val repository = ArticlesRepository(database)
+    private val firebase = EasyFirebase.getInstance(application)
+    private val repository = ArticlesRepository(firebase, database)
 
     private var job = Job()
 

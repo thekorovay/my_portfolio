@@ -7,11 +7,15 @@ import com.thekorovay.myportfolio.database.NewsDatabase
 import com.thekorovay.myportfolio.database.toArticles
 import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
+import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.network.FIRST_PAGE_NUMBER
 import com.thekorovay.myportfolio.network.LoadingState
 import com.thekorovay.myportfolio.network.newsApi
 
-class ArticlesRepository(private val database: NewsDatabase) {
+class ArticlesRepository(
+        firebase: EasyFirebase,
+        private val database: NewsDatabase
+) {
 
     private val _loadingState = MutableLiveData<LoadingState>()
     val loadingState: LiveData<LoadingState>
@@ -21,6 +25,7 @@ class ArticlesRepository(private val database: NewsDatabase) {
         it.toArticles()
     }
 
+    private val searchHistoryRepository = SearchHistoryRepository(firebase, database)
 
     private var nextPageNumber = FIRST_PAGE_NUMBER
 
@@ -50,7 +55,7 @@ class ArticlesRepository(private val database: NewsDatabase) {
 
                     // Clear cache and update history only when loading first page
                     if (nextPageNumber == FIRST_PAGE_NUMBER) {
-                        clearCacheAndUpdateHistory(database, request)
+                        clearCacheAndUpdateHistory(request)
                     }
                 }
                 else -> {
@@ -59,7 +64,7 @@ class ArticlesRepository(private val database: NewsDatabase) {
 
                     // Clear cache and update history only when loading first page
                     if (nextPageNumber == FIRST_PAGE_NUMBER) {
-                        clearCacheAndUpdateHistory(database, request)
+                        clearCacheAndUpdateHistory(request)
                     }
 
                     // Add new articles to cache
@@ -73,10 +78,8 @@ class ArticlesRepository(private val database: NewsDatabase) {
         }
     }
 
-    private suspend fun clearCacheAndUpdateHistory(database: NewsDatabase, request: SearchRequest) {
-        database.run {
-            articlesDao().clearAll()
-            searchHistoryDao().insertAll(request.toDatabaseSearchRequest())
-        }
+    private suspend fun clearCacheAndUpdateHistory(request: SearchRequest) {
+        database.articlesDao().clearAll()
+        searchHistoryRepository.updateHistory(request)
     }
 }

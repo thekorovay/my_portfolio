@@ -1,40 +1,38 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
+import android.app.Application
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
-import com.thekorovay.myportfolio.firebase.EasyFirebase
+import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
 
-class ProfileViewModel: ViewModel() {
+class ProfileViewModel(application: Application): AndroidViewModel(application) {
+    val firebase = EasyFirebase.getInstance(application)
 
-    val user: LiveData<FirebaseUser?> = EasyFirebase.user
+    val user: LiveData<FirebaseUser?> = firebase.user
 
-    val state: LiveData<EasyFirebase.State> = EasyFirebase.state
+    val state: LiveData<EasyFirebase.State> = firebase.state
 
-    val exception: Exception? get() = EasyFirebase.exception
+    val exception: Exception? get() = firebase.exception
 
     private val _navigatingTo = MutableLiveData<Directions?>()
     val navigatingTo: LiveData<Directions?> = _navigatingTo
 
 
     fun signIn() {
-        if (user.value == null) {
-            _navigatingTo.value = Directions.SIGN_IN
-        }
+        _navigatingTo.value = Directions.SIGN_IN
     }
 
     fun signUp() {
-        if (user.value == null) {
-            _navigatingTo.value = Directions.SIGN_UP
-        }
+        _navigatingTo.value = Directions.SIGN_UP
     }
 
     fun signOut() {
-        EasyFirebase.signOut()
+        firebase.signOut()
     }
 
     fun setErrorMessageDisplayed() {
-        EasyFirebase.flushErrorState()
+        firebase.flushErrorState()
     }
 
     fun setNavigationCompleted() {

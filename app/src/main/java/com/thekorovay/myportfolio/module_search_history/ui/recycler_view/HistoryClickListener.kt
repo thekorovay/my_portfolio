@@ -1,7 +1,7 @@
 package com.thekorovay.myportfolio.module_search_history.ui.recycler_view
 
-import com.thekorovay.myportfolio.database.DatabaseSearchRequest
+import com.thekorovay.myportfolio.domain_model.SearchRequest
 
-class HistoryClickListener(val listener: (request: DatabaseSearchRequest) -> Unit) {
-    fun onClick(request: DatabaseSearchRequest) = listener(request)
+class HistoryClickListener(val listener: (request: SearchRequest) -> Unit) {
+    fun onClick(request: SearchRequest) = listener(request)
 }
