@@ -43,6 +43,8 @@ class EasyFirebase private constructor(context: Context) {
     }
     private val validator = Validator(context)
 
+    private val historyListeners = mutableListOf<ValueEventListener>()
+
 
     private val _user = MutableLiveData(auth.currentUser)
     val user: LiveData<FirebaseUser?> = _user
@@ -131,7 +133,14 @@ class EasyFirebase private constructor(context: Context) {
     }
 
     fun signOut() {
-        auth.signOut()
+        if (auth.currentUser != null) {
+            historyListeners.forEach { listener ->
+                removeSearchHistoryListener(listener)
+            }
+            historyListeners.clear()
+
+            auth.signOut()
+        }
     }
 
     private fun getOnAuthListener(userName: String? = null) = OnCompleteListener<AuthResult> { finishedTask ->
@@ -228,6 +237,8 @@ class EasyFirebase private constructor(context: Context) {
                     exception = error.toException()
                 }
             }
+
+            historyListeners.add(listener)
 
             getHistoryReference(currentUser.uid).addValueEventListener(listener)
         } else {
