@@ -108,6 +108,7 @@
             android:layout_marginTop="8dp"
             android:autofillHints="name|nickname|displayName"
             android:hint="@string/name_optionally"
+            android:imeOptions="actionDone"
             android:inputType="textPersonName"
             android:text="@={viewModel.name}"
             app:layout_constraintEnd_toEndOf="parent"

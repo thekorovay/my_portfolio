@@ -76,6 +76,7 @@
             android:layout_marginTop="8dp"
             android:autofillHints="password"
             android:hint="@string/your_password"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:text="@={viewModel.password}"
             app:layout_constraintEnd_toEndOf="parent"
