@@ -4,11 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchHistoryBinding
@@ -17,6 +17,7 @@ import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.History
 import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.HistoryRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_search_history.viewmodel.SearchHistoryViewModel
 import com.thekorovay.myportfolio.network.EasyFirebase
+import java.lang.Exception
 
 class SearchHistoryFragment: Fragment() {
     private lateinit var binding: FragmentSearchHistoryBinding
@@ -60,16 +61,32 @@ class SearchHistoryFragment: Fragment() {
             }
         }
 
-        binding.btnClearHistory.setOnClickListener { viewModel.clearHistory() }
+        binding.btnClearHistory.setOnClickListener { confirmClearHistory() }
 
         return binding.root
     }
 
+    private fun confirmClearHistory() {
+        val dialog = AlertDialog.Builder(requireContext())
+                .setTitle(R.string.clear_history_dialog_title)
+                .setMessage(R.string.clear_history_dialog_message)
+                .setPositiveButton(R.string.dialog_btn_clear) { _, _ -> viewModel.clearHistory() }
+                .setNegativeButton(R.string.dialog_btn_cancel) { _, _ -> /* Do nothing */ }
+                .create()
+
+        dialog.show()
+    }
+
     private fun showErrorMessage(exception: Exception?) {
         val message = exception?.localizedMessage ?: getString(R.string.unknown_error)
-        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
-                .setAction(R.string.hide) { /* Just hide the snackbar */ }
-                .show()
+
+        val dialog = AlertDialog.Builder(requireContext())
+                .setTitle(R.string.error_dialog_title)
+                .setMessage(message)
+                .setPositiveButton(R.string.dialog_btn_close) { _, _ -> }
+                .create()
+
+        dialog.show()
     }
 
     private fun startSearchRequest(request: SearchRequest) {
