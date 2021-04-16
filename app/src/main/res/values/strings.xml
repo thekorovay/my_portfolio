@@ -3,17 +3,15 @@
 
     <!--    Main Activity-->
     <string name="search">Search</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Account</string>
     <string name="history">History</string>
 
     <!--    About fragment-->
     <string name="menu_about">About</string>
-
     <string name="bio_title">Evgeniy Bezkorovayniy\n24 y.o., Tula, Russia</string>
     <string name="bio_description">Hi, i\'m Junior Android Developer, i\'m looking for a remote job, but i\'m also ready to move.
         \nThis is application for my porfolio.
         \nIf you are interested in me, you can contact me in the following ways:</string>
-
     <string name="contact_phone" translatable="false">+7 963 227 9776</string>
     <string name="contact_email" translatable="false">thirteenisluckynumber@gmail.com</string>
     <string name="contact_telegram" translatable="false">the_korovay</string>
@@ -23,23 +21,18 @@
     <string name="contact_github" translatable="false">thekorovay</string>
     <string name="contact_github_link" translatable="false">https://github.com/%s/my_portfolio</string>
     <string name="contact_icon">Contact icon</string>
-
     <string name="check_source_code_here">You can check source code of this app here:</string>
-
     <string name="email_subject">Android Developer Vacancy</string>
-
     <string name="toast_copied_to_clipboard">Copied to clipboard</string>
 
     <!--    News module-->
     <string name="search_query">Search query</string>
     <string name="safe_search">Safe search</string>
     <string name="thumbnails">Thumbnails</string>
-    <string name="open_articles_in_external_browser">Open articles in external browser</string>
     <string name="results_per_page">Results per page</string>
     <string name="search_news">Search News</string>
     <string name="last_search_results">Show last search results</string>
     <string name="content_desc_picture_for_article">Picture for article</string>
-    <string name="content_desc_no_internet">No internet picture</string>
     <string name="content_desc_no_internet_icon">No internet icon</string>
     <string name="source_template">Source: %s</string>
     <string name="article">Article</string>
@@ -53,9 +46,8 @@
     <string name="couldnt_load_news">Couldn\'t load news</string>
     <string name="try_again">Try again</string>
     <string name="no_news_for_request">No news found for your request</string>
-
-    <string name="datetime_format">MM.dd.yyyy HH:mm</string>
-    <string name="datetime_format_with_seconds">MM.dd.yyyy HH:mm:ss</string>
+    <string name="datetime_format" translatable="false">MM.dd.yyyy HH:mm</string>
+    <string name="datetime_format_with_seconds" translatable="false">MM.dd.yyyy HH:mm:ss</string>
     <string name="from_date">From %s</string>
     <string name="showing_results_for_query">Showing results for \"%s\"</string>
 
@@ -75,13 +67,16 @@
     <string name="history_will">will</string>
     <string name="history_wont">won\'t</string>
     <string name="sign_in">Sign in</string>
+    <string name="btn_sign_in">Sign in</string>
     <string name="sign_out">Sign out</string>
     <string name="sign_up">Sign up</string>
+    <string name="btn_sign_up">Sign up</string>
     <string name="or_sign_up">…or sign up</string>
     <string name="content_desc_sign_in_status_icon">Sign in status icon</string>
     <string name="sign_in_with_google">…or sign in with Google</string>
     <string name="sign_up_with_google">…or sign up with Google</string>
     <string name="sign_in_with_email_and_password">Sign in with email and password</string>
+    <string name="sign_up_with_email_and_password">Sign up with email and password</string>
     <string name="your_email">Your email</string>
     <string name="your_password">Your password</string>
     <string name="name_optionally">Name (optionally)</string>

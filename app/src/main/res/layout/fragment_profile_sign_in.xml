@@ -105,7 +105,7 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:onClick="@{() -> viewModel.signIn()}"
-            android:text="@string/sign_in"
+            android:text="@string/btn_sign_in"
             app:layout_constraintBottom_toTopOf="@id/btn_sign_in_with_google"
             app:layout_constraintDimensionRatio="10:3"
             app:layout_constraintEnd_toEndOf="parent"

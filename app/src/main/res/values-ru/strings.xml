@@ -1,0 +1,84 @@
+<resources>
+    <!--    Main Activity-->
+    <string name="search">Поиск</string>
+    <string name="profile">Аккаунт</string>
+    <string name="history">История</string>
+
+    <!--    About fragment-->
+    <string name="menu_about">Справка</string>
+    <string name="bio_title">Евгений Безкоровайный\n24 года, Тула, Россия</string>
+    <string name="bio_description">Привет, я Junior Android-разработчик, я ищу удаленную работу, но готов и к переезду.
+        \nЭто приложение для моего портфолио.
+        \nЕсли я заинтересовал вас, вы можете связаться со мной следующими способами:</string>
+    <string name="contact_icon">Иконка контакта</string>
+    <string name="check_source_code_here">Исходный код этого приложения можно посмотреть здесь:</string>
+    <string name="email_subject">Вакансия Android-разработчика</string>
+    <string name="toast_copied_to_clipboard">Скопировано в буфер обмена</string>
+
+    <!--    News module-->
+    <string name="search_query">Поисковый запрос</string>
+    <string name="safe_search">Безопасный поиск</string>
+    <string name="thumbnails">Иконки</string>
+    <string name="results_per_page">Результатов на странице</string>
+    <string name="search_news">Поиск новостей</string>
+    <string name="last_search_results">Результаты последнего поиска</string>
+    <string name="content_desc_picture_for_article">Картинка статьи</string>
+    <string name="content_desc_no_internet_icon">Иконка \"Нет соединения\"</string>
+    <string name="source_template">Источник: %s</string>
+    <string name="article">Подробнее</string>
+    <string name="snack_enter_query">Введите поисковый запрос</string>
+    <string name="search_results">Результаты поиска</string>
+    <string name="article_thumbnail">Иконка статьи</string>
+    <string name="show_more">Показать еще</string>
+    <string name="oops">О нет!</string>
+    <string name="no_internet_description">При загрузке новостей что-то пошло не так
+        \nПожалуйста, проверьте соединение с интернетом или попробуйте позже</string>
+    <string name="couldnt_load_news">Не удалось загрузить новости</string>
+    <string name="try_again">Повторить</string>
+    <string name="no_news_for_request">По вашему запросу не найдено ни одной новости</string>
+    <string name="from_date">От %s</string>
+    <string name="showing_results_for_query">Новости по запросу \"%s\"</string>
+
+    <!--    History fragment-->
+    <string name="content_desc_clear_search_history_button">Кнопка \"Очистить историю поиска\"</string>
+    <string name="clear_history_dialog_title">Очистить историю?</string>
+    <string name="clear_history_dialog_message">Это действие нельзя будет отменить</string>
+    <string name="dialog_btn_clear">Очистить</string>
+    <string name="dialog_btn_cancel">Отмена</string>
+    <string name="search_history_is_empty">История поиска пуста</string>
+    <string name="search_history_fragment_label">История поиска</string>
+
+    <!--    Profile module-->
+    <string name="you_are_signed_out">Вы не вошли в аккаунт</string>
+    <string name="signed_in_as">Вы вошли как %s</string>
+    <string name="history_will_be_saved">История поиска %s сохраняться в облаке</string>
+    <string name="history_will">будет</string>
+    <string name="history_wont">не будет</string>
+    <string name="sign_in">Вход</string>
+    <string name="btn_sign_in">Войти</string>
+    <string name="sign_out">Выход</string>
+    <string name="sign_up">Регистрация</string>
+    <string name="btn_sign_up">Создать</string>
+    <string name="or_sign_up">…нет аккаунта?</string>
+    <string name="content_desc_sign_in_status_icon">Иконка состояния входа</string>
+    <string name="sign_in_with_google">…или войти через Google</string>
+    <string name="sign_up_with_google">…или войти через Google</string>
+    <string name="sign_in_with_email_and_password">Войти с помощью электронной почты и пароля</string>
+    <string name="sign_up_with_email_and_password">Создайте новый аккаунт, использовав вашу электронную почту</string>
+    <string name="your_email">Электронная почта</string>
+    <string name="your_password">Пароль</string>
+    <string name="name_optionally">Имя (необязательно)</string>
+    <string name="repeat_password">Повторите пароль</string>
+    <string name="unknown_error">Что-то пошло не так. Попробуйте позже</string>
+    <string name="invalid_email_error">Неверный адрес электронной почты</string>
+    <string name="invalid_password_error">Пароль должен содержать от %1$d до %2$d знаков без пробелов</string>
+    <string name="passwords_not_match_error">Пароли не совпадают</string>
+    <string name="user_name_updating_error">Не удалось обновить имя пользователя</string>
+    <string name="forgot_your_password">Забыли ваш пароль?</string>
+    <string name="restore_password">Восстановление пароля</string>
+    <string name="enter_your_email_address">Введите адрес вашей электронной почты и мы вышлем на него письмо для восстановления пароля</string>
+    <string name="restore">Восстановить</string>
+    <string name="restore_password_email_sent">Письмо с дальнейшими инструкциями отправлено на указанный адрес</string>
+    <string name="error_dialog_title">Ошибка</string>
+    <string name="dialog_btn_close">Закрыть</string>
+</resources>
