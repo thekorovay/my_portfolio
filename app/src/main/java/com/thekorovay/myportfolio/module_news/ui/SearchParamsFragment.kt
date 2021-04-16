@@ -58,8 +58,12 @@ class SearchParamsFragment: Fragment() {
         binding.btnShowLastSearch.setOnClickListener { showLastSearchResults() }
 
         viewModel.lastRequest.observe(viewLifecycleOwner) { request ->
-            binding.isLastSearchButtonActive = request != null
+            binding.isLastRequestAvailable = request != null
             this.lastRequest = request
+        }
+
+        viewModel.lastResults.observe(viewLifecycleOwner) { cachedArticles ->
+            binding.isLastResultsAvailable = cachedArticles.isNotEmpty()
         }
 
         viewModel.invalidQueryFlag.observe(viewLifecycleOwner) { isInvalidQuery ->
@@ -71,6 +75,10 @@ class SearchParamsFragment: Fragment() {
 
         viewModel.newSearchRequest.observe(viewLifecycleOwner) { request ->
             navigateToSearchResults(request, false)
+        }
+
+        viewModel.userSignInStateChanged.observe(viewLifecycleOwner) {
+            // Ignored (check userSignInStateChanged property description)
         }
 
         return binding.root

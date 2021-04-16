@@ -13,10 +13,10 @@ import java.lang.Exception
 class SignUpViewModel(application: Application): AndroidViewModel(application) {
     val firebase = EasyFirebase.getInstance(application)
     
-    val email = MutableLiveData<String>("")
-    val password = MutableLiveData<String>("")
-    val repeatPassword = MutableLiveData<String>("")
-    val name = MutableLiveData<String>("")
+    val email = MutableLiveData("")
+    val password = MutableLiveData("")
+    val repeatPassword = MutableLiveData("")
+    val name = MutableLiveData("")
 
     val user: LiveData<FirebaseUser?> = firebase.user
 

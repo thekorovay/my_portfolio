@@ -53,7 +53,7 @@ class ArticleViewHolderNoThumbnail private constructor(
 }
 
 class ShowMoreViewHolder private constructor(
-    private val itemView: View
+    itemView: View
 ) : RecyclerView.ViewHolder(itemView) {
 
     companion object {

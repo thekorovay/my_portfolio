@@ -10,7 +10,7 @@ import java.lang.Exception
 class RestorePasswordViewModel(application: Application): AndroidViewModel(application) {
     val firebase = EasyFirebase.getInstance(application)
 
-    val email = MutableLiveData<String>("")
+    val email = MutableLiveData("")
 
     val state: LiveData<EasyFirebase.State> = firebase.state
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -43,7 +44,7 @@ class EasyFirebase private constructor(context: Context) {
     private val validator = Validator(context)
 
 
-    private val _user = MutableLiveData<FirebaseUser?>(auth.currentUser)
+    private val _user = MutableLiveData(auth.currentUser)
     val user: LiveData<FirebaseUser?> = _user
 
     private val _state = MutableLiveData(State.IDLE)
@@ -54,6 +55,10 @@ class EasyFirebase private constructor(context: Context) {
 
     private val _searchHistory = MutableLiveData<List<FirebaseSearchRequest>>()
     val searchHistory: LiveData<List<FirebaseSearchRequest>> = _searchHistory
+
+    val lastRequest: LiveData<FirebaseSearchRequest?> = Transformations.map(_searchHistory) { history ->
+        history.firstOrNull()
+    }
 
     var exception: Exception? = null
         private set(value) {
@@ -196,7 +201,7 @@ class EasyFirebase private constructor(context: Context) {
     /**
      * Returns [ValueEventListener] for user's search history.
      * Clients should not do anything with this listener,
-     * only get it here and remove it on disposal in [removeSearchHistoryListener]
+     * only get it from here and remove it on disposal with [removeSearchHistoryListener]
      */
     fun getSearchHistoryListener(): ValueEventListener? {
         val currentUser = auth.currentUser

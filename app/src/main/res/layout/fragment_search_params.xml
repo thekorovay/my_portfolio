@@ -5,7 +5,11 @@
     <data>
 
         <variable
-            name="isLastSearchButtonActive"
+            name="isLastResultsAvailable"
+            type="Boolean" />
+
+        <variable
+            name="isLastRequestAvailable"
             type="Boolean" />
     </data>
 
@@ -98,7 +102,7 @@
         <Button
             android:id="@+id/btn_show_last_search"
             style="@style/ActionButtonStyle"
-            isActive="@{isLastSearchButtonActive}"
+            isActive="@{isLastRequestAvailable &amp;&amp; isLastResultsAvailable}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/last_search_results"

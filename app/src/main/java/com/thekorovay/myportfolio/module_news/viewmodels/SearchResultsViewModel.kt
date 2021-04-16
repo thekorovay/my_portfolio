@@ -7,19 +7,19 @@ import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.network.LoadingState
-import com.thekorovay.myportfolio.repositories.ArticlesRepository
+import com.thekorovay.myportfolio.repositories.SearchHistoryRepository
 import kotlinx.coroutines.*
 
 class SearchResultsViewModel(application: Application): AndroidViewModel(application) {
 
     private val database = getNewsDatabase(application)
     private val firebase = EasyFirebase.getInstance(application)
-    private val repository = ArticlesRepository(firebase, database)
+    private val searchHistoryRepository = SearchHistoryRepository(firebase, database)
 
     private var job = Job()
 
-    val articles: LiveData<List<Article>> = repository.articles
-    val loadingState: LiveData<LoadingState> = repository.loadingState
+    val articles: LiveData<List<Article>> = searchHistoryRepository.articles
+    val loadingState: LiveData<LoadingState> = searchHistoryRepository.newsLoadingState
 
     var isLastQuerySnackbarShown = false
 
@@ -36,7 +36,7 @@ class SearchResultsViewModel(application: Application): AndroidViewModel(applica
         val scope = CoroutineScope(job + Dispatchers.IO)
 
         scope.launch {
-            repository.loadMoreNews(request)
+            searchHistoryRepository.loadMoreNews(request)
         }
     }
 }

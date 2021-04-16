@@ -20,8 +20,8 @@ class SearchHistoryViewModel(application: Application): AndroidViewModel(applica
         subscribeToSearchHistory()
     }
 
-    val exception: Exception? get() = repository.exception
-    val state: LiveData<EasyFirebase.State> = repository.state
+    val exception: Exception? get() = repository.firebaseException
+    val state: LiveData<EasyFirebase.State> = repository.firebaseState
 
     private var clearHistoryJob: Job? = null
 
@@ -39,7 +39,7 @@ class SearchHistoryViewModel(application: Application): AndroidViewModel(applica
     }
 
     fun setErrorMessageDisplayed() {
-        repository.flushErrorState()
+        repository.flushFirebaseErrorState()
     }
 
     override fun onCleared() {
