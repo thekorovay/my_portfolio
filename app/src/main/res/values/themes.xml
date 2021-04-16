@@ -3,6 +3,12 @@
     <!-- Base application theme. -->
     <style name="Theme.MyPortfolio" parent="Theme.MaterialComponents.DayNight.NoActionBar">
 
+        <!-- Disable strange colors for buttons on some devices (for ex. running MIUI 12)  -->
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+
+        <!-- Don't change surfaces color due to their elevation  -->
+        <item name="elevationOverlayEnabled">false</item>
+
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/black</item>
         <item name="colorPrimaryVariant">@color/grey_500</item>
