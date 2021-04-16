@@ -1,5 +1,6 @@
 package com.thekorovay.myportfolio
 
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -21,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         setupNavController()
 
         setupBottomBar()
+
+        setupOrientationForFragments()
 
         // IF THERE'S SINGLE TOOLBAR IN ACTIVITY LAYOUT
         // setupSingleToolbar()
@@ -51,6 +54,15 @@ class MainActivity : AppCompatActivity() {
                         navController.navigate(selected.itemId, null, options)
                     }
                 }
+            }
+        }
+    }
+
+    private fun setupOrientationForFragments() {
+        navController.addOnDestinationChangedListener { _, dest, _ ->
+            requestedOrientation = when (dest.id) {
+                R.id.readArticleFragment -> ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+                else -> ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
             }
         }
     }
