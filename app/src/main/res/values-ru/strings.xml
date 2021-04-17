@@ -16,7 +16,7 @@
     <string name="toast_copied_to_clipboard">Скопировано в буфер обмена</string>
 
     <!--    News module-->
-    <string name="search_query">Поисковый запрос</string>
+    <string name="search_query">Запрос (только англ.)</string>
     <string name="safe_search">Безопасный поиск</string>
     <string name="thumbnails">Иконки</string>
     <string name="results_per_page">Результатов на странице</string>

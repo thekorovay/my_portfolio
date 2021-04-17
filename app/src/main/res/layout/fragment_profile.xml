@@ -66,7 +66,7 @@
             textWithFade="@{@string/history_will_be_saved(user != null ? @string/history_will : @string/history_wont)}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="20dp"
             android:textAlignment="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

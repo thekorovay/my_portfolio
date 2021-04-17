@@ -26,7 +26,7 @@
     <string name="toast_copied_to_clipboard">Copied to clipboard</string>
 
     <!--    News module-->
-    <string name="search_query">Search query</string>
+    <string name="search_query">Query (English only)</string>
     <string name="safe_search">Safe search</string>
     <string name="thumbnails">Thumbnails</string>
     <string name="results_per_page">Results per page</string>
