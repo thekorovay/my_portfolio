@@ -1,10 +1,12 @@
 package com.thekorovay.myportfolio.domain_model
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.thekorovay.myportfolio.database.DatabaseSearchRequest
 import com.thekorovay.myportfolio.network.FirebaseSearchRequest
 import kotlinx.parcelize.Parcelize
 
+@Keep
 @Parcelize
 data class Article(
     val id: String,
@@ -22,6 +24,7 @@ data class Article(
     val imageUrl: String
 ): Parcelable
 
+@Keep
 @Parcelize
 data class SearchRequest(
     val dateTime: String,
