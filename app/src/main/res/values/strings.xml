@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">My Portfolio</string>
+    <string name="app_name" translatable="false">Korovay News App</string>
 
     <!--    Main Activity-->
     <string name="search">Search</string>
