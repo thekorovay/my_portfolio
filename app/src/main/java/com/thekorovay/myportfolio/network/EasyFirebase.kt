@@ -21,14 +21,13 @@ import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 import com.thekorovay.myportfolio.R
 
-class EasyFirebase(context: Context) {
+class EasyFirebase(private val validator: Validator) {
 
     private var auth: FirebaseAuth = Firebase.auth.apply {
         addAuthStateListener { firebaseAuth ->
             _user.value = firebaseAuth.currentUser
         }
     }
-    private val validator = Validator(context)
 
     private val historyListeners = mutableListOf<ValueEventListener>()
 

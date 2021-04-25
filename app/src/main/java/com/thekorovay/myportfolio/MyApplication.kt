@@ -11,6 +11,7 @@ import com.thekorovay.myportfolio.module_profile.viewmodels.SignInViewModel
 import com.thekorovay.myportfolio.module_profile.viewmodels.SignUpViewModel
 import com.thekorovay.myportfolio.module_search_history.viewmodel.SearchHistoryViewModel
 import com.thekorovay.myportfolio.network.EasyFirebase
+import com.thekorovay.myportfolio.network.Validator
 import com.thekorovay.myportfolio.network.getNewsApi
 import com.thekorovay.myportfolio.repositories.SearchHistoryRepository
 import org.koin.android.ext.koin.androidContext
@@ -23,10 +24,11 @@ class MyApplication: Application() {
 
     private val reposModule = module {
         single { EasyPrefs(androidContext()) }
-        single { EasyFirebase(androidContext()) }
+        single { EasyFirebase(get()) }
         single { getNewsDatabase(androidContext()) }
         single { getNewsApi() }
 
+        factory { Validator(androidContext()) }
         factory { SearchHistoryRepository(get(), get(), get()) }
     }
 
