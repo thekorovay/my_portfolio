@@ -10,6 +10,7 @@
 - Retrofit с Moshi
 - Room
 - Firebase (Authentication, Realtime Database, Crashlytics)
+- Koin
 - Glide
 - Java Desugaring library 
 
@@ -28,6 +29,7 @@ You can download latest version on [Releases page](https://github.com/thekorovay
 - Retrofit with Moshi
 - Room
 - Firebase (Authentication, Realtime Database, Crashlytics)
+- Koin
 - Glide
 - Java Desugaring library 
 
