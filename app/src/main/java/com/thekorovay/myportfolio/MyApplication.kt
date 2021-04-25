@@ -21,23 +21,12 @@ import org.koin.dsl.module
 
 class MyApplication: Application() {
 
-    private val prefsModule = module {
+    private val reposModule = module {
         single { EasyPrefs(androidContext()) }
-    }
-
-    private val firebaseModule = module {
         single { EasyFirebase(androidContext()) }
-    }
-
-    private val newsDatabaseModule = module {
         single { getNewsDatabase(androidContext()) }
-    }
-
-    private val newsApiModule = module {
         single { getNewsApi() }
-    }
 
-    private val repoModule = module {
         factory { SearchHistoryRepository(get(), get(), get()) }
     }
 
@@ -57,7 +46,7 @@ class MyApplication: Application() {
         startKoin {
             androidLogger()
             androidContext(this@MyApplication)
-            modules(repoModule, newsDatabaseModule, firebaseModule, newsApiModule, prefsModule, viewModelsModule)
+            modules(reposModule, viewModelsModule)
         }
     }
 }
