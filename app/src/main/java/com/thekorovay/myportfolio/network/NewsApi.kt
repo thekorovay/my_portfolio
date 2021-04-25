@@ -28,8 +28,7 @@ interface NewsService {
 }
 
 
-val newsApi: NewsService by lazy {
-
+fun getNewsApi(): NewsService {
     val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
@@ -39,7 +38,7 @@ val newsApi: NewsService by lazy {
         .baseUrl(BASE_URL)
         .build()
 
-    retrofit.create(NewsService::class.java)
+    return retrofit.create(NewsService::class.java)
 }
 
 enum class LoadingState {

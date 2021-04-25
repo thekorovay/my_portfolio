@@ -7,7 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
@@ -18,6 +17,7 @@ import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchParamsViewModel
 import com.thekorovay.myportfolio.tools.setPageSize
 import com.thekorovay.myportfolio.tools.setupNavMenu
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SearchParamsFragment: Fragment() {
 
@@ -25,7 +25,7 @@ class SearchParamsFragment: Fragment() {
 
     private val args: SearchParamsFragmentArgs by navArgs()
 
-    private val viewModel: SearchParamsViewModel by viewModels()
+    private val viewModel: SearchParamsViewModel by viewModel()
 
     private var lastRequest: SearchRequest? = null
 

@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
@@ -17,11 +16,12 @@ import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.module_profile.viewmodels.RestorePasswordViewModel
 import com.thekorovay.myportfolio.tools.setupNavUpButton
 import java.lang.Exception
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class RestorePasswordFragment: Fragment() {
     private lateinit var binding: FragmentProfileRestorePasswordBinding
 
-    private val viewModel: RestorePasswordViewModel by viewModels()
+    private val viewModel: RestorePasswordViewModel by viewModel()
 
     private val args: RestorePasswordFragmentArgs by navArgs()
 

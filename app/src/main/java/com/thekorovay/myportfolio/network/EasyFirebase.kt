@@ -21,20 +21,7 @@ import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 import com.thekorovay.myportfolio.R
 
-class EasyFirebase private constructor(context: Context) {
-
-    companion object {
-        private lateinit var INSTANCE: EasyFirebase
-
-        fun getInstance(context: Context): EasyFirebase {
-            if (!::INSTANCE.isInitialized) {
-                INSTANCE = EasyFirebase(context)
-            }
-
-            return INSTANCE
-        }
-    }
-
+class EasyFirebase(context: Context) {
 
     private var auth: FirebaseAuth = Firebase.auth.apply {
         addAuthStateListener { firebaseAuth ->

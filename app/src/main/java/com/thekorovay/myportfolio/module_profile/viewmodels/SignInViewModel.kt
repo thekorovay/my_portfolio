@@ -1,17 +1,15 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
-import android.app.Application
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseUser
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
 
-class SignInViewModel(application: Application): AndroidViewModel(application) {
-    val firebase = EasyFirebase.getInstance(application)
+class SignInViewModel(private val firebase: EasyFirebase): ViewModel() {
 
     val email = MutableLiveData("")
     val password = MutableLiveData("")

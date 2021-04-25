@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.R
@@ -18,10 +17,12 @@ import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.History
 import com.thekorovay.myportfolio.module_search_history.viewmodel.SearchHistoryViewModel
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SearchHistoryFragment: Fragment() {
     private lateinit var binding: FragmentSearchHistoryBinding
-    private val viewModel: SearchHistoryViewModel by viewModels()
+
+    private val viewModel: SearchHistoryViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

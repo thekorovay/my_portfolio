@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -22,13 +21,14 @@ import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickList
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.ShowMoreClickListener
 import com.thekorovay.myportfolio.tools.setupNavUpButton
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SearchResultsFragment: Fragment() {
 
     private val args: SearchResultsFragmentArgs by navArgs()
     private lateinit var binding: FragmentSearchResultsBinding
 
-    private val viewModel: SearchResultsViewModel by viewModels()
+    private val viewModel: SearchResultsViewModel by viewModel()
 
     private var isMoreResultsAvailable = true
     private var isListVisible = MutableLiveData(false)

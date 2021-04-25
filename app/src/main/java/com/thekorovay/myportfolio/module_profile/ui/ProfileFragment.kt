@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
@@ -19,12 +18,13 @@ import com.thekorovay.myportfolio.databinding.FragmentProfileBinding
 import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.module_profile.viewmodels.ProfileViewModel
 import java.lang.Exception
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class ProfileFragment: Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
 
-    private val viewModel: ProfileViewModel by viewModels()
+    private val viewModel: ProfileViewModel by viewModel()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

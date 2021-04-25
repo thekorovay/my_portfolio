@@ -1,12 +1,9 @@
 package com.thekorovay.myportfolio.module_news.viewmodels
-
-import android.app.Application
+ 
 import androidx.lifecycle.*
 import com.thekorovay.myportfolio.database.EasyPrefs
-import com.thekorovay.myportfolio.database.getNewsDatabase
 import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
-import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.repositories.SearchHistoryRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,14 +11,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 
-class SearchParamsViewModel(application: Application): AndroidViewModel(application) {
+class SearchParamsViewModel(
+    private val prefs: EasyPrefs,
+    private val repository: SearchHistoryRepository,
+): ViewModel() {
 
-    private val prefs = EasyPrefs(application)
-    private val repository = SearchHistoryRepository(
-            EasyFirebase.getInstance(application),
-            getNewsDatabase(application)
-    ).apply {
-        subscribeToSearchHistory()
+    init {
+        repository.subscribeToSearchHistory()
     }
 
     /**

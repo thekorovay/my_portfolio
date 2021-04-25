@@ -55,15 +55,7 @@ private val MIGRATION_1_2 = object : Migration(1, 2) {
     }
 }
 
-
-private lateinit var DATABASE_INSTANCE: NewsDatabase
-
-fun getNewsDatabase(context: Context): NewsDatabase {
-    if (!::DATABASE_INSTANCE.isInitialized) {
-        DATABASE_INSTANCE = Room.databaseBuilder(context, NewsDatabase::class.java, "news_db")
-            .addMigrations(MIGRATION_1_2)
-            .build()
-    }
-
-    return DATABASE_INSTANCE
-}
+fun getNewsDatabase(context: Context) = Room
+    .databaseBuilder(context, NewsDatabase::class.java, "news_db")
+    .addMigrations(MIGRATION_1_2)
+    .build()

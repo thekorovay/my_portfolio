@@ -1,14 +1,12 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
 
-class RestorePasswordViewModel(application: Application): AndroidViewModel(application) {
-    val firebase = EasyFirebase.getInstance(application)
+class RestorePasswordViewModel(private val firebase: EasyFirebase): ViewModel() {
 
     val email = MutableLiveData("")
 

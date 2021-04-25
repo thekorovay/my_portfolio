@@ -14,8 +14,9 @@ import com.thekorovay.myportfolio.network.*
 import java.lang.Exception
 
 class SearchHistoryRepository(
-        private val firebase: EasyFirebase,
-        private val database: NewsDatabase
+    private val newsApi: NewsService,
+    private val firebase: EasyFirebase,
+    private val database: NewsDatabase
 ) {
 
     /*  ARTICLES CACHE  */

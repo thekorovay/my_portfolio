@@ -1,13 +1,11 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
-import android.app.Application
 import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
 
-class ProfileViewModel(application: Application): AndroidViewModel(application) {
-    val firebase = EasyFirebase.getInstance(application)
+class ProfileViewModel(private val firebase: EasyFirebase): ViewModel() {
 
     val user: LiveData<FirebaseUser?> = firebase.user
 
