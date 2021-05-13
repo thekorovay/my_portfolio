@@ -1,6 +1,7 @@
 package com.thekorovay.myportfolio.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import com.thekorovay.myportfolio.database.getNewsDatabase
 import com.thekorovay.myportfolio.network.getNewsApi
 import dagger.Module
@@ -11,7 +12,7 @@ import javax.inject.Singleton
 class RepositoryModule {
     @Singleton
     @Provides
-    fun provideSharedPrefs(context: Context) = context.getSharedPreferences("default_prefs", Context.MODE_PRIVATE)
+    fun provideSharedPrefs(context: Context): SharedPreferences = context.getSharedPreferences("default_prefs", Context.MODE_PRIVATE)
 
     @Singleton
     @Provides
