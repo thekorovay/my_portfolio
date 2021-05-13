@@ -12,10 +12,6 @@ import javax.inject.Singleton
 class RepositoryModule {
     @Singleton
     @Provides
-    fun provideSharedPrefs(context: Context): SharedPreferences = context.getSharedPreferences("default_prefs", Context.MODE_PRIVATE)
-
-    @Singleton
-    @Provides
     fun provideNewsDatabase(context: Context) = getNewsDatabase(context)
 
     @Singleton
