@@ -1,57 +1,17 @@
 package com.thekorovay.myportfolio.module_news.viewmodels
  
 import androidx.lifecycle.*
-import com.thekorovay.myportfolio.database.EasyPrefs
-import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.repositories.SearchHistoryRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class SearchParamsViewModel @Inject constructor(
-    private val prefs: EasyPrefs,
-    private val repository: SearchHistoryRepository,
+    repository: SearchHistoryRepository
 ): ViewModel() {
 
-    init {
-        repository.subscribeToSearchHistory()
-    }
-
-    /**
-     * Client (GUI) should observe this property even if client won't use it, because
-     * viewModel needs at least one observer on this property to handle cached articles properly
-     */
-    val userSignInStateChanged: LiveData<Boolean> = Transformations.map(repository.firebaseUser) { user ->
-        val userChanged = user?.uid != prefs.lastUserId
-        if (userChanged) {
-            clearCache()
-        }
-
-        prefs.lastUserId = user?.uid
-
-        userChanged
-    }
-
-    private var clearCacheJob: Job? = null
-
-    private fun clearCache() {
-        val job = clearCacheJob
-        if (job != null && job.isActive) {
-            return
-        }
-
-        clearCacheJob = CoroutineScope(Dispatchers.IO).launch {
-            repository.clearCache()
-        }
-    }
-
-
-    val lastRequest: LiveData<SearchRequest?> = repository.lastRequest
-    val lastResults: LiveData<List<Article>> = repository.articles
+    val lastRequest = repository.lastRequest
+    val lastResults = repository.articles
 
     private val _newSearchRequest = MutableLiveData<SearchRequest?>()
     val newSearchRequest: LiveData<SearchRequest?> = _newSearchRequest
@@ -85,8 +45,4 @@ class SearchParamsViewModel @Inject constructor(
     fun setInvalidQueryWarningShown() { _invalidQueryFlag.value = false }
 
     fun setNavigationToResultsCompleted() { _newSearchRequest.value = null }
-
-    override fun onCleared() {
-        repository.unsubscribeFromSearchHistory()
-    }
 }

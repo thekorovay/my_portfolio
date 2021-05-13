@@ -1,7 +1,6 @@
 package com.thekorovay.myportfolio.module_news.viewmodels
 
 import androidx.lifecycle.*
-import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.network.LoadingState
 import com.thekorovay.myportfolio.repositories.SearchHistoryRepository
@@ -12,8 +11,8 @@ class SearchResultsViewModel @Inject constructor(private val repository: SearchH
 
     private var job = Job()
 
-    val articles: LiveData<List<Article>> = repository.articles
-    val loadingState: LiveData<LoadingState> = repository.newsLoadingState
+    val articles = repository.articles
+    val loadingState = repository.newsLoadingState
 
     var isLastQuerySnackbarShown = false
 

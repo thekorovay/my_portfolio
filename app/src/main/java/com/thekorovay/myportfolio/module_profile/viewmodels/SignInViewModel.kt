@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseUser
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
 import javax.inject.Inject
@@ -15,8 +14,8 @@ class SignInViewModel @Inject constructor(private val firebase: EasyFirebase): V
     val email = MutableLiveData("")
     val password = MutableLiveData("")
 
-    val user: LiveData<FirebaseUser?> = firebase.user
-    val state: LiveData<EasyFirebase.State> = firebase.state
+    val user = firebase.user
+    val state = firebase.state
 
     val exception: Exception? get() = firebase.exception
 

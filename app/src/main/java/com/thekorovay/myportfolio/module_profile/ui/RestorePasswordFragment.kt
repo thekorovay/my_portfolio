@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
@@ -17,6 +18,7 @@ import com.thekorovay.myportfolio.databinding.FragmentProfileRestorePasswordBind
 import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.module_profile.viewmodels.RestorePasswordViewModel
 import com.thekorovay.myportfolio.tools.setupNavUpButton
+import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -57,20 +59,24 @@ class RestorePasswordFragment: Fragment() {
 
         viewModel.email.value = args.email
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            binding.isLoading = state == EasyFirebase.State.BUSY
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { state ->
+                binding.isLoading = state == EasyFirebase.State.BUSY
 
-            if (state == EasyFirebase.State.ERROR) {
-                showErrorMessage(viewModel.exception)
-                viewModel.setErrorMessageDisplayed()
+                if (state == EasyFirebase.State.ERROR) {
+                    showErrorMessage(viewModel.exception)
+                    viewModel.setErrorMessageDisplayed()
+                }
             }
         }
 
-        viewModel.emailSent.observe(viewLifecycleOwner) { emailSent ->
-            if (emailSent) {
-                showEmailSentMessage()
-                viewModel.setSuccessMessageDisplayed()
-                goBackToSignIn()
+        lifecycleScope.launchWhenStarted {
+            viewModel.emailSent.collect { emailSent ->
+                if (emailSent) {
+                    showEmailSentMessage()
+                    viewModel.setSuccessMessageDisplayed()
+                    goBackToSignIn()
+                }
             }
         }
 

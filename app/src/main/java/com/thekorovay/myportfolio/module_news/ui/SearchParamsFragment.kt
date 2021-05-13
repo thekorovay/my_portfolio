@@ -7,6 +7,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
@@ -18,6 +19,7 @@ import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchParamsViewModel
 import com.thekorovay.myportfolio.tools.setPageSize
 import com.thekorovay.myportfolio.tools.setupNavMenu
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class SearchParamsFragment: Fragment() {
@@ -62,13 +64,17 @@ class SearchParamsFragment: Fragment() {
         binding.btnSearch.setOnClickListener { search() }
         binding.btnShowLastSearch.setOnClickListener { showLastSearchResults() }
 
-        viewModel.lastRequest.observe(viewLifecycleOwner) { request ->
-            binding.isLastRequestAvailable = request != null
-            this.lastRequest = request
+        lifecycleScope.launchWhenStarted {
+            viewModel.lastRequest.collect { request ->
+                binding.isLastRequestAvailable = request != null
+                this@SearchParamsFragment.lastRequest = request
+            }
         }
 
-        viewModel.lastResults.observe(viewLifecycleOwner) { cachedArticles ->
-            binding.isLastResultsAvailable = cachedArticles.isNotEmpty()
+        lifecycleScope.launchWhenStarted {
+            viewModel.lastResults.collect { cachedArticles ->
+                binding.isLastResultsAvailable = cachedArticles.isNotEmpty()
+            }
         }
 
         viewModel.invalidQueryFlag.observe(viewLifecycleOwner) { isInvalidQuery ->
@@ -80,10 +86,6 @@ class SearchParamsFragment: Fragment() {
 
         viewModel.newSearchRequest.observe(viewLifecycleOwner) { request ->
             navigateToSearchResults(request, false)
-        }
-
-        viewModel.userSignInStateChanged.observe(viewLifecycleOwner) {
-            // Ignored (check userSignInStateChanged property description)
         }
 
         return binding.root

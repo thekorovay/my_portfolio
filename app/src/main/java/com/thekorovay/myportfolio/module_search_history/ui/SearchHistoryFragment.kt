@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.MyApplication
@@ -18,6 +19,7 @@ import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.History
 import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.HistoryRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_search_history.viewmodel.SearchHistoryViewModel
 import com.thekorovay.myportfolio.network.EasyFirebase
+import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -54,17 +56,21 @@ class SearchHistoryFragment: Fragment() {
         )
         binding.rvSearchHistory.adapter = historyAdapter
 
-        viewModel.searchHistory.observe(viewLifecycleOwner) { historyEntries ->
-            historyAdapter.submitList(historyEntries)
-            binding.isHistoryEmpty = historyEntries.isEmpty()
+        lifecycleScope.launchWhenStarted {
+            viewModel.searchHistory.collect { historyEntries ->
+                historyAdapter.submitList(historyEntries)
+                binding.isHistoryEmpty = historyEntries.isEmpty()
+            }
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            binding.isLoading = state == EasyFirebase.State.BUSY
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { state ->
+                binding.isLoading = state == EasyFirebase.State.BUSY
 
-            if (state == EasyFirebase.State.ERROR) {
-                showErrorMessage(viewModel.exception)
-                viewModel.setErrorMessageDisplayed()
+                if (state == EasyFirebase.State.ERROR) {
+                    showErrorMessage(viewModel.exception)
+                    viewModel.setErrorMessageDisplayed()
+                }
             }
         }
 

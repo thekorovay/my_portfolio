@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
@@ -23,6 +24,7 @@ import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickList
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.ShowMoreClickListener
 import com.thekorovay.myportfolio.tools.setupNavUpButton
+import kotlinx.coroutines.flow.collect
 import javax.inject.Inject
 
 class SearchResultsFragment: Fragment() {
@@ -63,40 +65,44 @@ class SearchResultsFragment: Fragment() {
         )
         binding.rvSearchResults.adapter = newsAdapter
 
-
-        viewModel.articles.observe(viewLifecycleOwner) { articles ->
-            // Map Articles to ListItems with or without thumbs
-            val listItems = articles.map {
-                if (args.searchRequest.thumbnailsEnabled) {
-                    NewsListItem.ArticleItem(it)
-                } else {
-                    NewsListItem.ArticleNoThumbnailItem(it)
+        lifecycleScope.launchWhenStarted {
+            viewModel.loadingState.collect { state ->
+                if (state == LoadingState.SUCCESS) {
+                    isListVisible.postValue(true)
                 }
-            }.toMutableList()
 
-            // Show or hide the Show More button
-            if (!args.showingLastSearchResults && isMoreResultsAvailable && listItems.isNotEmpty()) {
-                listItems.add(NewsListItem.ShowMoreNewsItem)
-            }
+                isMoreResultsAvailable = state != LoadingState.EMPTY_PAGE
 
-            newsAdapter.submitList(listItems)
-        }
+                binding.isProgressBarVisible = state == LoadingState.LOADING
+                binding.isErrorScreenVisible = !isListVisible.value!! && state == LoadingState.ERROR
+                binding.isNoResultsMessageVisible = !isListVisible.value!! && !isMoreResultsAvailable
 
-        viewModel.loadingState.observe(viewLifecycleOwner) { state ->
-            if (state == LoadingState.SUCCESS) {
-                isListVisible.postValue(true)
-            }
-
-            isMoreResultsAvailable = state != LoadingState.EMPTY_PAGE
-
-            binding.isProgressBarVisible = state == LoadingState.LOADING
-            binding.isErrorScreenVisible = !isListVisible.value!! && state == LoadingState.ERROR
-            binding.isNoResultsMessageVisible = !isListVisible.value!! && !isMoreResultsAvailable
-
-            if (state == LoadingState.ERROR && isListVisible.value!!) {
-                showLoadingErrorSnack()
+                if (state == LoadingState.ERROR && isListVisible.value!!) {
+                    showLoadingErrorSnack()
+                }
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.articles.collect { articles ->
+                // Map Articles to ListItems with or without thumbs
+                val listItems = articles.map {
+                    if (args.searchRequest.thumbnailsEnabled) {
+                        NewsListItem.ArticleItem(it)
+                    } else {
+                        NewsListItem.ArticleNoThumbnailItem(it)
+                    }
+                }.toMutableList()
+
+                // Show or hide the Show More button
+                if (!args.showingLastSearchResults && isMoreResultsAvailable && listItems.isNotEmpty()) {
+                    listItems.add(NewsListItem.ShowMoreNewsItem)
+                }
+
+                newsAdapter.submitList(listItems)
+            }
+        }
+
 
         binding.btnReload.setOnClickListener { showMoreNews() }
 

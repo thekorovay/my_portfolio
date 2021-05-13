@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
@@ -19,6 +20,7 @@ import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentProfileBinding
 import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.module_profile.viewmodels.ProfileViewModel
+import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -56,17 +58,21 @@ class ProfileFragment: Fragment() {
 
         binding.viewModel = viewModel
 
-        viewModel.user.observe(viewLifecycleOwner) { user ->
-            binding.user = user
-            animateIcon(user != null)
+        lifecycleScope.launchWhenStarted {
+            viewModel.user.collect { user ->
+                binding.user = user
+                animateIcon(user != null)
+            }
         }
 
-        viewModel.state.observe(viewLifecycleOwner) { state ->
-            binding.isLoading = state == EasyFirebase.State.BUSY
+        lifecycleScope.launchWhenStarted {
+            viewModel.state.collect { state ->
+                binding.isLoading = state == EasyFirebase.State.BUSY
 
-            if (state == EasyFirebase.State.ERROR) {
-                showErrorMessage(viewModel.exception)
-                viewModel.setErrorMessageDisplayed()
+                if (state == EasyFirebase.State.ERROR) {
+                    showErrorMessage(viewModel.exception)
+                    viewModel.setErrorMessageDisplayed()
+                }
             }
         }
 

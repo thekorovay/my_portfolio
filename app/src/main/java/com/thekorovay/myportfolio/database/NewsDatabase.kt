@@ -1,15 +1,15 @@
 package com.thekorovay.myportfolio.database
 
 import android.content.Context
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ArticlesDao {
     @Query("SELECT * FROM articles")
-    fun getArticles(): LiveData<List<DatabaseArticle>>
+    fun getArticles(): Flow<List<DatabaseArticle>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg articles: DatabaseArticle)
@@ -21,10 +21,10 @@ interface ArticlesDao {
 @Dao
 interface SearchHistoryDao {
     @Query("SELECT * FROM search_history ORDER BY date_time DESC LIMIT 1")
-    fun getLastRequest(): LiveData<DatabaseSearchRequest?>
+    fun getLastRequest(): Flow<DatabaseSearchRequest?>
 
     @Query("SELECT * FROM search_history ORDER BY date_time DESC")
-    fun getHistory(): LiveData<List<DatabaseSearchRequest>>
+    fun getHistory(): Flow<List<DatabaseSearchRequest>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(searchRequest: DatabaseSearchRequest)

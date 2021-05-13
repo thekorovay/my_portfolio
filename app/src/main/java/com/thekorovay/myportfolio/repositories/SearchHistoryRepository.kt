@@ -1,16 +1,15 @@
 package com.thekorovay.myportfolio.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
-import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.ValueEventListener
 import com.thekorovay.myportfolio.database.NewsDatabase
 import com.thekorovay.myportfolio.database.toArticles
 import com.thekorovay.myportfolio.database.toSearchRequests
 import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.network.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import javax.inject.Inject
 
@@ -20,15 +19,25 @@ class SearchHistoryRepository @Inject constructor(
     private val database: NewsDatabase
 ) {
 
+    init {
+        CoroutineScope(Dispatchers.Default).launch {
+            firebase.userChanged.collect { userChanged ->
+                if (userChanged) {
+                    isSignedIn = firebase.user.value != null
+                    clearCache()
+
+                    firebase.setUserChangeHandled()
+                }
+            }
+        }
+    }
+
     /*  ARTICLES CACHE  */
 
-    private val _newsLoadingState = MutableLiveData<LoadingState>()
-    val newsLoadingState: LiveData<LoadingState>
-        get() = _newsLoadingState
+    private val _newsLoadingState: MutableStateFlow<LoadingState?> = MutableStateFlow(null)
+    val newsLoadingState: StateFlow<LoadingState?> = _newsLoadingState
 
-    val articles: LiveData<List<Article>> = Transformations.map(database.articlesDao().getArticles()) {
-        it.toArticles()
-    }
+    val articles: Flow<List<Article>> = database.articlesDao().getArticles().map { it.toArticles() }
 
     private var nextPageNumber = FIRST_PAGE_NUMBER
 
@@ -39,7 +48,7 @@ class SearchHistoryRepository @Inject constructor(
      * articles in [database] and saves last search request in [database].
      */
     suspend fun loadMoreNews(request: SearchRequest) {
-        _newsLoadingState.postValue(LoadingState.LOADING)
+        _newsLoadingState.value = LoadingState.LOADING
 
         try {
             val response = newsApi.requestNewsArticlesAsync(
@@ -60,11 +69,11 @@ class SearchHistoryRepository @Inject constructor(
     }
 
     private fun onNewsLoadingError() {
-        _newsLoadingState.postValue(LoadingState.ERROR)
+        _newsLoadingState.value = LoadingState.ERROR
     }
 
     private suspend fun onNewsLoadingEmptyPage(request: SearchRequest) {
-        _newsLoadingState.postValue(LoadingState.EMPTY_PAGE)
+        _newsLoadingState.value = LoadingState.EMPTY_PAGE
 
         // Clear cache and update history only when loading first page
         if (nextPageNumber == FIRST_PAGE_NUMBER) {
@@ -74,7 +83,7 @@ class SearchHistoryRepository @Inject constructor(
     }
 
     private suspend fun onNewsLoadingSuccess(request: SearchRequest, response: NewsServerResponse) {
-        _newsLoadingState.postValue(LoadingState.SUCCESS)
+        _newsLoadingState.value = LoadingState.SUCCESS
 
         // Clear cache and update history only when loading first page
         if (nextPageNumber == FIRST_PAGE_NUMBER) {
@@ -88,7 +97,7 @@ class SearchHistoryRepository @Inject constructor(
         nextPageNumber++
     }
 
-    suspend fun clearCache() {
+    private suspend fun clearCache() {
         database.articlesDao().clearAll()
     }
 
@@ -97,55 +106,30 @@ class SearchHistoryRepository @Inject constructor(
     /*  SEARCH HISTORY  */
 
     val firebaseException: Exception? get() = firebase.exception
-    val firebaseState: LiveData<EasyFirebase.State> = firebase.state
-    val firebaseUser: LiveData<FirebaseUser?> = firebase.user
+    val firebaseState: StateFlow<EasyFirebase.State> = firebase.state
 
-    private var searchHistoryListener: ValueEventListener? = null
-
-    private val isSignedIn
-        get() = firebaseUser.value != null
+    private var isSignedIn = firebase.user.value != null
 
 
-    private val firebaseSearchHistory: LiveData<List<SearchRequest>> =
-        Transformations.map(firebase.searchHistory) { it.toSearchRequests() }
+    private val firebaseSearchHistory: Flow<List<SearchRequest>> = firebase.searchHistory.map { it.toSearchRequests() }
 
-    private val localSearchHistory: LiveData<List<SearchRequest>> = Transformations.map(
-        database.searchHistoryDao().getHistory()
-    ) {
-        it.toSearchRequests()
-    }
+    private val localSearchHistory: Flow<List<SearchRequest>> = database.searchHistoryDao().getHistory().map { it.toSearchRequests() }
 
-    val searchHistory: LiveData<List<SearchRequest>> = if (isSignedIn) {
+    val searchHistory: Flow<List<SearchRequest>> = if (isSignedIn) {
         firebaseSearchHistory
     } else {
         localSearchHistory
     }
 
 
-    private val localLastRequest: LiveData<SearchRequest?> = Transformations.map(
-            database.searchHistoryDao().getLastRequest()
-    ) {
-        it?.toSearchRequest()
-    }
+    private val localLastRequest: Flow<SearchRequest?> = database.searchHistoryDao().getLastRequest().map { it?.toSearchRequest() }
 
-    private val firebaseLastRequest: LiveData<SearchRequest?> = Transformations.map(
-            firebase.lastRequest
-    ) {
-        it?.toSearchRequest()
-    }
+    private val firebaseLastRequest: Flow<SearchRequest?> = firebaseSearchHistory.map { it.firstOrNull() }
 
-    val lastRequest: LiveData<SearchRequest?> = if (isSignedIn) {
+    val lastRequest: Flow<SearchRequest?> = if (isSignedIn) {
         firebaseLastRequest
     } else {
         localLastRequest
-    }
-
-    fun subscribeToSearchHistory() {
-        searchHistoryListener = firebase.getSearchHistoryListener()
-    }
-
-    fun unsubscribeFromSearchHistory() {
-        firebase.removeSearchHistoryListener(searchHistoryListener)
     }
 
     fun flushFirebaseErrorState() {

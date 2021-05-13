@@ -2,9 +2,6 @@ package com.thekorovay.myportfolio.network
 
 import android.content.Context
 import android.content.Intent
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,43 +17,59 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 import com.thekorovay.myportfolio.R
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class EasyFirebase @Inject constructor(private val validator: Validator) {
 
-    private var auth: FirebaseAuth = Firebase.auth.apply {
+    private val auth: FirebaseAuth = Firebase.auth.apply {
         addAuthStateListener { firebaseAuth ->
-            _user.value = firebaseAuth.currentUser
+            val newUser = firebaseAuth.currentUser
+
+            if (newUser != null) {
+                // User signed in...
+                listenToHistory()
+
+                if (user.value == null) {
+                    // ...just now
+                    _userChanged.value = true
+                }
+            } else if (user.value != null) {
+                // User signed out
+                stopListeningHistory()
+                _userChanged.value = true
+            }
+
+            _user.value = newUser
         }
     }
 
-    private val historyListeners = mutableListOf<ValueEventListener>()
+    private var historyListener: ValueEventListener? = null
 
+    private val _user: MutableStateFlow<FirebaseUser?> = MutableStateFlow(auth.currentUser)
+    val user: StateFlow<FirebaseUser?> = _user
 
-    private val _user = MutableLiveData(auth.currentUser)
-    val user: LiveData<FirebaseUser?> = _user
+    private val _userChanged: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val userChanged: StateFlow<Boolean> = _userChanged
 
-    private val _state = MutableLiveData(State.IDLE)
-    val state: LiveData<State> = _state
+    private val _state = MutableStateFlow(State.IDLE)
+    val state: StateFlow<State> = _state
 
-    private val _restorePasswordEmailSent = MutableLiveData(false)
-    val restorePasswordEmailSent: LiveData<Boolean> = _restorePasswordEmailSent
+    private val _restorePasswordEmailSent = MutableStateFlow(false)
+    val restorePasswordEmailSent: StateFlow<Boolean> = _restorePasswordEmailSent
 
-    private val _searchHistory = MutableLiveData<List<FirebaseSearchRequest>>()
-    val searchHistory: LiveData<List<FirebaseSearchRequest>> = _searchHistory
-
-    val lastRequest: LiveData<FirebaseSearchRequest?> = Transformations.map(_searchHistory) { history ->
-        history.firstOrNull()
-    }
+    private val _searchHistory = MutableStateFlow<List<FirebaseSearchRequest>>(listOf())
+    val searchHistory: StateFlow<List<FirebaseSearchRequest>> = _searchHistory
 
     var exception: Exception? = null
         private set(value) {
             field = value
             // Auto set the ERROR state if there's an exception
             if (value != null) {
-                _state.postValue(State.ERROR)
+                _state.value = State.ERROR
             }
         }
 
@@ -69,7 +82,7 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
         repeatPassword: String?,
         name: String?
     ) {
-        _state.postValue(State.BUSY)
+        _state.value = State.BUSY
 
         exception = validator.validate(email, password, repeatPassword)
         if (exception != null) {
@@ -81,7 +94,7 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
     }
 
     fun signIn(email: String?, password: String?) {
-        _state.postValue(State.BUSY)
+        _state.value = State.BUSY
 
         exception = validator.validate(email, password)
         if (exception != null) {
@@ -113,7 +126,7 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
         }
 
         if (account != null) {
-            _state.postValue(State.BUSY)
+            _state.value = State.BUSY
 
             val credential = GoogleAuthProvider.getCredential(account.idToken, null)
             val authTask = auth.signInWithCredential(credential)
@@ -121,20 +134,11 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
         }
     }
 
-    fun signOut() {
-        if (auth.currentUser != null) {
-            historyListeners.forEach { listener ->
-                removeSearchHistoryListener(listener)
-            }
-            historyListeners.clear()
-
-            auth.signOut()
-        }
-    }
+    fun signOut() = auth.currentUser?.run { auth.signOut() }
 
     private fun getOnAuthListener(userName: String? = null) = OnCompleteListener<AuthResult> { finishedTask ->
         if (finishedTask.isSuccessful) {
-            _state.postValue(State.IDLE)
+            _state.value = State.IDLE
             if (auth.currentUser!!.displayName.isNullOrEmpty()) {
                 updateUserName(userName)
             }
@@ -155,22 +159,22 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
         sureUser.updateProfile(request)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        notifyUserChanged()
+                        _userChanged.value = true
                     } else {
                         exception = task.exception
                     }
                 }
-    } 
+    }
 
-    private fun notifyUserChanged() {
-        _user.value = auth.currentUser
+    fun setUserChangeHandled() {
+        _userChanged.value = false
     }
 
 
     /*  RESTORE PASSWORD  */
 
     fun sendRestorePasswordEmail(email: String?) {
-        _state.postValue(State.BUSY)
+        _state.value = State.BUSY
 
         exception = validator.validateEmail(email)
         if (exception != null) {
@@ -181,7 +185,7 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         _restorePasswordEmailSent.value = true
-                        _state.postValue(State.IDLE)
+                        _state.value = State.IDLE
                     } else {
                         exception = task.exception
                     }
@@ -196,16 +200,11 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
             .child(userId)
             .child("search_history")
 
-    /**
-     * Returns [ValueEventListener] for user's search history.
-     * Clients should not do anything with this listener,
-     * only get it from here and remove it on disposal with [removeSearchHistoryListener]
-     */
-    fun getSearchHistoryListener(): ValueEventListener? {
+    private fun listenToHistory() {
         val currentUser = auth.currentUser
 
-        return if (currentUser != null) {
-            _state.postValue(State.BUSY)
+        if (currentUser != null) {
+            _state.value = State.BUSY
 
             val listener = object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -218,7 +217,7 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
                     }
 
                     _searchHistory.value = history
-                    _state.postValue(State.IDLE)
+                    _state.value = State.IDLE
                 }
 
                 @Suppress("ThrowableNotThrown")
@@ -227,26 +226,24 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
                 }
             }
 
-            historyListeners.add(listener)
-
-            getHistoryReference(currentUser.uid).addValueEventListener(listener)
-        } else {
-            null
+            historyListener = getHistoryReference(currentUser.uid).addValueEventListener(listener)
         }
     }
 
-    fun removeSearchHistoryListener(listener: ValueEventListener?) {
-        val currentUser = auth.currentUser
+    private fun stopListeningHistory() {
+        val currentUser = user.value
+        val listener = historyListener
 
         if (currentUser != null && listener != null) {
             getHistoryReference(currentUser.uid).removeEventListener(listener)
+            historyListener = null
         }
     }
 
     fun updateSearchHistory(request: FirebaseSearchRequest) {
         val currentUser = auth.currentUser ?: return
 
-        _state.postValue(State.BUSY)
+        _state.value = State.BUSY
 
         getHistoryReference(currentUser.uid)
                 .push()
@@ -257,7 +254,7 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
     fun clearSearchHistory() {
         val currentUser = auth.currentUser ?: return
 
-        _state.postValue(State.BUSY)
+        _state.value = State.BUSY
 
         getHistoryReference(currentUser.uid).setValue(null)
                 .addOnCompleteListener(getOnCompleteListener())
@@ -265,7 +262,7 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
 
     private fun getOnCompleteListener() = OnCompleteListener<Void> { finishedTask ->
         if (finishedTask.isSuccessful) {
-            _state.postValue(State.IDLE)
+            _state.value = State.IDLE
         } else {
             exception = finishedTask.exception
         }
@@ -276,7 +273,7 @@ class EasyFirebase @Inject constructor(private val validator: Validator) {
 
     fun flushErrorState() {
         if (_state.value == State.ERROR) {
-            _state.postValue(State.IDLE)
+            _state.value = State.IDLE
         }
     }
 

@@ -1,16 +1,15 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
 import androidx.lifecycle.*
-import com.google.firebase.auth.FirebaseUser
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
 import javax.inject.Inject
 
 class ProfileViewModel @Inject constructor(private val firebase: EasyFirebase): ViewModel() {
 
-    val user: LiveData<FirebaseUser?> = firebase.user
+    val user = firebase.user
 
-    val state: LiveData<EasyFirebase.State> = firebase.state
+    val state = firebase.state
 
     val exception: Exception? get() = firebase.exception
 
