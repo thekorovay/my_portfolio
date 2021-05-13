@@ -4,8 +4,11 @@ import android.content.Context
 import android.util.Patterns
 import com.thekorovay.myportfolio.R
 import java.lang.Exception
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class Validator(context: Context) {
+@Singleton
+class Validator @Inject constructor(context: Context) {
     private val PASSWORD_MIN_LENGTH = 8
     private val PASSWORD_MAX_LENGTH = 20
 

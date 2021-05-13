@@ -1,5 +1,6 @@
 package com.thekorovay.myportfolio.module_news.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.transition.MaterialSharedAxis
+import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchResultsBinding
 import com.thekorovay.myportfolio.domain_model.Article
@@ -21,17 +23,21 @@ import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickList
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.ShowMoreClickListener
 import com.thekorovay.myportfolio.tools.setupNavUpButton
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class SearchResultsFragment: Fragment() {
 
     private val args: SearchResultsFragmentArgs by navArgs()
     private lateinit var binding: FragmentSearchResultsBinding
-
-    private val viewModel: SearchResultsViewModel by viewModel()
+    @Inject lateinit var viewModel: SearchResultsViewModel
 
     private var isMoreResultsAvailable = true
     private var isListVisible = MutableLiveData(false)
+
+    override fun onAttach(context: Context) {
+        (context.applicationContext as MyApplication).appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

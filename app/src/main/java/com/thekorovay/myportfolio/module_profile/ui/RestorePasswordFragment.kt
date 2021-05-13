@@ -1,5 +1,6 @@
 package com.thekorovay.myportfolio.module_profile.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,20 +11,25 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.transition.MaterialSharedAxis
+import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentProfileRestorePasswordBinding
 import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.module_profile.viewmodels.RestorePasswordViewModel
 import com.thekorovay.myportfolio.tools.setupNavUpButton
 import java.lang.Exception
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class RestorePasswordFragment: Fragment() {
     private lateinit var binding: FragmentProfileRestorePasswordBinding
-
-    private val viewModel: RestorePasswordViewModel by viewModel()
+    @Inject lateinit var viewModel: RestorePasswordViewModel
 
     private val args: RestorePasswordFragmentArgs by navArgs()
+
+    override fun onAttach(context: Context) {
+        (context.applicationContext as MyApplication).appComponent.inject(this)
+        super.onAttach(context)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

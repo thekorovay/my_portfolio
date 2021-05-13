@@ -10,8 +10,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import javax.inject.Inject
 
-class SearchParamsViewModel(
+class SearchParamsViewModel @Inject constructor(
     private val prefs: EasyPrefs,
     private val repository: SearchHistoryRepository,
 ): ViewModel() {

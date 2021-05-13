@@ -1,5 +1,6 @@
 package com.thekorovay.myportfolio.module_search_history.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
+import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchHistoryBinding
 import com.thekorovay.myportfolio.domain_model.SearchRequest
@@ -17,12 +19,16 @@ import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.History
 import com.thekorovay.myportfolio.module_search_history.viewmodel.SearchHistoryViewModel
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class SearchHistoryFragment: Fragment() {
     private lateinit var binding: FragmentSearchHistoryBinding
+    @Inject lateinit var viewModel: SearchHistoryViewModel
 
-    private val viewModel: SearchHistoryViewModel by viewModel()
+    override fun onAttach(context: Context) {
+        (context.applicationContext as MyApplication).appComponent.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

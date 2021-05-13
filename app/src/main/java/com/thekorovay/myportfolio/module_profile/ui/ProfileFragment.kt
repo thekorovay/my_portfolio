@@ -1,5 +1,6 @@
 package com.thekorovay.myportfolio.module_profile.ui
 
+import android.content.Context
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,18 +14,23 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.transition.MaterialSharedAxis
+import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentProfileBinding
 import com.thekorovay.myportfolio.network.EasyFirebase
 import com.thekorovay.myportfolio.module_profile.viewmodels.ProfileViewModel
 import java.lang.Exception
-import org.koin.android.viewmodel.ext.android.viewModel
+import javax.inject.Inject
 
 class ProfileFragment: Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
+    @Inject lateinit var viewModel: ProfileViewModel
 
-    private val viewModel: ProfileViewModel by viewModel()
+    override fun onAttach(context: Context) {
+        (context.applicationContext as MyApplication).appComponent.inject(this)
+        super.onAttach(context)
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {

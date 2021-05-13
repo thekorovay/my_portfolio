@@ -6,8 +6,9 @@ import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.network.LoadingState
 import com.thekorovay.myportfolio.repositories.SearchHistoryRepository
 import kotlinx.coroutines.*
+import javax.inject.Inject
 
-class SearchResultsViewModel(private val repository: SearchHistoryRepository): ViewModel() {
+class SearchResultsViewModel @Inject constructor(private val repository: SearchHistoryRepository): ViewModel() {
 
     private var job = Job()
 

@@ -5,8 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
+import javax.inject.Inject
 
-class RestorePasswordViewModel(private val firebase: EasyFirebase): ViewModel() {
+class RestorePasswordViewModel @Inject constructor(private val firebase: EasyFirebase): ViewModel() {
 
     val email = MutableLiveData("")
 

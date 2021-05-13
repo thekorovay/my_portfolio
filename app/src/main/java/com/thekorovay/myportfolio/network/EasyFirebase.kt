@@ -20,8 +20,11 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 import com.thekorovay.myportfolio.R
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class EasyFirebase(private val validator: Validator) {
+@Singleton
+class EasyFirebase @Inject constructor(private val validator: Validator) {
 
     private var auth: FirebaseAuth = Firebase.auth.apply {
         addAuthStateListener { firebaseAuth ->

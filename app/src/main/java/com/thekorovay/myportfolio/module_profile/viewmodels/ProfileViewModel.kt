@@ -4,8 +4,9 @@ import androidx.lifecycle.*
 import com.google.firebase.auth.FirebaseUser
 import com.thekorovay.myportfolio.network.EasyFirebase
 import java.lang.Exception
+import javax.inject.Inject
 
-class ProfileViewModel(private val firebase: EasyFirebase): ViewModel() {
+class ProfileViewModel @Inject constructor(private val firebase: EasyFirebase): ViewModel() {
 
     val user: LiveData<FirebaseUser?> = firebase.user
 

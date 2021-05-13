@@ -12,8 +12,9 @@ import com.thekorovay.myportfolio.domain_model.Article
 import com.thekorovay.myportfolio.domain_model.SearchRequest
 import com.thekorovay.myportfolio.network.*
 import java.lang.Exception
+import javax.inject.Inject
 
-class SearchHistoryRepository(
+class SearchHistoryRepository @Inject constructor(
     private val newsApi: NewsService,
     private val firebase: EasyFirebase,
     private val database: NewsDatabase

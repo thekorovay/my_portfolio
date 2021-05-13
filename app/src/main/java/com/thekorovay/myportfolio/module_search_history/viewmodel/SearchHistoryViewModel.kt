@@ -9,8 +9,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import javax.inject.Inject
 
-class SearchHistoryViewModel(private val repository: SearchHistoryRepository): ViewModel() {
+class SearchHistoryViewModel @Inject constructor(private val repository: SearchHistoryRepository): ViewModel() {
 
     init {
         repository.subscribeToSearchHistory()
