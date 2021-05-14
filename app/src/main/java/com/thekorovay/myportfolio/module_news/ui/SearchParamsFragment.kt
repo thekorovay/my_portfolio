@@ -15,7 +15,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchParamsBinding
-import com.thekorovay.myportfolio.domain_model.SearchRequest
+import com.thekorovay.myportfolio.entities.UISearchRequest
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchParamsViewModel
 import com.thekorovay.myportfolio.tools.setPageSize
 import com.thekorovay.myportfolio.tools.setupNavMenu
@@ -29,7 +29,7 @@ class SearchParamsFragment: Fragment() {
 
     private val args: SearchParamsFragmentArgs by navArgs()
 
-    private var lastRequest: SearchRequest? = null
+    private var lastRequest: UISearchRequest? = null
 
     override fun onAttach(context: Context) {
         (context.applicationContext as MyApplication).appComponent.inject(this)
@@ -150,7 +150,7 @@ class SearchParamsFragment: Fragment() {
             .show()
     }
 
-    private fun navigateToSearchResults(request: SearchRequest?, showingLastSearchResults: Boolean) {
+    private fun navigateToSearchResults(request: UISearchRequest?, showingLastSearchResults: Boolean) {
         request?.let {
             findNavController().navigate(
                 SearchParamsFragmentDirections.actionSearchParamsFragmentToSearchResultsFragment(

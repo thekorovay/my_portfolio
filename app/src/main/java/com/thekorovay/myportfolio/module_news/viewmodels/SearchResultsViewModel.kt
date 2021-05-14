@@ -1,25 +1,29 @@
 package com.thekorovay.myportfolio.module_news.viewmodels
 
 import androidx.lifecycle.*
-import com.thekorovay.myportfolio.domain_model.SearchRequest
-import com.thekorovay.myportfolio.network.LoadingState
-import com.thekorovay.myportfolio.repositories.SearchHistoryRepository
+import com.thekorovay.myportfolio.domain.entities.ArticlesLoadingState
+import com.thekorovay.myportfolio.domain.interactors.ArticlesInteractor
+import com.thekorovay.myportfolio.entities.UIArticle
+import com.thekorovay.myportfolio.entities.UISearchRequest
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class SearchResultsViewModel @Inject constructor(private val repository: SearchHistoryRepository): ViewModel() {
+class SearchResultsViewModel @Inject constructor(private val interactor: ArticlesInteractor): ViewModel() {
 
     private var job = Job()
 
-    val articles = repository.articles
-    val loadingState = repository.newsLoadingState
+    val articles = interactor.cachedArticles.map { list ->
+        list.map { UIArticle.fromArticle(it) }
+    }
+    val loadingState = interactor.articlesLoadingState
 
     var isLastQuerySnackbarShown = false
 
 
-    fun requestMoreArticles(request: SearchRequest) {
+    fun requestMoreArticles(request: UISearchRequest) {
         // Prevent repeating clicks on Show More button
-        if (loadingState.value == LoadingState.LOADING) {
+        if (loadingState.value == ArticlesLoadingState.LOADING) {
             return
         }
 
@@ -29,7 +33,7 @@ class SearchResultsViewModel @Inject constructor(private val repository: SearchH
         val scope = CoroutineScope(job + Dispatchers.IO)
 
         scope.launch {
-            repository.loadMoreNews(request)
+            interactor.loadArticles(request.toSearchRequest())
         }
     }
 }

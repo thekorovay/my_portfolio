@@ -1,9 +1,11 @@
-package com.thekorovay.myportfolio.database
+package com.thekorovay.myportfolio.data.database
 
 import android.content.Context
 import androidx.room.*
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.thekorovay.myportfolio.data.entities.DatabaseArticle
+import com.thekorovay.myportfolio.data.entities.DatabaseSearchRequest
 import kotlinx.coroutines.flow.Flow
 
 @Dao

@@ -17,7 +17,7 @@
 
         <variable
             name="user"
-            type="com.google.firebase.auth.FirebaseUser" />
+            type="com.thekorovay.myportfolio.entities.UIUser" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +50,7 @@
         <TextView
             android:id="@+id/tv_title"
             style="@style/TitleTextStyle"
-            textWithFade="@{user != null ? @string/signed_in_as(user.displayName) : @string/you_are_signed_out}"
+            textWithFade="@{user != null ? @string/signed_in_as(user.name) : @string/you_are_signed_out}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterBinding
 import com.thekorovay.myportfolio.databinding.CardNewsArticleAdapterNoThumbnailBinding
-import com.thekorovay.myportfolio.domain_model.Article
+import com.thekorovay.myportfolio.entities.UIArticle
 
 class ArticleViewHolder private constructor(
     private val binding: CardNewsArticleAdapterBinding
@@ -22,7 +22,7 @@ class ArticleViewHolder private constructor(
     }
 
     fun bind(
-        newsArticle: Article,
+        newsArticle: UIArticle,
         newsItemClickListener: NewsItemClickListener
     ) {
         binding.article = newsArticle
@@ -44,7 +44,7 @@ class ArticleViewHolderNoThumbnail private constructor(
     }
 
     fun bind(
-        newsArticle: Article,
+        newsArticle: UIArticle,
         newsItemClickListener: NewsItemClickListener
     ) {
         binding.article = newsArticle

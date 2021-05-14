@@ -9,6 +9,6 @@ import com.thekorovay.myportfolio.di.RepositoryModule
 class MyApplication: Application() {
     val appComponent: AppComponent = DaggerAppComponent.builder()
         .contextModule(ContextModule(this))
-        .repositoryModule(RepositoryModule())
+        .repositoryModule(RepositoryModule()) // todo remove?
         .build()
 }

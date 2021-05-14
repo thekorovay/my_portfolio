@@ -16,10 +16,10 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchResultsBinding
-import com.thekorovay.myportfolio.domain_model.Article
+import com.thekorovay.myportfolio.domain.entities.ArticlesLoadingState
+import com.thekorovay.myportfolio.entities.UIArticle
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchResultsViewModel
-import com.thekorovay.myportfolio.network.LoadingState
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickListener
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsListItem
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.ShowMoreClickListener
@@ -67,17 +67,17 @@ class SearchResultsFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.loadingState.collect { state ->
-                if (state == LoadingState.SUCCESS) {
+                if (state == ArticlesLoadingState.SUCCESS) {
                     isListVisible.postValue(true)
                 }
 
-                isMoreResultsAvailable = state != LoadingState.EMPTY_PAGE
+                isMoreResultsAvailable = state != ArticlesLoadingState.EMPTY_PAGE
 
-                binding.isProgressBarVisible = state == LoadingState.LOADING
-                binding.isErrorScreenVisible = !isListVisible.value!! && state == LoadingState.ERROR
+                binding.isProgressBarVisible = state == ArticlesLoadingState.LOADING
+                binding.isErrorScreenVisible = !isListVisible.value!! && state == ArticlesLoadingState.ERROR
                 binding.isNoResultsMessageVisible = !isListVisible.value!! && !isMoreResultsAvailable
 
-                if (state == LoadingState.ERROR && isListVisible.value!!) {
+                if (state == ArticlesLoadingState.ERROR && isListVisible.value!!) {
                     showLoadingErrorSnack()
                 }
             }
@@ -154,7 +154,7 @@ class SearchResultsFragment: Fragment() {
             .show()
     }
 
-    private fun readArticle(article: Article) {
+    private fun readArticle(article: UIArticle) {
         findNavController().navigate(
             SearchResultsFragmentDirections.actionSearchResultsFragmentToReadArticleFragment(
                 article

@@ -1,20 +1,26 @@
 package com.thekorovay.myportfolio.module_news.viewmodels
  
 import androidx.lifecycle.*
-import com.thekorovay.myportfolio.domain_model.SearchRequest
-import com.thekorovay.myportfolio.repositories.SearchHistoryRepository
+import com.thekorovay.myportfolio.domain.interactors.ArticlesInteractor
+import com.thekorovay.myportfolio.domain.interactors.SearchHistoryInteractor
+import com.thekorovay.myportfolio.entities.UIArticle
+import com.thekorovay.myportfolio.entities.UISearchRequest
+import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
 import javax.inject.Inject
 
 class SearchParamsViewModel @Inject constructor(
-    repository: SearchHistoryRepository
+    articlesInteractor: ArticlesInteractor,
+    historyInteractor: SearchHistoryInteractor,
 ): ViewModel() {
 
-    val lastRequest = repository.lastRequest
-    val lastResults = repository.articles
+    val lastRequest = historyInteractor.lastRequest.map { UISearchRequest.fromSearchRequest(it) }
+    val lastResults = articlesInteractor.cachedArticles.map { list ->
+        list.map { UIArticle.fromArticle(it) }
+    }
 
-    private val _newSearchRequest = MutableLiveData<SearchRequest?>()
-    val newSearchRequest: LiveData<SearchRequest?> = _newSearchRequest
+    private val _newSearchRequest = MutableLiveData<UISearchRequest?>()
+    val newSearchRequest: LiveData<UISearchRequest?> = _newSearchRequest
 
     private val _invalidQueryFlag = MutableLiveData(false)
     val invalidQueryFlag: LiveData<Boolean> = _invalidQueryFlag
@@ -33,7 +39,7 @@ class SearchParamsViewModel @Inject constructor(
             return
         }
 
-        _newSearchRequest.value = SearchRequest(
+        _newSearchRequest.value = UISearchRequest(
             LocalDateTime.now().toString(),
             trimmedQuery,
             safeSearchEnabled,

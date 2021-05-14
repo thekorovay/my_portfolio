@@ -29,9 +29,9 @@
             app:destination="@id/searchResultsFragment" />
         <argument
             android:name="request"
-            android:defaultValue="@null"
-            app:argType="com.thekorovay.myportfolio.domain_model.SearchRequest"
-            app:nullable="true" />
+            app:argType="com.thekorovay.myportfolio.entities.UISearchRequest"
+            app:nullable="true"
+            android:defaultValue="@null" />
         <action
             android:id="@+id/action_searchParamsFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
@@ -42,7 +42,7 @@
         android:label="@string/article">
         <argument
             android:name="article"
-            app:argType="com.thekorovay.myportfolio.domain_model.Article" />
+            app:argType="com.thekorovay.myportfolio.entities.UIArticle" />
     </fragment>
     <fragment
         android:id="@+id/searchResultsFragment"
@@ -56,7 +56,7 @@
             app:argType="boolean" />
         <argument
             android:name="searchRequest"
-            app:argType="com.thekorovay.myportfolio.domain_model.SearchRequest" />
+            app:argType="com.thekorovay.myportfolio.entities.UISearchRequest" />
     </fragment>
     <fragment
         android:id="@+id/searchHistoryFragment"

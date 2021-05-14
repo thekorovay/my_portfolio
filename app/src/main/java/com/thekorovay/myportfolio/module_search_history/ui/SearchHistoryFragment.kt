@@ -14,11 +14,11 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchHistoryBinding
-import com.thekorovay.myportfolio.domain_model.SearchRequest
+import com.thekorovay.myportfolio.domain.entities.SearchHistoryState
+import com.thekorovay.myportfolio.entities.UISearchRequest
 import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.HistoryClickListener
 import com.thekorovay.myportfolio.module_search_history.ui.recycler_view.HistoryRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_search_history.viewmodel.SearchHistoryViewModel
-import com.thekorovay.myportfolio.network.EasyFirebase
 import kotlinx.coroutines.flow.collect
 import java.lang.Exception
 import javax.inject.Inject
@@ -65,9 +65,9 @@ class SearchHistoryFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
-                binding.isLoading = state == EasyFirebase.State.BUSY
+                binding.isLoading = state == SearchHistoryState.BUSY
 
-                if (state == EasyFirebase.State.ERROR) {
+                if (state == SearchHistoryState.ERROR) {
                     showErrorMessage(viewModel.exception)
                     viewModel.setErrorMessageDisplayed()
                 }
@@ -102,7 +102,7 @@ class SearchHistoryFragment: Fragment() {
         dialog.show()
     }
 
-    private fun startSearchRequest(request: SearchRequest) {
+    private fun startSearchRequest(request: UISearchRequest) {
         findNavController().navigate(
             SearchHistoryFragmentDirections.actionSearchHistoryFragmentToSearchParamsFragment(request)
         )

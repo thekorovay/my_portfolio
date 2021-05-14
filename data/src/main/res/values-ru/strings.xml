@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="invalid_email_error">Неверный адрес электронной почты</string>
+    <string name="invalid_password_error">Пароль должен содержать от %1$d до %2$d знаков без пробелов</string>
+    <string name="passwords_not_match_error">Пароли не совпадают</string>
+</resources>

@@ -7,7 +7,7 @@
 
         <variable
             name="request"
-            type="com.thekorovay.myportfolio.domain_model.SearchRequest" />
+            type="com.thekorovay.myportfolio.entities.UISearchRequest" />
 
         <variable
             name="clickListener"

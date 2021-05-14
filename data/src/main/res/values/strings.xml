@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="invalid_email_error">Invalid email</string>
+    <string name="invalid_password_error">Password must be between %1$d and %2$d characters and not contain spaces</string>
+    <string name="passwords_not_match_error">Passwords don\'t match</string>
+</resources>

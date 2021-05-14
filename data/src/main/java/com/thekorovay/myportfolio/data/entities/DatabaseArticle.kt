@@ -1,11 +1,10 @@
-package com.thekorovay.myportfolio.database
+package com.thekorovay.myportfolio.data.entities
 
 import androidx.annotation.Keep
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.thekorovay.myportfolio.domain_model.Article
-import com.thekorovay.myportfolio.domain_model.SearchRequest
+import com.thekorovay.myportfolio.domain.entities.Article
 
 @Keep
 @Entity(tableName = "articles")
@@ -23,7 +22,7 @@ data class DatabaseArticle(
 
     @ColumnInfo(name = "thumb_url") val thumbUrl: String?,
     @ColumnInfo(name = "image_url") val imageUrl: String?
-) 
+)
 
 fun List<DatabaseArticle>.toArticles(): List<Article> {
     return map { dbArticle ->
@@ -38,31 +37,5 @@ fun List<DatabaseArticle>.toArticles(): List<Article> {
             thumbUrl = dbArticle.thumbUrl ?: "",
             imageUrl = dbArticle.imageUrl ?: ""
         )
-    }
-}
-
-
-
-@Keep
-@Entity(tableName = "search_history")
-data class DatabaseSearchRequest(
-    @PrimaryKey @ColumnInfo(name = "date_time") val dateTime: String,
-    val query: String,
-    @ColumnInfo(name = "safe_search_enabled") val safeSearchEnabled: Boolean,
-    @ColumnInfo(name = "thumbs_enabled") val thumbnailsEnabled: Boolean,
-    @ColumnInfo(name = "page_size") val pageSize: Int
-) {
-    fun toSearchRequest() = SearchRequest(
-        dateTime = this.dateTime,
-        query = this.query,
-        safeSearchEnabled = this.safeSearchEnabled,
-        thumbnailsEnabled = this.thumbnailsEnabled,
-        pageSize = this.pageSize
-    )
-}
-
-fun List<DatabaseSearchRequest>.toSearchRequests(): List<SearchRequest> {
-    return map { dbRequest ->
-        dbRequest.toSearchRequest()
     }
 }

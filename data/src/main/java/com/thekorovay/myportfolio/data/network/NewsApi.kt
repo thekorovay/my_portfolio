@@ -1,7 +1,8 @@
-package com.thekorovay.myportfolio.network
+package com.thekorovay.myportfolio.data.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.thekorovay.myportfolio.data.entities.NewsServerResponse
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -39,8 +40,4 @@ fun getNewsApi(): NewsService {
         .build()
 
     return retrofit.create(NewsService::class.java)
-}
-
-enum class LoadingState {
-    LOADING, ERROR, SUCCESS, EMPTY_PAGE
 }

@@ -1,14 +1,13 @@
 package com.thekorovay.myportfolio.module_news.ui.recycler_view
 
-import com.thekorovay.myportfolio.domain_model.Article
-
+import com.thekorovay.myportfolio.entities.UIArticle
 
 sealed class NewsListItem {
-    data class ArticleItem(val article: Article) : NewsListItem() {
+    data class ArticleItem(val article: UIArticle) : NewsListItem() {
         override val id = article.id
         override val type = ARTICLE
     }
-    data class ArticleNoThumbnailItem(val article: Article) : NewsListItem() {
+    data class ArticleNoThumbnailItem(val article: UIArticle) : NewsListItem() {
         override val id = article.id
         override val type = ARTICLE_NO_THUMBNAIL
     }

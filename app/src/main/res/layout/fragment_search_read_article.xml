@@ -7,7 +7,7 @@
 
         <variable
             name="article"
-            type="com.thekorovay.myportfolio.domain_model.Article" />
+            type="com.thekorovay.myportfolio.entities.UIArticle" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

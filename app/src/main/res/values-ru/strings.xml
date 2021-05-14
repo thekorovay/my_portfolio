@@ -70,9 +70,6 @@
     <string name="name_optionally">Имя (необязательно)</string>
     <string name="repeat_password">Повторите пароль</string>
     <string name="unknown_error">Что-то пошло не так. Попробуйте позже</string>
-    <string name="invalid_email_error">Неверный адрес электронной почты</string>
-    <string name="invalid_password_error">Пароль должен содержать от %1$d до %2$d знаков без пробелов</string>
-    <string name="passwords_not_match_error">Пароли не совпадают</string>
     <string name="user_name_updating_error">Не удалось обновить имя пользователя</string>
     <string name="forgot_your_password">Забыли ваш пароль?</string>
     <string name="restore_password">Восстановление пароля</string>

@@ -1,17 +1,19 @@
 package com.thekorovay.myportfolio.module_profile.viewmodels
 
 import androidx.lifecycle.*
-import com.thekorovay.myportfolio.network.EasyFirebase
+import com.thekorovay.myportfolio.domain.interactors.ProfileInteractor
+import com.thekorovay.myportfolio.entities.UIUser
+import kotlinx.coroutines.flow.map
 import java.lang.Exception
 import javax.inject.Inject
 
-class ProfileViewModel @Inject constructor(private val firebase: EasyFirebase): ViewModel() {
+class ProfileViewModel @Inject constructor(private val interactor: ProfileInteractor): ViewModel() {
 
-    val user = firebase.user
+    val user = interactor.user.map { UIUser.fromUser(it) }
 
-    val state = firebase.state
+    val state = interactor.profileState
 
-    val exception: Exception? get() = firebase.exception
+    val exception: Exception? get() = interactor.exception
 
     private val _navigatingTo = MutableLiveData<Directions?>()
     val navigatingTo: LiveData<Directions?> = _navigatingTo
@@ -26,11 +28,11 @@ class ProfileViewModel @Inject constructor(private val firebase: EasyFirebase): 
     }
 
     fun signOut() {
-        firebase.signOut()
+        interactor.signOut()
     }
 
     fun setErrorMessageDisplayed() {
-        firebase.flushErrorState()
+        interactor.setErrorHandled()
     }
 
     fun setNavigationCompleted() {

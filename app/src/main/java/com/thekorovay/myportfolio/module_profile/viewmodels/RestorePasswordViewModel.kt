@@ -2,29 +2,29 @@ package com.thekorovay.myportfolio.module_profile.viewmodels
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.thekorovay.myportfolio.network.EasyFirebase
+import com.thekorovay.myportfolio.domain.interactors.ProfileInteractor
 import java.lang.Exception
 import javax.inject.Inject
 
-class RestorePasswordViewModel @Inject constructor(private val firebase: EasyFirebase): ViewModel() {
+class RestorePasswordViewModel @Inject constructor(private val interactor: ProfileInteractor): ViewModel() {
 
     val email = MutableLiveData("")
 
-    val state = firebase.state
+    val state = interactor.profileState
 
-    val emailSent = firebase.restorePasswordEmailSent
+    val emailSent = interactor.restorePasswordEmailSent
 
-    val exception: Exception? get() = firebase.exception
+    val exception: Exception? get() = interactor.exception
 
     fun restore() {
-        firebase.sendRestorePasswordEmail(email.value)
+        interactor.sendRestorePasswordEmail(email.value)
     }
 
     fun setErrorMessageDisplayed() {
-        firebase.flushErrorState()
+        interactor.setErrorHandled()
     }
 
     fun setSuccessMessageDisplayed() {
-        firebase.flushRestorePasswordEmailSent()
+        interactor.setRestorePasswordMessageHandled()
     }
 }

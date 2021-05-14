@@ -15,7 +15,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentProfileRestorePasswordBinding
-import com.thekorovay.myportfolio.network.EasyFirebase
+import com.thekorovay.myportfolio.domain.entities.ProfileState
 import com.thekorovay.myportfolio.module_profile.viewmodels.RestorePasswordViewModel
 import com.thekorovay.myportfolio.tools.setupNavUpButton
 import kotlinx.coroutines.flow.collect
@@ -61,9 +61,9 @@ class RestorePasswordFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
-                binding.isLoading = state == EasyFirebase.State.BUSY
+                binding.isLoading = state == ProfileState.BUSY
 
-                if (state == EasyFirebase.State.ERROR) {
+                if (state == ProfileState.ERROR) {
                     showErrorMessage(viewModel.exception)
                     viewModel.setErrorMessageDisplayed()
                 }

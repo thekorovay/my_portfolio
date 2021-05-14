@@ -18,7 +18,7 @@ import com.google.android.material.transition.MaterialSharedAxis
 import com.thekorovay.myportfolio.MyApplication
 import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentProfileBinding
-import com.thekorovay.myportfolio.network.EasyFirebase
+import com.thekorovay.myportfolio.domain.entities.ProfileState
 import com.thekorovay.myportfolio.module_profile.viewmodels.ProfileViewModel
 import kotlinx.coroutines.flow.collect
 import java.lang.Exception
@@ -67,9 +67,9 @@ class ProfileFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted {
             viewModel.state.collect { state ->
-                binding.isLoading = state == EasyFirebase.State.BUSY
+                binding.isLoading = state == ProfileState.BUSY
 
-                if (state == EasyFirebase.State.ERROR) {
+                if (state == ProfileState.ERROR) {
                     showErrorMessage(viewModel.exception)
                     viewModel.setErrorMessageDisplayed()
                 }

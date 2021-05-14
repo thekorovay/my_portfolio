@@ -1,9 +1,9 @@
 package com.thekorovay.myportfolio.module_news.ui.recycler_view
 
-import com.thekorovay.myportfolio.domain_model.Article
+import com.thekorovay.myportfolio.entities.UIArticle
 
-class NewsItemClickListener(val listener: (article: Article) -> Unit) {
-    fun onClick(article: Article) = listener(article)
+class NewsItemClickListener(val listener: (article: UIArticle) -> Unit) {
+    fun onClick(article: UIArticle) = listener(article)
 }
 
 class ShowMoreClickListener(val listener: () -> Unit) {
