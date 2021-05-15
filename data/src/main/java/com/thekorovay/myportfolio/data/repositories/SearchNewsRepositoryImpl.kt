@@ -1,6 +1,5 @@
 package com.thekorovay.myportfolio.data.repositories
 
-import android.util.Log
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -29,7 +28,18 @@ class SearchNewsRepositoryImpl(
     profileRepo: ProfileRepository
 ): SearchNewsRepository {
 
+
+    private val _remoteSearchHistory: MutableStateFlow<List<FirebaseSearchRequest>> = MutableStateFlow(listOf())
+    private val remoteSearchHistory: Flow<List<SearchRequest>> = _remoteSearchHistory.map { it.toSearchRequests() }
+    private val localSearchHistory: Flow<List<SearchRequest>> = database.searchHistoryDao().getHistory().map { it.toSearchRequests() }
+    private val activeSearchHistoryFlow = MutableStateFlow(
+        if (profileRepo.user.value == null) localSearchHistory else remoteSearchHistory
+    )
+    private val _searchHistory = MutableStateFlow<List<SearchRequest>>(listOf())
+    override val searchHistory: StateFlow<List<SearchRequest>> = _searchHistory
+
     init {
+        // Clear articles cache every time user log in/out
         CoroutineScope(Dispatchers.Default).launch {
             profileRepo.userChanged.collect { userChanged ->
                 if (userChanged) {
@@ -39,6 +49,7 @@ class SearchNewsRepositoryImpl(
             }
         }
 
+        // Control firebase search history listening
         CoroutineScope(Dispatchers.Default).launch {
             profileRepo.user.collect { user ->
                 // The order of calls to listenToHistory(), stopListeningHistory() and setting
@@ -46,9 +57,21 @@ class SearchNewsRepositoryImpl(
                 if (user != null) {
                     currentUser = user
                     listenToHistory()
+                    activeSearchHistoryFlow.value = remoteSearchHistory
                 } else {
                     stopListeningHistory()
                     currentUser = user
+                    activeSearchHistoryFlow.value = localSearchHistory
+                }
+            }
+        }
+
+        CoroutineScope(Dispatchers.Default).launch {
+            activeSearchHistoryFlow.collect { activeFlow ->
+                CoroutineScope(Dispatchers.Default).launch {
+                    activeFlow.collect { list ->
+                        _searchHistory.value = list
+                    }
                 }
             }
         }
@@ -80,20 +103,7 @@ class SearchNewsRepositoryImpl(
 
     override val cachedArticles: Flow<List<Article>> = database.articlesDao().getArticles().map { it.toArticles() }
 
-    private val _firebaseSearchHistory: MutableStateFlow<List<FirebaseSearchRequest>> = MutableStateFlow(listOf())
-    private val firebaseSearchHistory: Flow<List<SearchRequest>> = _firebaseSearchHistory.map { it.toSearchRequests() }
-    private val localSearchHistory: Flow<List<SearchRequest>> = database.searchHistoryDao().getHistory().map { it.toSearchRequests() }
-    override val searchHistory: Flow<List<SearchRequest>> = if (currentUser != null) {
-        Log.e("***", "firebase, user null: ${currentUser == null}")
-        firebaseSearchHistory
-    } else {
-        Log.e("***", "local, user null: ${currentUser == null}")
-        localSearchHistory
-    }
 
-    private val localLastRequest: Flow<SearchRequest?> = database.searchHistoryDao().getLastRequest().map { it?.toSearchRequest() }
-    private val firebaseLastRequest: Flow<SearchRequest?> = firebaseSearchHistory.map { it.firstOrNull() }
-    override val lastRequest: Flow<SearchRequest?> = if (currentUser != null) firebaseLastRequest else localLastRequest
 
     /**
      * Loads next page of articles for specified parameters from [newsApi] changing [articlesLoadingState]
@@ -102,6 +112,10 @@ class SearchNewsRepositoryImpl(
      */
     override suspend fun loadArticles(request: SearchRequest) {
         _articlesLoadingState.value = ArticlesLoadingState.LOADING
+
+        if (request.addToHistory) {
+            nextPageNumber = FIRST_PAGE_NUMBER
+        }
 
         try {
             val response = newsApi.requestNewsArticlesAsync(
@@ -159,7 +173,7 @@ class SearchNewsRepositoryImpl(
         _articlesLoadingState.value = ArticlesLoadingState.SUCCESS
 
         // Clear cache and update history only when loading first page
-        if (nextPageNumber == FIRST_PAGE_NUMBER) {
+        if (request.addToHistory) {
             clearCache()
             updateHistory(request)
         }
@@ -229,7 +243,7 @@ class SearchNewsRepositoryImpl(
                         }
                     }
 
-                    _firebaseSearchHistory.value = history
+                    _remoteSearchHistory.value = history
                     _searchHistoryState.value = SearchHistoryState.IDLE
                 }
 

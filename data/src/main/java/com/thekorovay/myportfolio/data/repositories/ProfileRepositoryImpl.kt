@@ -39,8 +39,7 @@ class ProfileRepositoryImpl(
                 _userChanged.value = true
             }
 
-            _user.value = newUser?.run { User(displayName, uid) } // todo check this, might require elvis
-            Log.e("***", "set user in ProfileRepositoryImpl: null? ${_user.value == null}")
+            _user.value = newUser?.run { User(displayName, uid) }
         }
     }
 

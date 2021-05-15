@@ -10,7 +10,8 @@ data class UISearchRequest (
     val query: String,
     val safeSearchEnabled: Boolean,
     val thumbnailsEnabled: Boolean,
-    val pageSize: Int
+    val pageSize: Int,
+    var addToHistory: Boolean = true
 ): Parcelable {
     companion object {
         fun fromSearchRequest(searchRequest: SearchRequest?) = searchRequest?.let { request ->
@@ -19,7 +20,8 @@ data class UISearchRequest (
                 query = request.query,
                 safeSearchEnabled = request.safeSearchEnabled,
                 thumbnailsEnabled = request.thumbnailsEnabled,
-                pageSize = request.pageSize
+                pageSize = request.pageSize,
+                addToHistory = request.addToHistory
             )
         }
     }
@@ -29,6 +31,11 @@ data class UISearchRequest (
         query = this.query,
         safeSearchEnabled = this.safeSearchEnabled,
         thumbnailsEnabled = this.thumbnailsEnabled,
-        pageSize = this.pageSize
+        pageSize = this.pageSize,
+        addToHistory = this.addToHistory
     )
+}
+
+fun List<SearchRequest>.toUISearchRequests(): List<UISearchRequest?> = map {
+    UISearchRequest.fromSearchRequest(it)
 }

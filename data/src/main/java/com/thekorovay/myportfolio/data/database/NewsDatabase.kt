@@ -22,9 +22,6 @@ interface ArticlesDao {
 
 @Dao
 interface SearchHistoryDao {
-    @Query("SELECT * FROM search_history ORDER BY date_time DESC LIMIT 1")
-    fun getLastRequest(): Flow<DatabaseSearchRequest?>
-
     @Query("SELECT * FROM search_history ORDER BY date_time DESC")
     fun getHistory(): Flow<List<DatabaseSearchRequest>>
 

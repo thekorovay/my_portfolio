@@ -18,6 +18,7 @@ import com.thekorovay.myportfolio.R
 import com.thekorovay.myportfolio.databinding.FragmentSearchResultsBinding
 import com.thekorovay.myportfolio.domain.entities.ArticlesLoadingState
 import com.thekorovay.myportfolio.entities.UIArticle
+import com.thekorovay.myportfolio.entities.UISearchRequest
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsRecyclerViewAdapter
 import com.thekorovay.myportfolio.module_news.viewmodels.SearchResultsViewModel
 import com.thekorovay.myportfolio.module_news.ui.recycler_view.NewsItemClickListener
@@ -33,6 +34,7 @@ class SearchResultsFragment: Fragment() {
     private lateinit var binding: FragmentSearchResultsBinding
     @Inject lateinit var viewModel: SearchResultsViewModel
 
+    private lateinit var request: UISearchRequest
     private var isMoreResultsAvailable = true
     private var isListVisible = MutableLiveData(false)
 
@@ -68,6 +70,8 @@ class SearchResultsFragment: Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.loadingState.collect { state ->
                 if (state == ArticlesLoadingState.SUCCESS) {
+                    // Don't add requests to history after first successful response
+                    request.addToHistory = false
                     isListVisible.postValue(true)
                 }
 
@@ -87,7 +91,7 @@ class SearchResultsFragment: Fragment() {
             viewModel.articles.collect { articles ->
                 // Map Articles to ListItems with or without thumbs
                 val listItems = articles.map {
-                    if (args.searchRequest.thumbnailsEnabled) {
+                    if (request.thumbnailsEnabled) {
                         NewsListItem.ArticleItem(it)
                     } else {
                         NewsListItem.ArticleNoThumbnailItem(it)
@@ -121,6 +125,8 @@ class SearchResultsFragment: Fragment() {
         exitTransition = MaterialSharedAxis(MaterialSharedAxis.Z, true)
         reenterTransition = MaterialSharedAxis(MaterialSharedAxis.Z, false)
 
+        request = args.searchRequest
+
         // Initiate loading news for the first page or just show the recyclerview
         if (!args.showingLastSearchResults) {
             showMoreNews()
@@ -139,7 +145,7 @@ class SearchResultsFragment: Fragment() {
     }
 
     private fun showMoreNews() {
-        viewModel.requestMoreArticles(args.searchRequest)
+        viewModel.requestMoreArticles(request)
     }
 
     private fun showLoadingErrorSnack() {
@@ -149,7 +155,7 @@ class SearchResultsFragment: Fragment() {
     }
 
     private fun showLastSearchQuerySnack() {
-        val message = getString(R.string.showing_results_for_query, args.searchRequest.query)
+        val message = getString(R.string.showing_results_for_query, request.query)
         Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
             .show()
     }

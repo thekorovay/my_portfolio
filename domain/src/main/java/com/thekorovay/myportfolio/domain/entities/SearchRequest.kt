@@ -5,5 +5,6 @@ data class SearchRequest(
     val query: String,
     val safeSearchEnabled: Boolean,
     val thumbnailsEnabled: Boolean,
-    val pageSize: Int
+    val pageSize: Int,
+    val addToHistory: Boolean = true
 )

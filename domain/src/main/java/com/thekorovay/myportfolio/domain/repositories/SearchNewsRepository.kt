@@ -17,8 +17,7 @@ interface SearchNewsRepository {
 
     val cachedArticles: Flow<List<Article>>
 
-    val searchHistory: Flow<List<SearchRequest>>
-    val lastRequest: Flow<SearchRequest?>
+    val searchHistory: StateFlow<List<SearchRequest>>
 
 
     suspend fun loadArticles(request: SearchRequest)

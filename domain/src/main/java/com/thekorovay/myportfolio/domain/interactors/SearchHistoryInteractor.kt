@@ -10,7 +10,6 @@ class SearchHistoryInteractor @Inject constructor(private val repo: SearchNewsRe
 
     val searchHistoryState = repo.searchHistoryState
     val history = repo.searchHistory
-    val lastRequest = repo.lastRequest
 
 
     suspend fun clearSearchHistory() = repo.clearSearchHistory()

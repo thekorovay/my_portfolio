@@ -14,7 +14,9 @@ class SearchParamsViewModel @Inject constructor(
     historyInteractor: SearchHistoryInteractor,
 ): ViewModel() {
 
-    val lastRequest = historyInteractor.lastRequest.map { UISearchRequest.fromSearchRequest(it) }
+    val lastRequest = historyInteractor.history.map { history ->
+        UISearchRequest.fromSearchRequest(history.firstOrNull())
+    }
     val lastResults = articlesInteractor.cachedArticles.map { list ->
         list.map { UIArticle.fromArticle(it) }
     }

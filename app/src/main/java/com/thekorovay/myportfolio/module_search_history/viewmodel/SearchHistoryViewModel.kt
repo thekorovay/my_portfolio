@@ -1,9 +1,8 @@
 package com.thekorovay.myportfolio.module_search_history.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.thekorovay.myportfolio.domain.interactors.SearchHistoryInteractor
-import com.thekorovay.myportfolio.entities.UISearchRequest
+import com.thekorovay.myportfolio.entities.toUISearchRequests
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -16,10 +15,7 @@ class SearchHistoryViewModel @Inject constructor(private val interactor: SearchH
 
     val exception: Exception? get() = interactor.exception
     val state = interactor.searchHistoryState
-    val searchHistory = interactor.history.map { list ->
-        Log.e("***", "search history viewmodel: ${list.size}")
-        list.map { UISearchRequest.fromSearchRequest(it) }
-    }
+    val searchHistory = interactor.history.map { it.toUISearchRequests() }
 
     private var clearHistoryJob: Job? = null
 
