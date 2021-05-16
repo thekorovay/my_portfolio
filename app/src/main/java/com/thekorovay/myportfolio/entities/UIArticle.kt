@@ -1,9 +1,11 @@
 package com.thekorovay.myportfolio.entities
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.thekorovay.myportfolio.domain.entities.Article
 import kotlinx.parcelize.Parcelize
 
+@Keep
 @Parcelize
 data class UIArticle (
     val id: String,

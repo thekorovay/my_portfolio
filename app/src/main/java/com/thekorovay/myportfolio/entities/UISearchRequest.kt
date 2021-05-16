@@ -1,9 +1,11 @@
 package com.thekorovay.myportfolio.entities
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.thekorovay.myportfolio.domain.entities.SearchRequest
 import kotlinx.parcelize.Parcelize
 
+@Keep
 @Parcelize
 data class UISearchRequest (
     val dateTime: String,
